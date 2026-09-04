@@ -37,6 +37,10 @@ OUTPUT_PATH = (
 )
 
 
+# ---------------------------------------------------------
+# These MUST match temporal_isolation_forest.py exactly.
+# ---------------------------------------------------------
+
 MODEL_FEATURES = [
     "gap_log_seconds",
     "local_density_10s",
@@ -66,7 +70,7 @@ def main():
 
     df = pd.read_csv(INPUT_PATH)
 
-    anomalies = pd.read_csv(
+    anomaly_df = pd.read_csv(
         ANOMALY_PATH
     )
 
@@ -74,13 +78,30 @@ def main():
         f"Temporal feature rows: {len(df)}"
     )
 
+    print(
+        f"Temporal anomaly rows: {len(anomaly_df)}"
+    )
+
     # -----------------------------------------------------
-    # Only score events eligible for temporal modeling
+    # Only events eligible for temporal scoring
     # -----------------------------------------------------
 
     scoring_df = df[
         df["is_first_event"] == 0
     ].copy()
+
+    scoring_df = scoring_df.reset_index(
+        drop=True
+    )
+
+    print(
+        f"Events eligible for SHAP: "
+        f"{len(scoring_df)}"
+    )
+
+    # -----------------------------------------------------
+    # Prepare model features
+    # -----------------------------------------------------
 
     X = scoring_df[
         MODEL_FEATURES
@@ -91,7 +112,7 @@ def main():
     )
 
     # -----------------------------------------------------
-    # Scaling
+    # Standardization
     # -----------------------------------------------------
 
     scaler = StandardScaler()
@@ -99,7 +120,7 @@ def main():
     X_scaled = scaler.fit_transform(X)
 
     # -----------------------------------------------------
-    # Recreate the exact Isolation Forest
+    # Recreate the exact Temporal Isolation Forest
     # -----------------------------------------------------
 
     model = IsolationForest(
@@ -112,9 +133,7 @@ def main():
     model.fit(X_scaled)
 
     # -----------------------------------------------------
-    # Anomaly score function
-    #
-    # SHAP explains the same score used by the detector.
+    # Same anomaly score used by detector
     # -----------------------------------------------------
 
     def anomaly_score_function(X_input):
@@ -125,12 +144,12 @@ def main():
 
     # -----------------------------------------------------
     # SHAP
-    #
-    # Permutation is model-agnostic and appropriate here
-    # because Isolation Forest does not have a simple
-    # native SHAP TreeExplainer formulation for our
-    # transformed anomaly-score function.
     # -----------------------------------------------------
+
+    print()
+    print(
+        "Running permutation SHAP..."
+    )
 
     explainer = shap.Explainer(
         anomaly_score_function,
@@ -145,7 +164,7 @@ def main():
     shap_values = shap_result.values
 
     # -----------------------------------------------------
-    # Create SHAP dataframe
+    # SHAP dataframe
     # -----------------------------------------------------
 
     shap_df = pd.DataFrame(
@@ -156,9 +175,7 @@ def main():
         ],
     )
 
-    # -----------------------------------------------------
-    # Add feature metadata
-    # -----------------------------------------------------
+    # Add actual feature values
 
     for feature in MODEL_FEATURES:
 
@@ -167,7 +184,7 @@ def main():
         ] = X[feature].values
 
     # -----------------------------------------------------
-    # Add temporal event identifiers
+    # Event metadata
     # -----------------------------------------------------
 
     metadata_columns = [
@@ -178,25 +195,68 @@ def main():
         "process_id",
         "process",
         "time_since_previous_event_seconds",
-        "temporal_anomaly_score",
-        "temporal_predicted_anomaly",
-        "temporal_anomaly_rank",
     ]
 
     metadata = scoring_df[
         metadata_columns
     ].reset_index(drop=True)
 
+    # -----------------------------------------------------
+    # IMPORTANT FIX
+    #
+    # Get anomaly score / prediction / rank from the
+    # already-generated temporal anomaly results.
+    #
+    # Match using logical_event_id.
+    # -----------------------------------------------------
+
+    anomaly_columns = [
+        "logical_event_id",
+        "temporal_anomaly_score",
+        "temporal_predicted_anomaly",
+        "temporal_anomaly_rank",
+    ]
+
+    anomaly_metadata = anomaly_df[
+        anomaly_columns
+    ].copy()
+
+    result = metadata.merge(
+        anomaly_metadata,
+        on="logical_event_id",
+        how="left",
+        validate="one_to_one",
+    )
+
+    # -----------------------------------------------------
+    # Validate merge
+    # -----------------------------------------------------
+
+    missing_scores = result[
+        "temporal_anomaly_score"
+    ].isna().sum()
+
+    if missing_scores > 0:
+
+        raise ValueError(
+            f"{missing_scores} SHAP events could not "
+            "be matched with temporal anomaly results."
+        )
+
+    # -----------------------------------------------------
+    # Combine metadata + SHAP
+    # -----------------------------------------------------
+
     result = pd.concat(
         [
-            metadata,
+            result.reset_index(drop=True),
             shap_df.reset_index(drop=True),
         ],
         axis=1,
     )
 
     # -----------------------------------------------------
-    # Keep anomaly results
+    # Sort by anomaly score
     # -----------------------------------------------------
 
     result = result.sort_values(
@@ -222,6 +282,12 @@ def main():
     # Diagnostics
     # -----------------------------------------------------
 
+    anomaly_results = result[
+        result[
+            "temporal_predicted_anomaly"
+        ] == True
+    ].copy()
+
     print()
     print(
         "=== Temporal SHAP Complete ==="
@@ -232,7 +298,8 @@ def main():
     )
 
     print(
-        f"Columns: {len(result.columns)}"
+        f"Anomalous events explained: "
+        f"{len(anomaly_results)}"
     )
 
     print(
@@ -240,20 +307,8 @@ def main():
     )
 
     # -----------------------------------------------------
-    # Print explanations for anomalies
+    # Print explanations
     # -----------------------------------------------------
-
-    anomaly_results = result[
-        result[
-            "temporal_predicted_anomaly"
-        ] == True
-    ].copy()
-
-    print()
-    print(
-        f"Anomalous events explained: "
-        f"{len(anomaly_results)}"
-    )
 
     for _, row in anomaly_results.iterrows():
 
@@ -263,7 +318,8 @@ def main():
         )
 
         print(
-            f"Rank: {int(row['temporal_anomaly_rank'])}"
+            f"Rank: "
+            f"{int(row['temporal_anomaly_rank'])}"
         )
 
         print(
@@ -284,22 +340,24 @@ def main():
 
         for feature in MODEL_FEATURES:
 
-            value = row[
+            shap_value = row[
                 f"shap_{feature}"
+            ]
+
+            feature_value = row[
+                f"value_{feature}"
             ]
 
             contributions.append(
                 (
                     feature,
-                    value,
-                    row[
-                        f"value_{feature}"
-                    ],
+                    shap_value,
+                    feature_value,
                 )
             )
 
         contributions.sort(
-            key=lambda x: abs(x[1]),
+            key=lambda item: abs(item[1]),
             reverse=True,
         )
 
@@ -307,9 +365,11 @@ def main():
             "Top temporal contributors:"
         )
 
-        for feature, shap_value, feature_value in (
-            contributions[:3]
-        ):
+        for (
+            feature,
+            shap_value,
+            feature_value,
+        ) in contributions[:3]:
 
             direction = (
                 "increased"
