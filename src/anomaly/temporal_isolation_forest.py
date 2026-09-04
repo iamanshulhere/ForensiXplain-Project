@@ -30,39 +30,26 @@ OUTPUT_PATH = (
 
 
 # ---------------------------------------------------------
-# Features used by the temporal anomaly detector
+# Temporal anomaly features
+#
+# These describe temporal behavior rather than
+# forensic identity or evidence.
 # ---------------------------------------------------------
 
 MODEL_FEATURES = [
     "gap_log_seconds",
-    "event_hour",
-    "event_day_of_week",
-    "after_hours",
-
-    "events_prev_10s",
-    "events_next_10s",
     "local_density_10s",
-
-    "events_prev_30s",
-    "events_next_30s",
     "local_density_30s",
-
-    "events_prev_60s",
-    "events_next_60s",
     "local_density_60s",
-
     "process_changed",
-
-    "rapid_event",
-    "short_event_gap",
-    "medium_event_gap",
-    "long_event_gap",
 ]
 
 
 def main():
 
-    print("=== ForensiXplain Temporal Isolation Forest ===")
+    print(
+        "=== ForensiXplain Temporal Isolation Forest v2 ==="
+    )
 
     # -----------------------------------------------------
     # Load features
@@ -80,13 +67,29 @@ def main():
     )
 
     # -----------------------------------------------------
-    # Validate required features
+    # Exclude first timeline event
+    #
+    # It has no previous temporal context and therefore
+    # should not be scored by a gap-based detector.
+    # -----------------------------------------------------
+
+    scoring_df = df[
+        df["is_first_event"] == 0
+    ].copy()
+
+    print(
+        f"Events available for temporal scoring: "
+        f"{len(scoring_df)}"
+    )
+
+    # -----------------------------------------------------
+    # Validate features
     # -----------------------------------------------------
 
     missing_features = [
         feature
         for feature in MODEL_FEATURES
-        if feature not in df.columns
+        if feature not in scoring_df.columns
     ]
 
     if missing_features:
@@ -96,24 +99,22 @@ def main():
         )
 
     # -----------------------------------------------------
-    # Prepare numerical features
+    # Prepare numerical matrix
     # -----------------------------------------------------
 
-    X = df[MODEL_FEATURES].copy()
+    X = scoring_df[
+        MODEL_FEATURES
+    ].copy()
 
-    # First event has no previous event.
-    # gap_log_seconds is therefore NaN.
-    #
-    # Use median of observed gaps for modeling.
-    # The original NaN is preserved separately in the
-    # metadata dataframe.
+    # First event has already been removed, but NaN
+    # protection remains useful for robustness.
 
     X = X.fillna(
         X.median(numeric_only=True)
     )
 
     # -----------------------------------------------------
-    # Scaling
+    # Standardization
     # -----------------------------------------------------
 
     scaler = StandardScaler()
@@ -122,49 +123,95 @@ def main():
 
     # -----------------------------------------------------
     # Isolation Forest
+    #
+    # 10% contamination gives a conservative candidate
+    # ranking for this small proof-of-concept dataset.
     # -----------------------------------------------------
 
     model = IsolationForest(
-        n_estimators=300,
-        contamination="auto",
+        n_estimators=500,
+        contamination=0.10,
         random_state=42,
         n_jobs=-1,
     )
 
     model.fit(X_scaled)
 
-    predictions = model.predict(X_scaled)
-
-    # Isolation Forest decision_function:
-    # larger = more normal
-    #
-    # We invert it so that:
-    # larger anomaly_score = more anomalous
+    predictions = model.predict(
+        X_scaled
+    )
 
     anomaly_scores = (
         -model.decision_function(X_scaled)
     )
 
-    df["temporal_anomaly_score"] = (
-        anomaly_scores
-    )
+    scoring_df[
+        "temporal_anomaly_score"
+    ] = anomaly_scores
 
-    df["temporal_predicted_anomaly"] = (
+    scoring_df[
+        "temporal_predicted_anomaly"
+    ] = (
         predictions == -1
     )
 
     # -----------------------------------------------------
-    # Rank anomalies
+    # Rank
     # -----------------------------------------------------
 
-    df["temporal_anomaly_rank"] = (
-        df["temporal_anomaly_score"]
+    scoring_df[
+        "temporal_anomaly_rank"
+    ] = (
+        scoring_df[
+            "temporal_anomaly_score"
+        ]
         .rank(
             ascending=False,
             method="first",
         )
         .astype(int)
     )
+
+    # -----------------------------------------------------
+    # Restore first event
+    #
+    # It remains in the output for timeline completeness,
+    # but is NOT classified as anomalous.
+    # -----------------------------------------------------
+
+    first_event = df[
+        df["is_first_event"] == 1
+    ].copy()
+
+    if not first_event.empty:
+
+        first_event[
+            "temporal_anomaly_score"
+        ] = 0.0
+
+        first_event[
+            "temporal_predicted_anomaly"
+        ] = False
+
+        first_event[
+            "temporal_anomaly_rank"
+        ] = pd.NA
+
+    # -----------------------------------------------------
+    # Combine
+    # -----------------------------------------------------
+
+    result = pd.concat(
+        [
+            scoring_df,
+            first_event,
+        ],
+        ignore_index=True,
+    )
+
+    result = result.sort_values(
+        "temporal_sequence"
+    ).reset_index(drop=True)
 
     # -----------------------------------------------------
     # Save
@@ -175,7 +222,7 @@ def main():
         exist_ok=True,
     )
 
-    df.to_csv(
+    result.to_csv(
         OUTPUT_PATH,
         index=False,
     )
@@ -185,11 +232,13 @@ def main():
     # -----------------------------------------------------
 
     anomaly_count = int(
-        df["temporal_predicted_anomaly"].sum()
+        result[
+            "temporal_predicted_anomaly"
+        ].sum()
     )
 
     normal_count = (
-        len(df) - anomaly_count
+        len(result) - anomaly_count
     )
 
     print()
@@ -198,7 +247,11 @@ def main():
     )
 
     print(
-        f"Total events: {len(df)}"
+        f"Total timeline events: {len(result)}"
+    )
+
+    print(
+        f"Events scored: {len(scoring_df)}"
     )
 
     print(
@@ -214,11 +267,16 @@ def main():
     )
 
     # -----------------------------------------------------
-    # Top anomalies
+    # Top candidates
     # -----------------------------------------------------
 
     top = (
-        df.sort_values(
+        result[
+            result[
+                "temporal_predicted_anomaly"
+            ]
+        ]
+        .sort_values(
             "temporal_anomaly_score",
             ascending=False,
         )
@@ -230,19 +288,21 @@ def main():
                 "process_id",
                 "process",
                 "time_since_previous_event_seconds",
+                "gap_log_seconds",
                 "local_density_10s",
                 "local_density_30s",
                 "local_density_60s",
-                "after_hours",
+                "process_changed",
                 "temporal_anomaly_score",
-                "temporal_predicted_anomaly",
             ]
         ]
         .head(15)
     )
 
     print()
-    print("Top temporal anomalies:")
+    print(
+        "Top temporal anomaly candidates:"
+    )
 
     print(
         top.to_string(
