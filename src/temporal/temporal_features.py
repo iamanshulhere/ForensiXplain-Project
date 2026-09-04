@@ -26,17 +26,75 @@ OUTPUT_DIR = (
 OUTPUT_PATH = OUTPUT_DIR / "temporal_features.csv"
 
 
+def count_events_within_window(
+    timestamps_ns,
+    window_seconds,
+    direction="previous",
+):
+    """
+    Count events in a temporal window around each event.
+
+    previous:
+        Events from [current_time - window, current_time]
+
+    next:
+        Events from [current_time, current_time + window]
+    """
+
+    window_ns = window_seconds * 1_000_000_000
+
+    counts = []
+
+    for current_time in timestamps_ns:
+
+        if direction == "previous":
+            lower = current_time - window_ns
+            upper = current_time
+
+        elif direction == "next":
+            lower = current_time
+            upper = current_time + window_ns
+
+        else:
+            raise ValueError(
+                "direction must be 'previous' or 'next'"
+            )
+
+        left = np.searchsorted(
+            timestamps_ns,
+            lower,
+            side="left",
+        )
+
+        right = np.searchsorted(
+            timestamps_ns,
+            upper,
+            side="right",
+        )
+
+        counts.append(right - left)
+
+    return counts
+
+
 def main():
+
     print("=== ForensiXplain Temporal Feature Engineering ===")
+
+    # ---------------------------------------------------------
+    # Load logical timeline
+    # ---------------------------------------------------------
 
     if not INPUT_PATH.exists():
         raise FileNotFoundError(
-            f"Logical timeline not found: {INPUT_PATH}"
+            f"Logical timeline not found:\n{INPUT_PATH}"
         )
 
     df = pd.read_csv(INPUT_PATH)
 
-    print(f"Logical timeline events loaded: {len(df)}")
+    print(
+        f"Logical timeline events loaded: {len(df)}"
+    )
 
     # ---------------------------------------------------------
     # Timestamp preparation
@@ -48,41 +106,82 @@ def main():
         utc=True,
     )
 
-    df = df[df["timestamp"].notna()].copy()
+    df = df[
+        df["timestamp"].notna()
+    ].copy()
 
     df = df.sort_values(
         ["timestamp", "process_id"],
         kind="stable",
     ).reset_index(drop=True)
 
-    print(f"Timestamped events: {len(df)}")
-
-    # ---------------------------------------------------------
-    # Basic temporal features
-    # ---------------------------------------------------------
-
-    df["temporal_sequence"] = np.arange(1, len(df) + 1)
-
-    df["previous_timestamp"] = df["timestamp"].shift(1)
-
-    df["time_since_previous_event_seconds"] = (
-        df["timestamp"] - df["previous_timestamp"]
-    ).dt.total_seconds()
-
-    df["time_since_previous_event_seconds"] = (
-        df["time_since_previous_event_seconds"]
-        .fillna(0)
-        .clip(lower=0)
+    print(
+        f"Timestamped events: {len(df)}"
     )
 
-    df["event_hour"] = df["timestamp"].dt.hour
+    # ---------------------------------------------------------
+    # Temporal sequence
+    # ---------------------------------------------------------
 
-    df["event_day_of_week"] = df["timestamp"].dt.dayofweek
+    df["temporal_sequence"] = (
+        np.arange(1, len(df) + 1)
+    )
 
     # ---------------------------------------------------------
-    # After-hours feature
+    # Previous event
+    # ---------------------------------------------------------
+
+    df["previous_timestamp"] = (
+        df["timestamp"].shift(1)
+    )
+
+    df["is_first_event"] = (
+        df["previous_timestamp"].isna()
+    ).astype(int)
+
+    # ---------------------------------------------------------
+    # Time gap
+    # ---------------------------------------------------------
+
+    df["time_since_previous_event_seconds"] = (
+        df["timestamp"]
+        - df["previous_timestamp"]
+    ).dt.total_seconds()
+
+    # IMPORTANT:
+    # The first event has no previous event.
+    # Therefore its temporal gap remains NaN.
+
+    # ---------------------------------------------------------
+    # Log-transformed time gap
     #
-    # 00:00-06:59 and 22:00-23:59
+    # This reduces the extreme effect of very large gaps.
+    # Example:
+    # 2 seconds -> log1p(2)
+    # 228024 sec -> log1p(228024)
+    # ---------------------------------------------------------
+
+    df["gap_log_seconds"] = np.log1p(
+        df["time_since_previous_event_seconds"]
+    )
+
+    # ---------------------------------------------------------
+    # Calendar/time features
+    # ---------------------------------------------------------
+
+    df["event_hour"] = (
+        df["timestamp"].dt.hour
+    )
+
+    df["event_day_of_week"] = (
+        df["timestamp"].dt.dayofweek
+    )
+
+    # ---------------------------------------------------------
+    # After-hours
+    #
+    # 00:00-06:59
+    # 22:00-23:59
     # ---------------------------------------------------------
 
     df["after_hours"] = (
@@ -91,40 +190,45 @@ def main():
     ).astype(int)
 
     # ---------------------------------------------------------
-    # Local temporal density
-    #
-    # Number of events occurring within the previous
-    # N-second window, including the current event.
+    # Temporal density
     # ---------------------------------------------------------
 
-    timestamps = df["timestamp"]
+    timestamps_ns = (
+        df["timestamp"]
+        .astype("int64")
+        .to_numpy()
+    )
 
-    def events_within_window(seconds):
-        values = timestamps.astype("int64").to_numpy()
-        window_ns = seconds * 1_000_000_000
+    for window in [10, 30, 60]:
 
-        counts = []
+        df[
+            f"events_prev_{window}s"
+        ] = count_events_within_window(
+            timestamps_ns,
+            window,
+            direction="previous",
+        )
 
-        for i, current_time in enumerate(values):
-            lower_bound = current_time - window_ns
+        df[
+            f"events_next_{window}s"
+        ] = count_events_within_window(
+            timestamps_ns,
+            window,
+            direction="next",
+        )
 
-            start = np.searchsorted(
-                values,
-                lower_bound,
-                side="left",
-            )
+        # Events around the current event.
+        #
+        # Subtract one so the current event itself
+        # is not counted.
 
-            counts.append(i - start + 1)
-
-        return counts
-
-    df["events_in_10s"] = events_within_window(10)
-
-    df["events_in_30s"] = events_within_window(30)
-
-    df["events_in_60s"] = events_within_window(60)
-
-    df["events_in_300s"] = events_within_window(300)
+        df[
+            f"local_density_{window}s"
+        ] = (
+            df[f"events_prev_{window}s"]
+            + df[f"events_next_{window}s"]
+            - 1
+        )
 
     # ---------------------------------------------------------
     # Previous process context
@@ -134,22 +238,25 @@ def main():
         pd.to_numeric(
             df["process_id"],
             errors="coerce",
-        )
-        .shift(1)
+        ).shift(1)
     )
 
-    df["previous_process"] = df["process"].shift(1)
+    df["previous_process"] = (
+        df["process"].shift(1)
+    )
+
+    # ---------------------------------------------------------
+    # Process transition
+    #
+    # IMPORTANT:
+    # This represents chronological adjacency only.
+    # It does NOT establish causality.
+    # ---------------------------------------------------------
 
     df["process_changed"] = (
-        df["process"] != df["previous_process"]
+        df["process"]
+        != df["previous_process"]
     ).astype(int)
-
-    # ---------------------------------------------------------
-    # Chronological process transition
-    #
-    # This represents temporal adjacency only.
-    # It must NOT be interpreted as causality.
-    # ---------------------------------------------------------
 
     df["process_transition"] = (
         df["previous_process"]
@@ -160,13 +267,17 @@ def main():
     )
 
     # ---------------------------------------------------------
-    # Process relationship information
+    # Process identifiers
     # ---------------------------------------------------------
 
     df["process_id"] = pd.to_numeric(
         df["process_id"],
         errors="coerce",
     )
+
+    # ---------------------------------------------------------
+    # Parent process
+    # ---------------------------------------------------------
 
     df["parent_process_id"] = (
         df["parent_process_ids"]
@@ -185,30 +296,61 @@ def main():
     # Temporal indicators
     # ---------------------------------------------------------
 
+    # Do NOT classify the first event as rapid.
     df["rapid_event"] = (
-        df["time_since_previous_event_seconds"] <= 5
+        (
+            df[
+                "time_since_previous_event_seconds"
+            ] <= 5
+        )
+        & (
+            df["is_first_event"] == 0
+        )
     ).astype(int)
 
     df["short_event_gap"] = (
-        df["time_since_previous_event_seconds"] <= 30
+        (
+            df[
+                "time_since_previous_event_seconds"
+            ] <= 30
+        )
+        & (
+            df["is_first_event"] == 0
+        )
     ).astype(int)
 
     df["medium_event_gap"] = (
-        df["time_since_previous_event_seconds"] <= 300
+        (
+            df[
+                "time_since_previous_event_seconds"
+            ] <= 300
+        )
+        & (
+            df["is_first_event"] == 0
+        )
     ).astype(int)
 
     df["long_event_gap"] = (
-        df["time_since_previous_event_seconds"] > 300
+        (
+            df[
+                "time_since_previous_event_seconds"
+            ] > 300
+        )
+        & (
+            df["is_first_event"] == 0
+        )
     ).astype(int)
 
     # ---------------------------------------------------------
     # Evidence support
     # ---------------------------------------------------------
 
-    df["source_observation_count"] = pd.to_numeric(
-        df["source_observation_count"],
-        errors="coerce",
-    ).fillna(0)
+    df["source_observation_count"] = (
+        pd.to_numeric(
+            df["source_observation_count"],
+            errors="coerce",
+        ).fillna(0)
+    )
 
     # ---------------------------------------------------------
     # Save
@@ -229,16 +371,29 @@ def main():
     # ---------------------------------------------------------
 
     print()
-    print("=== Temporal Feature Engineering Complete ===")
-    print(f"Feature rows: {len(df)}")
-    print(f"Feature columns: {len(df.columns)}")
-    print(f"Output: {OUTPUT_PATH}")
+    print(
+        "=== Temporal Feature Engineering Complete ==="
+    )
+
+    print(
+        f"Feature rows: {len(df)}"
+    )
+
+    print(
+        f"Feature columns: {len(df.columns)}"
+    )
+
+    print(
+        f"Output: {OUTPUT_PATH}"
+    )
 
     print()
     print("Time-gap statistics:")
 
     print(
-        df["time_since_previous_event_seconds"].describe()
+        df[
+            "time_since_previous_event_seconds"
+        ].describe()
     )
 
     print()
@@ -247,34 +402,38 @@ def main():
     print(
         df[
             [
-                "events_in_10s",
-                "events_in_30s",
-                "events_in_60s",
-                "events_in_300s",
+                "local_density_10s",
+                "local_density_30s",
+                "local_density_60s",
             ]
         ].describe()
     )
 
     print()
-    print("Rapid/short/medium/long events:")
+    print("Temporal indicators:")
 
     print(
-        "rapid_event:",
+        "First event:",
+        int(df["is_first_event"].sum()),
+    )
+
+    print(
+        "Rapid events:",
         int(df["rapid_event"].sum()),
     )
 
     print(
-        "short_event_gap:",
+        "Short-gap events:",
         int(df["short_event_gap"].sum()),
     )
 
     print(
-        "medium_event_gap:",
+        "Medium-gap events:",
         int(df["medium_event_gap"].sum()),
     )
 
     print(
-        "long_event_gap:",
+        "Long-gap events:",
         int(df["long_event_gap"].sum()),
     )
 
