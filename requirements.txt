@@ -1,0 +1,45 @@
+# Core
+pandas
+numpy
+scipy
+
+# Machine Learning
+scikit-learn
+xgboost
+
+# Explainable AI
+shap
+
+# Graph / Network Analysis
+networkx
+
+# Visualization
+matplotlib
+seaborn
+plotly
+
+# Backend API
+fastapi
+uvicorn[standard]
+pydantic
+
+# Frontend
+streamlit
+
+# Data / File Processing
+openpyxl
+python-dateutil
+pyyaml
+
+# Jupyter / Development
+jupyter
+ipykernel
+
+# HTTP / Utilities
+requests
+
+# Testing
+pytest
+
+# Digital Forensics
+volatility3

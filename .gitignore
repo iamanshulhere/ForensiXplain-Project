@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+ForensiXplain/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# Raw forensic images
+*.E01
+*.E02
+*.E03
+*.dd
+*.raw
+*.img
+*.mddramimage
+*.mem
+*.dmp
+
+# Large datasets
+datasets/
+data/raw/
+
+# Generated forensic output
+data/extracted/
+
+# Generated ML data
+data/features/
+data/normalized/
+
+# Models
+models/
+
+# Results generated locally
+results/
+
+# OS
+.DS_Store
+Thumbs.db
