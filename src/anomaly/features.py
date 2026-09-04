@@ -32,7 +32,7 @@ def build_process_features(events, graph):
     """
     Build process-level behavioral features.
 
-    These features are derived only from observed forensic
+    Features are derived only from observed forensic
     events and graph structure.
     """
 
@@ -60,17 +60,35 @@ def build_process_features(events, graph):
 
     process_ids = set()
 
+    # -----------------------------------------------------
+    # Collect process IDs from process observations
+    # -----------------------------------------------------
+
     for _, row in process_events.iterrows():
-        pid = safe_int(row.get("process_id"))
+
+        pid = safe_int(
+            row.get("process_id")
+        )
 
         if pid:
             process_ids.add(pid)
+
+    # -----------------------------------------------------
+    # Collect process IDs from relationship observations
+    # -----------------------------------------------------
 
     for _, row in relationship_events.iterrows():
-        pid = safe_int(row.get("process_id"))
+
+        pid = safe_int(
+            row.get("process_id")
+        )
 
         if pid:
             process_ids.add(pid)
+
+    # -----------------------------------------------------
+    # Build process-level features
+    # -----------------------------------------------------
 
     for pid in sorted(process_ids):
 
@@ -86,17 +104,26 @@ def build_process_features(events, graph):
             ""
         )
 
-        # Parent count
+        # -------------------------------------------------
+        # Graph structure
+        # -------------------------------------------------
+
         parent_count = graph.in_degree(
             node_id
         )
 
-        # Child count
         child_count = graph.out_degree(
             node_id
         )
 
+        graph_degree = (
+            parent_count + child_count
+        )
+
+        # -------------------------------------------------
         # Command-line observations
+        # -------------------------------------------------
+
         command_count = len(
             command_events[
                 command_events["process_id"]
@@ -105,7 +132,10 @@ def build_process_features(events, graph):
             ]
         )
 
+        # -------------------------------------------------
         # Loaded modules
+        # -------------------------------------------------
+
         module_count = len(
             module_events[
                 module_events["process_id"]
@@ -114,7 +144,10 @@ def build_process_features(events, graph):
             ]
         )
 
+        # -------------------------------------------------
         # Memory regions
+        # -------------------------------------------------
+
         memory_region_count = len(
             memory_events[
                 memory_events["process_id"]
@@ -123,19 +156,35 @@ def build_process_features(events, graph):
             ]
         )
 
-        # Process creation observations
+        # -------------------------------------------------
+        # Process creation timestamp
+        # -------------------------------------------------
+
         process_rows = process_events[
             process_events["process_id"]
             .apply(safe_int)
             == pid
         ]
 
-        create_time = ""
+        create_time = pd.NaT
 
         if not process_rows.empty:
-            create_time = str(
-                process_rows.iloc[0]["timestamp"]
+
+            timestamp = process_rows.iloc[0].get(
+                "timestamp"
             )
+
+            parsed_timestamp = pd.to_datetime(
+                timestamp,
+                errors="coerce",
+                utc=True,
+            )
+
+            create_time = parsed_timestamp
+
+        # -------------------------------------------------
+        # Store row
+        # -------------------------------------------------
 
         rows.append(
             {
@@ -143,14 +192,13 @@ def build_process_features(events, graph):
                 "process_id": pid,
                 "process_name": process_name,
                 "create_time": create_time,
+
                 "parent_count": parent_count,
                 "child_count": child_count,
                 "command_line_count": command_count,
                 "module_count": module_count,
                 "memory_region_count": memory_region_count,
-                "graph_degree": (
-                    parent_count + child_count
-                ),
+                "graph_degree": graph_degree,
             }
         )
 
@@ -158,14 +206,19 @@ def build_process_features(events, graph):
 
 
 def add_temporal_features(features):
-
     """
-    Add simple temporal features.
+    Add temporal features while preserving the distinction
+    between known and unavailable timestamps.
 
-    Missing timestamps remain missing rather than being inferred.
+    Missing timestamps are NOT converted into artificial
+    temporal values such as -1.
     """
 
     features = features.copy()
+
+    # -----------------------------------------------------
+    # Parse timestamps
+    # -----------------------------------------------------
 
     features["create_time"] = pd.to_datetime(
         features["create_time"],
@@ -173,28 +226,100 @@ def add_temporal_features(features):
         utc=True,
     )
 
+    # -----------------------------------------------------
+    # Timestamp availability
+    # -----------------------------------------------------
+
+    features["timestamp_available"] = (
+        features["create_time"]
+        .notna()
+        .astype(int)
+    )
+
+    # -----------------------------------------------------
+    # Extract temporal values
+    #
+    # Missing timestamps remain NaN at this stage.
+    # -----------------------------------------------------
+
     features["hour"] = (
         features["create_time"]
         .dt.hour
-        .fillna(-1)
-        .astype(int)
     )
 
     features["day_of_week"] = (
         features["create_time"]
         .dt.dayofweek
-        .fillna(-1)
+    )
+
+    # -----------------------------------------------------
+    # After-hours activity
+    #
+    # Only calculate this when a timestamp exists.
+    # Missing timestamps are represented as 0 because
+    # there is insufficient evidence to classify them
+    # as after-hours activity.
+    # -----------------------------------------------------
+
+    features["after_hours"] = 0
+
+    known_timestamp = (
+        features["timestamp_available"] == 1
+    )
+
+    features.loc[
+        known_timestamp,
+        "after_hours"
+    ] = (
+        (features.loc[known_timestamp, "hour"] >= 22)
+        |
+        (features.loc[known_timestamp, "hour"] < 6)
+    ).astype(int)
+
+    # -----------------------------------------------------
+    # Model-safe temporal representation
+    #
+    # For processes without timestamps, use the median
+    # observed temporal values rather than an artificial
+    # value such as -1.
+    #
+    # timestamp_available preserves the fact that the
+    # timestamp was unavailable.
+    # -----------------------------------------------------
+
+    known_hours = features.loc[
+        known_timestamp,
+        "hour"
+    ]
+
+    known_days = features.loc[
+        known_timestamp,
+        "day_of_week"
+    ]
+
+    if not known_hours.empty:
+        hour_median = int(
+            known_hours.median()
+        )
+    else:
+        hour_median = 12
+
+    if not known_days.empty:
+        day_median = int(
+            known_days.median()
+        )
+    else:
+        day_median = 3
+
+    features["hour"] = (
+        features["hour"]
+        .fillna(hour_median)
         .astype(int)
     )
 
-    features["after_hours"] = (
-        (features["hour"] >= 22)
-        | (features["hour"] < 6)
-    ).astype(int)
-
-    features["timestamp_available"] = (
-        features["create_time"]
-        .notna()
+    features["day_of_week"] = (
+        features["day_of_week"]
+        .fillna(day_median)
         .astype(int)
     )
 
@@ -221,11 +346,13 @@ def save_features(features):
 def main():
 
     if not EVENTS_PATH.exists():
+
         raise FileNotFoundError(
             f"Events file not found: {EVENTS_PATH}"
         )
 
     if not GRAPH_PATH.exists():
+
         raise FileNotFoundError(
             f"Graph file not found: {GRAPH_PATH}"
         )
@@ -234,10 +361,18 @@ def main():
         "=== ForensiXplain Feature Engineering ==="
     )
 
+    # -----------------------------------------------------
+    # Load events
+    # -----------------------------------------------------
+
     events = pd.read_csv(
         EVENTS_PATH,
         low_memory=False,
     )
+
+    # -----------------------------------------------------
+    # Load graph
+    # -----------------------------------------------------
 
     graph = nx.read_graphml(
         GRAPH_PATH
@@ -255,16 +390,32 @@ def main():
         f"Graph edges: {graph.number_of_edges()}"
     )
 
+    # -----------------------------------------------------
+    # Build process features
+    # -----------------------------------------------------
+
     features = build_process_features(
         events,
         graph,
     )
 
+    # -----------------------------------------------------
+    # Add temporal features
+    # -----------------------------------------------------
+
     features = add_temporal_features(
         features
     )
 
+    # -----------------------------------------------------
+    # Save
+    # -----------------------------------------------------
+
     save_features(features)
+
+    # -----------------------------------------------------
+    # Summary
+    # -----------------------------------------------------
 
     print(
         f"Feature rows: {len(features)}"
@@ -277,9 +428,51 @@ def main():
     print("\nFeatures:")
 
     for column in features.columns:
+
         print(
             f"  {column}"
         )
+
+    # -----------------------------------------------------
+    # Timestamp diagnostics
+    # -----------------------------------------------------
+
+    timestamp_count = int(
+        features["timestamp_available"].sum()
+    )
+
+    missing_count = (
+        len(features)
+        - timestamp_count
+    )
+
+    print(
+        "\nTimestamp diagnostics:"
+    )
+
+    print(
+        f"  Available: {timestamp_count}"
+    )
+
+    print(
+        f"  Unavailable: {missing_count}"
+    )
+
+    print(
+        "\nTemporal feature ranges:"
+    )
+
+    print(
+        f"  Hour: "
+        f"{features['hour'].min()} - "
+        f"{features['hour'].max()}"
+    )
+
+    print(
+        f"  Day of week: "
+        f"{features['day_of_week'].min()} - "
+        f"{features['day_of_week'].max()}"
+    )
 
 
 if __name__ == "__main__":

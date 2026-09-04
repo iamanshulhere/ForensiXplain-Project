@@ -37,6 +37,18 @@ OUTPUT_PATH = (
 
 
 # =========================================================
+# Helpers
+# =========================================================
+
+def safe_int(value):
+    """Safely convert a value to integer."""
+    try:
+        return int(float(value))
+    except (ValueError, TypeError):
+        return None
+
+
+# =========================================================
 # Main
 # =========================================================
 
@@ -55,6 +67,25 @@ def main():
     print(f"SHAP rows: {len(shap_df)}")
 
     # -----------------------------------------------------
+    # Normalize process IDs
+    # -----------------------------------------------------
+
+    events["process_id_int"] = (
+        events["process_id"]
+        .apply(safe_int)
+    )
+
+    events["parent_process_id_int"] = (
+        events["parent_process_id"]
+        .apply(safe_int)
+    )
+
+    shap_df["process_id_int"] = (
+        shap_df["process_id"]
+        .apply(safe_int)
+    )
+
+    # -----------------------------------------------------
     # Select anomalous processes
     # -----------------------------------------------------
 
@@ -67,7 +98,9 @@ def main():
         ascending=False,
     )
 
-    print(f"Anomalous processes: {len(anomalies)}")
+    print(
+        f"Anomalous processes: {len(anomalies)}"
+    )
 
     # -----------------------------------------------------
     # Create evidence records
@@ -77,7 +110,9 @@ def main():
 
     for _, anomaly in anomalies.iterrows():
 
-        process_id = int(anomaly["process_id"])
+        process_id = safe_int(
+            anomaly["process_id"]
+        )
 
         process_name = anomaly["process_name"]
 
@@ -86,8 +121,7 @@ def main():
         # -------------------------------------------------
 
         process_events = events[
-            events["process_id"].astype(str)
-            == str(process_id)
+            events["process_id_int"] == process_id
         ].copy()
 
         # -------------------------------------------------
@@ -126,14 +160,27 @@ def main():
 
         # -------------------------------------------------
         # Parent processes
+        #
+        # Current PID is the CHILD.
+        # Therefore find relationship events where:
+        #
+        # process_id == current PID
+        #
+        # and collect parent_process_id.
         # -------------------------------------------------
 
+        relationship_events = events[
+            events["event_type"]
+            == "process_relationship"
+        ].copy()
+
         parent_ids = (
-            process_events[
-                process_events["event_type"]
-                == "process_relationship"
-            ]["parent_process_id"]
+            relationship_events[
+                relationship_events["process_id_int"]
+                == process_id
+            ]["parent_process_id_int"]
             .dropna()
+            .astype(int)
             .astype(str)
             .unique()
             .tolist()
@@ -141,14 +188,24 @@ def main():
 
         # -------------------------------------------------
         # Child processes
+        #
+        # Current PID is the PARENT.
+        # Therefore find relationship events where:
+        #
+        # parent_process_id == current PID
+        #
+        # and collect process_id.
         # -------------------------------------------------
 
         child_ids = (
-            process_events[
-                process_events["event_type"]
-                == "process_relationship"
-            ]["related_event_id"]
+            relationship_events[
+                relationship_events[
+                    "parent_process_id_int"
+                ]
+                == process_id
+            ]["process_id_int"]
             .dropna()
+            .astype(int)
             .astype(str)
             .unique()
             .tolist()
@@ -183,14 +240,17 @@ def main():
 
         for column in shap_columns:
 
+            value = anomaly[column]
+
+            if pd.isna(value):
+                continue
+
             feature = column.replace(
                 "_shap",
                 "",
             )
 
-            feature_shap[feature] = float(
-                anomaly[column]
-            )
+            feature_shap[feature] = float(value)
 
         # -------------------------------------------------
         # Rank SHAP features
@@ -219,12 +279,22 @@ def main():
         records.append(
             {
                 "case_id": anomaly["case_id"],
+
                 "process_id": process_id,
+
                 "process_name": process_name,
-                "anomaly_score": anomaly["anomaly_score"],
-                "predicted_anomaly": anomaly[
-                    "predicted_anomaly"
-                ],
+
+                "anomaly_score": float(
+                    anomaly["anomaly_score"]
+                ),
+
+                "predicted_anomaly": int(
+                    anomaly["predicted_anomaly"]
+                ),
+
+                # -------------------------------
+                # SHAP
+                # -------------------------------
 
                 "top_feature_1": (
                     top_feature_names[0]
@@ -262,6 +332,10 @@ def main():
                     else 0
                 ),
 
+                # -------------------------------
+                # Evidence counts
+                # -------------------------------
+
                 "process_event_count": len(
                     process_events
                 ),
@@ -291,6 +365,10 @@ def main():
                     0,
                 ),
 
+                # -------------------------------
+                # Relationships
+                # -------------------------------
+
                 "event_types": ";".join(
                     event_types
                 ),
@@ -303,9 +381,17 @@ def main():
                     child_ids
                 ),
 
+                # -------------------------------
+                # Command lines
+                # -------------------------------
+
                 "command_lines": ";".join(
                     command_lines
                 ),
+
+                # -------------------------------
+                # Evidence references
+                # -------------------------------
 
                 "evidence_ids": ";".join(
                     evidence_ids
@@ -337,7 +423,9 @@ def main():
     # Display top records
     # -----------------------------------------------------
 
-    print("\nTop evidence-attributed anomalies:")
+    print(
+        "\nTop evidence-attributed anomalies:"
+    )
 
     print(
         output[
@@ -357,6 +445,8 @@ def main():
                 "cmdline_count",
                 "dlllist_count",
                 "malfind_count",
+                "parent_process_ids",
+                "child_process_ids",
             ]
         ]
         .head(10)
