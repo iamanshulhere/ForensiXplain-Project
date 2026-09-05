@@ -1,0 +1,726 @@
+FORENSIXPLAIN INVESTIGATOR REPORT
+=================================
+
+Case: M57-Jean
+Anomalous processes: 16
+
+
+======================================================================
+ANOMALY 1
+======================================================================
+
+PROCESS
+-------
+Process name: soffice.bin
+Process ID: 3560
+Anomaly score: 0.218440
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual graph connectivity profile relative to other observed processes. SHAP contribution = +0.073775, which increases the anomaly score.
+2. The process has an unusual number of loaded-module observations. SHAP contribution = +0.071081, which increases the anomaly score.
+3. The process has an unusual number of child-process relationships. SHAP contribution = +0.061341, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 201; PSList: 1; PSTree: 1; Command line: 1; DLLList: 197; Malfind: 1.
+
+PARENT PROCESS IDS
+------------------
+3908
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+"C:\\Program Files\\OpenOffice.org 3\\program\\swriter.exe" "-o" "C:\\Documents and Settings\\Pat\\My Documents\\Will1.odt" "-writer" "-env:OOO_CWD=2C:\\\\Documents and Settings\\\\Pat\\\\My Documents"
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-43, M57-Jean-MEM-PSTREE-33, M57-Jean-MEM-CMDLINE-43, M57-Jean-MEM-DLL-1289, M57-Jean-MEM-DLL-1290, M57-Jean-MEM-DLL-1291, M57-Jean-MEM-DLL-1292, M57-Jean-MEM-DLL-1293, M57-Jean-MEM-DLL-1294, M57-Jean-MEM-DLL-1295, M57-Jean-MEM-DLL-1296, M57-Jean-MEM-DLL-1297, M57-Jean-MEM-DLL-1298, M57-Jean-MEM-DLL-1299, M57-Jean-MEM-DLL-1300, M57-Jean-MEM-DLL-1301, M57-Jean-MEM-DLL-1302, M57-Jean-MEM-DLL-1303, M57-Jean-MEM-DLL-1304, M57-Jean-MEM-DLL-1305, M57-Jean-MEM-DLL-1306, M57-Jean-MEM-DLL-1307, M57-Jean-MEM-DLL-1308, M57-Jean-MEM-DLL-1309, M57-Jean-MEM-DLL-1310, M57-Jean-MEM-DLL-1311, M57-Jean-MEM-DLL-1312, M57-Jean-MEM-DLL-1313, M57-Jean-MEM-DLL-1314, M57-Jean-MEM-DLL-1315, M57-Jean-MEM-DLL-1316, M57-Jean-MEM-DLL-1317, M57-Jean-MEM-DLL-1318, M57-Jean-MEM-DLL-1319, M57-Jean-MEM-DLL-1320, M57-Jean-MEM-DLL-1321, M57-Jean-MEM-DLL-1322, M57-Jean-MEM-DLL-1323, M57-Jean-MEM-DLL-1324, M57-Jean-MEM-DLL-1325, M57-Jean-MEM-DLL-1326, M57-Jean-MEM-DLL-1327, M57-Jean-MEM-DLL-1328, M57-Jean-MEM-DLL-1329, M57-Jean-MEM-DLL-1330, M57-Jean-MEM-DLL-1331, M57-Jean-MEM-DLL-1332, M57-Jean-MEM-DLL-1333, M57-Jean-MEM-DLL-1334, M57-Jean-MEM-DLL-1335, M57-Jean-MEM-DLL-1336, M57-Jean-MEM-DLL-1337, M57-Jean-MEM-DLL-1338, M57-Jean-MEM-DLL-1339, M57-Jean-MEM-DLL-1340, M57-Jean-MEM-DLL-1341, M57-Jean-MEM-DLL-1342, M57-Jean-MEM-DLL-1343, M57-Jean-MEM-DLL-1344, M57-Jean-MEM-DLL-1345, M57-Jean-MEM-DLL-1346, M57-Jean-MEM-DLL-1347, M57-Jean-MEM-DLL-1348, M57-Jean-MEM-DLL-1349, M57-Jean-MEM-DLL-1350, M57-Jean-MEM-DLL-1351, M57-Jean-MEM-DLL-1352, M57-Jean-MEM-DLL-1353, M57-Jean-MEM-DLL-1354, M57-Jean-MEM-DLL-1355, M57-Jean-MEM-DLL-1356, M57-Jean-MEM-DLL-1357, M57-Jean-MEM-DLL-1358, M57-Jean-MEM-DLL-1359, M57-Jean-MEM-DLL-1360, M57-Jean-MEM-DLL-1361, M57-Jean-MEM-DLL-1362, M57-Jean-MEM-DLL-1363, M57-Jean-MEM-DLL-1364, M57-Jean-MEM-DLL-1365, M57-Jean-MEM-DLL-1366, M57-Jean-MEM-DLL-1367, M57-Jean-MEM-DLL-1368, M57-Jean-MEM-DLL-1369, M57-Jean-MEM-DLL-1370, M57-Jean-MEM-DLL-1371, M57-Jean-MEM-DLL-1372, M57-Jean-MEM-DLL-1373, M57-Jean-MEM-DLL-1374, M57-Jean-MEM-DLL-1375, M57-Jean-MEM-DLL-1376, M57-Jean-MEM-DLL-1377, M57-Jean-MEM-DLL-1378, M57-Jean-MEM-DLL-1379, M57-Jean-MEM-DLL-1380, M57-Jean-MEM-DLL-1381, M57-Jean-MEM-DLL-1382, M57-Jean-MEM-DLL-1383, M57-Jean-MEM-DLL-1384, M57-Jean-MEM-DLL-1385, M57-Jean-MEM-DLL-1386, M57-Jean-MEM-DLL-1387, M57-Jean-MEM-DLL-1388, M57-Jean-MEM-DLL-1389, M57-Jean-MEM-DLL-1390, M57-Jean-MEM-DLL-1391, M57-Jean-MEM-DLL-1392, M57-Jean-MEM-DLL-1393, M57-Jean-MEM-DLL-1394, M57-Jean-MEM-DLL-1395, M57-Jean-MEM-DLL-1396, M57-Jean-MEM-DLL-1397, M57-Jean-MEM-DLL-1398, M57-Jean-MEM-DLL-1399, M57-Jean-MEM-DLL-1400, M57-Jean-MEM-DLL-1401, M57-Jean-MEM-DLL-1402, M57-Jean-MEM-DLL-1403, M57-Jean-MEM-DLL-1404, M57-Jean-MEM-DLL-1405, M57-Jean-MEM-DLL-1406, M57-Jean-MEM-DLL-1407, M57-Jean-MEM-DLL-1408, M57-Jean-MEM-DLL-1409, M57-Jean-MEM-DLL-1410, M57-Jean-MEM-DLL-1411, M57-Jean-MEM-DLL-1412, M57-Jean-MEM-DLL-1413, M57-Jean-MEM-DLL-1414, M57-Jean-MEM-DLL-1415, M57-Jean-MEM-DLL-1416, M57-Jean-MEM-DLL-1417, M57-Jean-MEM-DLL-1418, M57-Jean-MEM-DLL-1419, M57-Jean-MEM-DLL-1420, M57-Jean-MEM-DLL-1421, M57-Jean-MEM-DLL-1422, M57-Jean-MEM-DLL-1423, M57-Jean-MEM-DLL-1424, M57-Jean-MEM-DLL-1425, M57-Jean-MEM-DLL-1426, M57-Jean-MEM-DLL-1427, M57-Jean-MEM-DLL-1428, M57-Jean-MEM-DLL-1429, M57-Jean-MEM-DLL-1430, M57-Jean-MEM-DLL-1431, M57-Jean-MEM-DLL-1432, M57-Jean-MEM-DLL-1433, M57-Jean-MEM-DLL-1434, M57-Jean-MEM-DLL-1435, M57-Jean-MEM-DLL-1436, M57-Jean-MEM-DLL-1437, M57-Jean-MEM-DLL-1438, M57-Jean-MEM-DLL-1439, M57-Jean-MEM-DLL-1440, M57-Jean-MEM-DLL-1441, M57-Jean-MEM-DLL-1442, M57-Jean-MEM-DLL-1443, M57-Jean-MEM-DLL-1444, M57-Jean-MEM-DLL-1445, M57-Jean-MEM-DLL-1446, M57-Jean-MEM-DLL-1447, M57-Jean-MEM-DLL-1448, M57-Jean-MEM-DLL-1449, M57-Jean-MEM-DLL-1450, M57-Jean-MEM-DLL-1451, M57-Jean-MEM-DLL-1452, M57-Jean-MEM-DLL-1453, M57-Jean-MEM-DLL-1454, M57-Jean-MEM-DLL-1455, M57-Jean-MEM-DLL-1456, M57-Jean-MEM-DLL-1457, M57-Jean-MEM-DLL-1458, M57-Jean-MEM-DLL-1459, M57-Jean-MEM-DLL-1460, M57-Jean-MEM-DLL-1461, M57-Jean-MEM-DLL-1462, M57-Jean-MEM-DLL-1463, M57-Jean-MEM-DLL-1464, M57-Jean-MEM-DLL-1465, M57-Jean-MEM-DLL-1466, M57-Jean-MEM-DLL-1467, M57-Jean-MEM-DLL-1468, M57-Jean-MEM-DLL-1469, M57-Jean-MEM-DLL-1470, M57-Jean-MEM-DLL-1471, M57-Jean-MEM-DLL-1472, M57-Jean-MEM-DLL-1473, M57-Jean-MEM-DLL-1474, M57-Jean-MEM-DLL-1475, M57-Jean-MEM-DLL-1476, M57-Jean-MEM-DLL-1477, M57-Jean-MEM-DLL-1478, M57-Jean-MEM-DLL-1479, M57-Jean-MEM-DLL-1480, M57-Jean-MEM-DLL-1481, M57-Jean-MEM-DLL-1482, M57-Jean-MEM-DLL-1483, M57-Jean-MEM-DLL-1484, M57-Jean-MEM-DLL-1485, M57-Jean-MEM-MALFIND-48
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 2
+======================================================================
+
+PROCESS
+-------
+Process name: firefox.exe
+Process ID: 2892
+Anomaly score: 0.163797
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual number of memory-region observations from the memory-forensics analysis. SHAP contribution = +0.082807, which increases the anomaly score.
+2. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.030496, which increases the anomaly score.
+3. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.025362, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 103; PSList: 1; PSTree: 1; Command line: 1; DLLList: 87; Malfind: 13.
+
+PARENT PROCESS IDS
+------------------
+1944
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+"C:\\Program Files\\Mozilla Firefox\\firefox.exe"
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-39, M57-Jean-MEM-PSTREE-37, M57-Jean-MEM-CMDLINE-39, M57-Jean-MEM-DLL-1171, M57-Jean-MEM-DLL-1172, M57-Jean-MEM-DLL-1173, M57-Jean-MEM-DLL-1174, M57-Jean-MEM-DLL-1175, M57-Jean-MEM-DLL-1176, M57-Jean-MEM-DLL-1177, M57-Jean-MEM-DLL-1178, M57-Jean-MEM-DLL-1179, M57-Jean-MEM-DLL-1180, M57-Jean-MEM-DLL-1181, M57-Jean-MEM-DLL-1182, M57-Jean-MEM-DLL-1183, M57-Jean-MEM-DLL-1184, M57-Jean-MEM-DLL-1185, M57-Jean-MEM-DLL-1186, M57-Jean-MEM-DLL-1187, M57-Jean-MEM-DLL-1188, M57-Jean-MEM-DLL-1189, M57-Jean-MEM-DLL-1190, M57-Jean-MEM-DLL-1191, M57-Jean-MEM-DLL-1192, M57-Jean-MEM-DLL-1193, M57-Jean-MEM-DLL-1194, M57-Jean-MEM-DLL-1195, M57-Jean-MEM-DLL-1196, M57-Jean-MEM-DLL-1197, M57-Jean-MEM-DLL-1198, M57-Jean-MEM-DLL-1199, M57-Jean-MEM-DLL-1200, M57-Jean-MEM-DLL-1201, M57-Jean-MEM-DLL-1202, M57-Jean-MEM-DLL-1203, M57-Jean-MEM-DLL-1204, M57-Jean-MEM-DLL-1205, M57-Jean-MEM-DLL-1206, M57-Jean-MEM-DLL-1207, M57-Jean-MEM-DLL-1208, M57-Jean-MEM-DLL-1209, M57-Jean-MEM-DLL-1210, M57-Jean-MEM-DLL-1211, M57-Jean-MEM-DLL-1212, M57-Jean-MEM-DLL-1213, M57-Jean-MEM-DLL-1214, M57-Jean-MEM-DLL-1215, M57-Jean-MEM-DLL-1216, M57-Jean-MEM-DLL-1217, M57-Jean-MEM-DLL-1218, M57-Jean-MEM-DLL-1219, M57-Jean-MEM-DLL-1220, M57-Jean-MEM-DLL-1221, M57-Jean-MEM-DLL-1222, M57-Jean-MEM-DLL-1223, M57-Jean-MEM-DLL-1224, M57-Jean-MEM-DLL-1225, M57-Jean-MEM-DLL-1226, M57-Jean-MEM-DLL-1227, M57-Jean-MEM-DLL-1228, M57-Jean-MEM-DLL-1229, M57-Jean-MEM-DLL-1230, M57-Jean-MEM-DLL-1231, M57-Jean-MEM-DLL-1232, M57-Jean-MEM-DLL-1233, M57-Jean-MEM-DLL-1234, M57-Jean-MEM-DLL-1235, M57-Jean-MEM-DLL-1236, M57-Jean-MEM-DLL-1237, M57-Jean-MEM-DLL-1238, M57-Jean-MEM-DLL-1239, M57-Jean-MEM-DLL-1240, M57-Jean-MEM-DLL-1241, M57-Jean-MEM-DLL-1242, M57-Jean-MEM-DLL-1243, M57-Jean-MEM-DLL-1244, M57-Jean-MEM-DLL-1245, M57-Jean-MEM-DLL-1246, M57-Jean-MEM-DLL-1247, M57-Jean-MEM-DLL-1248, M57-Jean-MEM-DLL-1249, M57-Jean-MEM-DLL-1250, M57-Jean-MEM-DLL-1251, M57-Jean-MEM-DLL-1252, M57-Jean-MEM-DLL-1253, M57-Jean-MEM-DLL-1254, M57-Jean-MEM-DLL-1255, M57-Jean-MEM-DLL-1256, M57-Jean-MEM-DLL-1257, M57-Jean-MEM-MALFIND-35, M57-Jean-MEM-MALFIND-36, M57-Jean-MEM-MALFIND-37, M57-Jean-MEM-MALFIND-38, M57-Jean-MEM-MALFIND-39, M57-Jean-MEM-MALFIND-40, M57-Jean-MEM-MALFIND-41, M57-Jean-MEM-MALFIND-42, M57-Jean-MEM-MALFIND-43, M57-Jean-MEM-MALFIND-44, M57-Jean-MEM-MALFIND-45, M57-Jean-MEM-MALFIND-46, M57-Jean-MEM-MALFIND-47
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 3
+======================================================================
+
+PROCESS
+-------
+Process name: msimn.exe
+Process ID: 208
+Anomaly score: 0.161518
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = +0.076828, which increases the anomaly score.
+2. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.029766, which increases the anomaly score.
+3. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.023269, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 95; PSList: 1; PSTree: 1; Command line: 1; DLLList: 90; Malfind: 2.
+
+PARENT PROCESS IDS
+------------------
+1944
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+"C:\\Program Files\\Outlook Express\\msimn.exe"
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-34, M57-Jean-MEM-PSTREE-41, M57-Jean-MEM-CMDLINE-34, M57-Jean-MEM-DLL-1081, M57-Jean-MEM-DLL-1082, M57-Jean-MEM-DLL-1083, M57-Jean-MEM-DLL-1084, M57-Jean-MEM-DLL-1085, M57-Jean-MEM-DLL-1086, M57-Jean-MEM-DLL-1087, M57-Jean-MEM-DLL-1088, M57-Jean-MEM-DLL-1089, M57-Jean-MEM-DLL-1090, M57-Jean-MEM-DLL-1091, M57-Jean-MEM-DLL-1092, M57-Jean-MEM-DLL-1093, M57-Jean-MEM-DLL-1094, M57-Jean-MEM-DLL-1095, M57-Jean-MEM-DLL-1096, M57-Jean-MEM-DLL-1097, M57-Jean-MEM-DLL-1098, M57-Jean-MEM-DLL-1099, M57-Jean-MEM-DLL-1100, M57-Jean-MEM-DLL-1101, M57-Jean-MEM-DLL-1102, M57-Jean-MEM-DLL-1103, M57-Jean-MEM-DLL-1104, M57-Jean-MEM-DLL-1105, M57-Jean-MEM-DLL-1106, M57-Jean-MEM-DLL-1107, M57-Jean-MEM-DLL-1108, M57-Jean-MEM-DLL-1109, M57-Jean-MEM-DLL-1110, M57-Jean-MEM-DLL-1111, M57-Jean-MEM-DLL-1112, M57-Jean-MEM-DLL-1113, M57-Jean-MEM-DLL-1114, M57-Jean-MEM-DLL-1115, M57-Jean-MEM-DLL-1116, M57-Jean-MEM-DLL-1117, M57-Jean-MEM-DLL-1118, M57-Jean-MEM-DLL-1119, M57-Jean-MEM-DLL-1120, M57-Jean-MEM-DLL-1121, M57-Jean-MEM-DLL-1122, M57-Jean-MEM-DLL-1123, M57-Jean-MEM-DLL-1124, M57-Jean-MEM-DLL-1125, M57-Jean-MEM-DLL-1126, M57-Jean-MEM-DLL-1127, M57-Jean-MEM-DLL-1128, M57-Jean-MEM-DLL-1129, M57-Jean-MEM-DLL-1130, M57-Jean-MEM-DLL-1131, M57-Jean-MEM-DLL-1132, M57-Jean-MEM-DLL-1133, M57-Jean-MEM-DLL-1134, M57-Jean-MEM-DLL-1135, M57-Jean-MEM-DLL-1136, M57-Jean-MEM-DLL-1137, M57-Jean-MEM-DLL-1138, M57-Jean-MEM-DLL-1139, M57-Jean-MEM-DLL-1140, M57-Jean-MEM-DLL-1141, M57-Jean-MEM-DLL-1142, M57-Jean-MEM-DLL-1143, M57-Jean-MEM-DLL-1144, M57-Jean-MEM-DLL-1145, M57-Jean-MEM-DLL-1146, M57-Jean-MEM-DLL-1147, M57-Jean-MEM-DLL-1148, M57-Jean-MEM-DLL-1149, M57-Jean-MEM-DLL-1150, M57-Jean-MEM-DLL-1151, M57-Jean-MEM-DLL-1152, M57-Jean-MEM-DLL-1153, M57-Jean-MEM-DLL-1154, M57-Jean-MEM-DLL-1155, M57-Jean-MEM-DLL-1156, M57-Jean-MEM-DLL-1157, M57-Jean-MEM-DLL-1158, M57-Jean-MEM-DLL-1159, M57-Jean-MEM-DLL-1160, M57-Jean-MEM-DLL-1161, M57-Jean-MEM-DLL-1162, M57-Jean-MEM-DLL-1163, M57-Jean-MEM-DLL-1164, M57-Jean-MEM-DLL-1165, M57-Jean-MEM-DLL-1166, M57-Jean-MEM-DLL-1167, M57-Jean-MEM-DLL-1168, M57-Jean-MEM-DLL-1169, M57-Jean-MEM-DLL-1170, M57-Jean-MEM-MALFIND-33, M57-Jean-MEM-MALFIND-34
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 4
+======================================================================
+
+PROCESS
+-------
+Process name: svchost.exe
+Process ID: 1372
+Anomaly score: 0.144386
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual number of loaded-module observations. SHAP contribution = +0.068874, which increases the anomaly score.
+2. The process has an unusual graph connectivity profile relative to other observed processes. SHAP contribution = +0.068276, which increases the anomaly score.
+3. The process has an unusual number of child-process relationships. SHAP contribution = +0.059575, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 173; PSList: 1; PSTree: 1; Command line: 1; DLLList: 168; Malfind: 2.
+
+PARENT PROCESS IDS
+------------------
+976
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+C:\\WINDOWS\\System32\\svchost.exe -k netsvcs
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-8, M57-Jean-MEM-PSTREE-23, M57-Jean-MEM-CMDLINE-8, M57-Jean-MEM-DLL-271, M57-Jean-MEM-DLL-272, M57-Jean-MEM-DLL-273, M57-Jean-MEM-DLL-274, M57-Jean-MEM-DLL-275, M57-Jean-MEM-DLL-276, M57-Jean-MEM-DLL-277, M57-Jean-MEM-DLL-278, M57-Jean-MEM-DLL-279, M57-Jean-MEM-DLL-280, M57-Jean-MEM-DLL-281, M57-Jean-MEM-DLL-282, M57-Jean-MEM-DLL-283, M57-Jean-MEM-DLL-284, M57-Jean-MEM-DLL-285, M57-Jean-MEM-DLL-286, M57-Jean-MEM-DLL-287, M57-Jean-MEM-DLL-288, M57-Jean-MEM-DLL-289, M57-Jean-MEM-DLL-290, M57-Jean-MEM-DLL-291, M57-Jean-MEM-DLL-292, M57-Jean-MEM-DLL-293, M57-Jean-MEM-DLL-294, M57-Jean-MEM-DLL-295, M57-Jean-MEM-DLL-296, M57-Jean-MEM-DLL-297, M57-Jean-MEM-DLL-298, M57-Jean-MEM-DLL-299, M57-Jean-MEM-DLL-300, M57-Jean-MEM-DLL-301, M57-Jean-MEM-DLL-302, M57-Jean-MEM-DLL-303, M57-Jean-MEM-DLL-304, M57-Jean-MEM-DLL-305, M57-Jean-MEM-DLL-306, M57-Jean-MEM-DLL-307, M57-Jean-MEM-DLL-308, M57-Jean-MEM-DLL-309, M57-Jean-MEM-DLL-310, M57-Jean-MEM-DLL-311, M57-Jean-MEM-DLL-312, M57-Jean-MEM-DLL-313, M57-Jean-MEM-DLL-314, M57-Jean-MEM-DLL-315, M57-Jean-MEM-DLL-316, M57-Jean-MEM-DLL-317, M57-Jean-MEM-DLL-318, M57-Jean-MEM-DLL-319, M57-Jean-MEM-DLL-320, M57-Jean-MEM-DLL-321, M57-Jean-MEM-DLL-322, M57-Jean-MEM-DLL-323, M57-Jean-MEM-DLL-324, M57-Jean-MEM-DLL-325, M57-Jean-MEM-DLL-326, M57-Jean-MEM-DLL-327, M57-Jean-MEM-DLL-328, M57-Jean-MEM-DLL-329, M57-Jean-MEM-DLL-330, M57-Jean-MEM-DLL-331, M57-Jean-MEM-DLL-332, M57-Jean-MEM-DLL-333, M57-Jean-MEM-DLL-334, M57-Jean-MEM-DLL-335, M57-Jean-MEM-DLL-336, M57-Jean-MEM-DLL-337, M57-Jean-MEM-DLL-338, M57-Jean-MEM-DLL-339, M57-Jean-MEM-DLL-340, M57-Jean-MEM-DLL-341, M57-Jean-MEM-DLL-342, M57-Jean-MEM-DLL-343, M57-Jean-MEM-DLL-344, M57-Jean-MEM-DLL-345, M57-Jean-MEM-DLL-346, M57-Jean-MEM-DLL-347, M57-Jean-MEM-DLL-348, M57-Jean-MEM-DLL-349, M57-Jean-MEM-DLL-350, M57-Jean-MEM-DLL-351, M57-Jean-MEM-DLL-352, M57-Jean-MEM-DLL-353, M57-Jean-MEM-DLL-354, M57-Jean-MEM-DLL-355, M57-Jean-MEM-DLL-356, M57-Jean-MEM-DLL-357, M57-Jean-MEM-DLL-358, M57-Jean-MEM-DLL-359, M57-Jean-MEM-DLL-360, M57-Jean-MEM-DLL-361, M57-Jean-MEM-DLL-362, M57-Jean-MEM-DLL-363, M57-Jean-MEM-DLL-364, M57-Jean-MEM-DLL-365, M57-Jean-MEM-DLL-366, M57-Jean-MEM-DLL-367, M57-Jean-MEM-DLL-368, M57-Jean-MEM-DLL-369, M57-Jean-MEM-DLL-370, M57-Jean-MEM-DLL-371, M57-Jean-MEM-DLL-372, M57-Jean-MEM-DLL-373, M57-Jean-MEM-DLL-374, M57-Jean-MEM-DLL-375, M57-Jean-MEM-DLL-376, M57-Jean-MEM-DLL-377, M57-Jean-MEM-DLL-378, M57-Jean-MEM-DLL-379, M57-Jean-MEM-DLL-380, M57-Jean-MEM-DLL-381, M57-Jean-MEM-DLL-382, M57-Jean-MEM-DLL-383, M57-Jean-MEM-DLL-384, M57-Jean-MEM-DLL-385, M57-Jean-MEM-DLL-386, M57-Jean-MEM-DLL-387, M57-Jean-MEM-DLL-388, M57-Jean-MEM-DLL-389, M57-Jean-MEM-DLL-390, M57-Jean-MEM-DLL-391, M57-Jean-MEM-DLL-392, M57-Jean-MEM-DLL-393, M57-Jean-MEM-DLL-394, M57-Jean-MEM-DLL-395, M57-Jean-MEM-DLL-396, M57-Jean-MEM-DLL-397, M57-Jean-MEM-DLL-398, M57-Jean-MEM-DLL-399, M57-Jean-MEM-DLL-400, M57-Jean-MEM-DLL-401, M57-Jean-MEM-DLL-402, M57-Jean-MEM-DLL-403, M57-Jean-MEM-DLL-404, M57-Jean-MEM-DLL-405, M57-Jean-MEM-DLL-406, M57-Jean-MEM-DLL-407, M57-Jean-MEM-DLL-408, M57-Jean-MEM-DLL-409, M57-Jean-MEM-DLL-410, M57-Jean-MEM-DLL-411, M57-Jean-MEM-DLL-412, M57-Jean-MEM-DLL-413, M57-Jean-MEM-DLL-414, M57-Jean-MEM-DLL-415, M57-Jean-MEM-DLL-416, M57-Jean-MEM-DLL-417, M57-Jean-MEM-DLL-418, M57-Jean-MEM-DLL-419, M57-Jean-MEM-DLL-420, M57-Jean-MEM-DLL-421, M57-Jean-MEM-DLL-422, M57-Jean-MEM-DLL-423, M57-Jean-MEM-DLL-424, M57-Jean-MEM-DLL-425, M57-Jean-MEM-DLL-426, M57-Jean-MEM-DLL-427, M57-Jean-MEM-DLL-428, M57-Jean-MEM-DLL-429, M57-Jean-MEM-DLL-430, M57-Jean-MEM-DLL-431, M57-Jean-MEM-DLL-432, M57-Jean-MEM-DLL-433, M57-Jean-MEM-DLL-434, M57-Jean-MEM-DLL-435, M57-Jean-MEM-DLL-436, M57-Jean-MEM-DLL-437, M57-Jean-MEM-DLL-438, M57-Jean-MEM-MALFIND-8, M57-Jean-MEM-MALFIND-9
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 5
+======================================================================
+
+PROCESS
+-------
+Process name: System
+Process ID: 4
+Anomaly score: 0.087091
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = +0.102827, which increases the anomaly score.
+2. The process has an unusual command-line observation profile. SHAP contribution = +0.038236, which increases the anomaly score.
+3. The process has an unusual graph connectivity profile relative to other observed processes. SHAP contribution = -0.008610, which decreases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 2; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+0
+
+CHILD PROCESS IDS
+-----------------
+812
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-0, M57-Jean-MEM-PSTREE-0
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 6
+======================================================================
+
+PROCESS
+-------
+Process name: explorer.exe
+Process ID: 1944
+Anomaly score: 0.072989
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual graph connectivity profile relative to other observed processes. SHAP contribution = +0.039586, which increases the anomaly score.
+2. The process has an unusual number of child-process relationships. SHAP contribution = +0.036848, which increases the anomaly score.
+3. The process has an unusual number of loaded-module observations. SHAP contribution = +0.031765, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 115; PSList: 1; PSTree: 1; Command line: 1; DLLList: 109; Malfind: 3.
+
+PARENT PROCESS IDS
+------------------
+1972
+
+CHILD PROCESS IDS
+-----------------
+1504, 2080, 1508, 1676, 2892, 620, 1752, 208, 1528
+
+OBSERVED COMMAND LINES
+----------------------
+C:\\WINDOWS\\Explorer.EXE
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-20, M57-Jean-MEM-PSTREE-29, M57-Jean-MEM-CMDLINE-20, M57-Jean-MEM-DLL-831, M57-Jean-MEM-DLL-832, M57-Jean-MEM-DLL-833, M57-Jean-MEM-DLL-834, M57-Jean-MEM-DLL-835, M57-Jean-MEM-DLL-836, M57-Jean-MEM-DLL-837, M57-Jean-MEM-DLL-838, M57-Jean-MEM-DLL-839, M57-Jean-MEM-DLL-840, M57-Jean-MEM-DLL-841, M57-Jean-MEM-DLL-842, M57-Jean-MEM-DLL-843, M57-Jean-MEM-DLL-844, M57-Jean-MEM-DLL-845, M57-Jean-MEM-DLL-846, M57-Jean-MEM-DLL-847, M57-Jean-MEM-DLL-848, M57-Jean-MEM-DLL-849, M57-Jean-MEM-DLL-850, M57-Jean-MEM-DLL-851, M57-Jean-MEM-DLL-852, M57-Jean-MEM-DLL-853, M57-Jean-MEM-DLL-854, M57-Jean-MEM-DLL-855, M57-Jean-MEM-DLL-856, M57-Jean-MEM-DLL-857, M57-Jean-MEM-DLL-858, M57-Jean-MEM-DLL-859, M57-Jean-MEM-DLL-860, M57-Jean-MEM-DLL-861, M57-Jean-MEM-DLL-862, M57-Jean-MEM-DLL-863, M57-Jean-MEM-DLL-864, M57-Jean-MEM-DLL-865, M57-Jean-MEM-DLL-866, M57-Jean-MEM-DLL-867, M57-Jean-MEM-DLL-868, M57-Jean-MEM-DLL-869, M57-Jean-MEM-DLL-870, M57-Jean-MEM-DLL-871, M57-Jean-MEM-DLL-872, M57-Jean-MEM-DLL-873, M57-Jean-MEM-DLL-874, M57-Jean-MEM-DLL-875, M57-Jean-MEM-DLL-876, M57-Jean-MEM-DLL-877, M57-Jean-MEM-DLL-878, M57-Jean-MEM-DLL-879, M57-Jean-MEM-DLL-880, M57-Jean-MEM-DLL-881, M57-Jean-MEM-DLL-882, M57-Jean-MEM-DLL-883, M57-Jean-MEM-DLL-884, M57-Jean-MEM-DLL-885, M57-Jean-MEM-DLL-886, M57-Jean-MEM-DLL-887, M57-Jean-MEM-DLL-888, M57-Jean-MEM-DLL-889, M57-Jean-MEM-DLL-890, M57-Jean-MEM-DLL-891, M57-Jean-MEM-DLL-892, M57-Jean-MEM-DLL-893, M57-Jean-MEM-DLL-894, M57-Jean-MEM-DLL-895, M57-Jean-MEM-DLL-896, M57-Jean-MEM-DLL-897, M57-Jean-MEM-DLL-898, M57-Jean-MEM-DLL-899, M57-Jean-MEM-DLL-900, M57-Jean-MEM-DLL-901, M57-Jean-MEM-DLL-902, M57-Jean-MEM-DLL-903, M57-Jean-MEM-DLL-904, M57-Jean-MEM-DLL-905, M57-Jean-MEM-DLL-906, M57-Jean-MEM-DLL-907, M57-Jean-MEM-DLL-908, M57-Jean-MEM-DLL-909, M57-Jean-MEM-DLL-910, M57-Jean-MEM-DLL-911, M57-Jean-MEM-DLL-912, M57-Jean-MEM-DLL-913, M57-Jean-MEM-DLL-914, M57-Jean-MEM-DLL-915, M57-Jean-MEM-DLL-916, M57-Jean-MEM-DLL-917, M57-Jean-MEM-DLL-918, M57-Jean-MEM-DLL-919, M57-Jean-MEM-DLL-920, M57-Jean-MEM-DLL-921, M57-Jean-MEM-DLL-922, M57-Jean-MEM-DLL-923, M57-Jean-MEM-DLL-924, M57-Jean-MEM-DLL-925, M57-Jean-MEM-DLL-926, M57-Jean-MEM-DLL-927, M57-Jean-MEM-DLL-928, M57-Jean-MEM-DLL-929, M57-Jean-MEM-DLL-930, M57-Jean-MEM-DLL-931, M57-Jean-MEM-DLL-932, M57-Jean-MEM-DLL-933, M57-Jean-MEM-DLL-934, M57-Jean-MEM-DLL-935, M57-Jean-MEM-DLL-936, M57-Jean-MEM-DLL-937, M57-Jean-MEM-DLL-938, M57-Jean-MEM-DLL-939, M57-Jean-MEM-MALFIND-19, M57-Jean-MEM-MALFIND-20, M57-Jean-MEM-MALFIND-21
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 7
+======================================================================
+
+PROCESS
+-------
+Process name: iexplore.exe
+Process ID: 1204
+Anomaly score: 0.054766
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = +0.065675, which increases the anomaly score.
+2. The process has an unusual command-line observation profile. SHAP contribution = +0.019612, which increases the anomaly score.
+3. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.019382, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 2; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+3180
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-33, M57-Jean-MEM-PSTREE-43
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 8
+======================================================================
+
+PROCESS
+-------
+Process name: avgcmgr.exe
+Process ID: 2004
+Anomaly score: 0.048258
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.045895, which increases the anomaly score.
+2. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.035018, which increases the anomaly score.
+3. The process has an unusual command-line observation profile. SHAP contribution = +0.028973, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 2; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+1664
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-45, M57-Jean-MEM-PSTREE-9
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 9
+======================================================================
+
+PROCESS
+-------
+Process name: cmd.exe
+Process ID: 620
+Anomaly score: 0.046433
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.048881, which increases the anomaly score.
+2. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.043808, which increases the anomaly score.
+3. The process has an unusual command-line observation profile. SHAP contribution = -0.010641, which decreases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 26; PSList: 1; PSTree: 1; Command line: 1; DLLList: 23; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+1944
+
+CHILD PROCESS IDS
+-----------------
+2992
+
+OBSERVED COMMAND LINES
+----------------------
+"C:\\WINDOWS\\system32\\cmd.exe"
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-46, M57-Jean-MEM-PSTREE-38, M57-Jean-MEM-CMDLINE-46, M57-Jean-MEM-DLL-1486, M57-Jean-MEM-DLL-1487, M57-Jean-MEM-DLL-1488, M57-Jean-MEM-DLL-1489, M57-Jean-MEM-DLL-1490, M57-Jean-MEM-DLL-1491, M57-Jean-MEM-DLL-1492, M57-Jean-MEM-DLL-1493, M57-Jean-MEM-DLL-1494, M57-Jean-MEM-DLL-1495, M57-Jean-MEM-DLL-1496, M57-Jean-MEM-DLL-1497, M57-Jean-MEM-DLL-1498, M57-Jean-MEM-DLL-1499, M57-Jean-MEM-DLL-1500, M57-Jean-MEM-DLL-1501, M57-Jean-MEM-DLL-1502, M57-Jean-MEM-DLL-1503, M57-Jean-MEM-DLL-1504, M57-Jean-MEM-DLL-1505, M57-Jean-MEM-DLL-1506, M57-Jean-MEM-DLL-1507, M57-Jean-MEM-DLL-1508
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 10
+======================================================================
+
+PROCESS
+-------
+Process name: avgsrmax.exe
+Process ID: 3196
+Anomaly score: 0.043528
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = +0.065602, which increases the anomaly score.
+2. The process has an unusual command-line observation profile. SHAP contribution = +0.020430, which increases the anomaly score.
+3. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.017523, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 2; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+1664
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-38, M57-Jean-MEM-PSTREE-12
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 11
+======================================================================
+
+PROCESS
+-------
+Process name: AVGIDSMonitor.e
+Process ID: 1836
+Anomaly score: 0.039713
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual number of memory-region observations from the memory-forensics analysis. SHAP contribution = +0.052684, which increases the anomaly score.
+2. The process has an unusual command-line observation profile. SHAP contribution = +0.046513, which increases the anomaly score.
+3. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = -0.011762, which decreases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 5; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 3.
+
+PARENT PROCESS IDS
+------------------
+1508
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-26, M57-Jean-MEM-PSTREE-35, M57-Jean-MEM-MALFIND-29, M57-Jean-MEM-MALFIND-30, M57-Jean-MEM-MALFIND-31
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 12
+======================================================================
+
+PROCESS
+-------
+Process name: mdd_1.3.exe
+Process ID: 2992
+Anomaly score: 0.037163
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.053044, which increases the anomaly score.
+2. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.033785, which increases the anomaly score.
+3. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = -0.009530, which decreases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 18; PSList: 1; PSTree: 1; Command line: 1; DLLList: 15; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+620
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+z:\\ram\\mdd_1.3.exe -o z:\\ram\\pat-2009-11-23.ram
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-47, M57-Jean-MEM-PSTREE-39, M57-Jean-MEM-CMDLINE-47, M57-Jean-MEM-DLL-1509, M57-Jean-MEM-DLL-1510, M57-Jean-MEM-DLL-1511, M57-Jean-MEM-DLL-1512, M57-Jean-MEM-DLL-1513, M57-Jean-MEM-DLL-1514, M57-Jean-MEM-DLL-1515, M57-Jean-MEM-DLL-1516, M57-Jean-MEM-DLL-1517, M57-Jean-MEM-DLL-1518, M57-Jean-MEM-DLL-1519, M57-Jean-MEM-DLL-1520, M57-Jean-MEM-DLL-1521, M57-Jean-MEM-DLL-1522, M57-Jean-MEM-DLL-1523
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 13
+======================================================================
+
+PROCESS
+-------
+Process name: svchost.exe
+Process ID: 1572
+Anomaly score: 0.019108
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual command-line observation profile. SHAP contribution = +0.072712, which increases the anomaly score.
+2. The process creation time falls into the configured after-hours period and contributes to the anomaly score. SHAP contribution = -0.011135, which decreases the anomaly score.
+3. The process creation day contributes to its unusual temporal profile. SHAP contribution = -0.010062, which decreases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 37; PSList: 1; PSTree: 1; Command line: 0; DLLList: 34; Malfind: 1.
+
+PARENT PROCESS IDS
+------------------
+976
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-16, M57-Jean-MEM-PSTREE-15, M57-Jean-MEM-DLL-629, M57-Jean-MEM-DLL-630, M57-Jean-MEM-DLL-631, M57-Jean-MEM-DLL-632, M57-Jean-MEM-DLL-633, M57-Jean-MEM-DLL-634, M57-Jean-MEM-DLL-635, M57-Jean-MEM-DLL-636, M57-Jean-MEM-DLL-637, M57-Jean-MEM-DLL-638, M57-Jean-MEM-DLL-639, M57-Jean-MEM-DLL-640, M57-Jean-MEM-DLL-641, M57-Jean-MEM-DLL-642, M57-Jean-MEM-DLL-643, M57-Jean-MEM-DLL-644, M57-Jean-MEM-DLL-645, M57-Jean-MEM-DLL-646, M57-Jean-MEM-DLL-647, M57-Jean-MEM-DLL-648, M57-Jean-MEM-DLL-649, M57-Jean-MEM-DLL-650, M57-Jean-MEM-DLL-651, M57-Jean-MEM-DLL-652, M57-Jean-MEM-DLL-653, M57-Jean-MEM-DLL-654, M57-Jean-MEM-DLL-655, M57-Jean-MEM-DLL-656, M57-Jean-MEM-DLL-657, M57-Jean-MEM-DLL-658, M57-Jean-MEM-DLL-659, M57-Jean-MEM-DLL-660, M57-Jean-MEM-DLL-661, M57-Jean-MEM-DLL-662, M57-Jean-MEM-MALFIND-16
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 14
+======================================================================
+
+PROCESS
+-------
+Process name: avgfws9.exe
+Process ID: 1796
+Anomaly score: 0.005908
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process has an unusual graph connectivity profile relative to other observed processes. SHAP contribution = +0.025219, which increases the anomaly score.
+2. The process has an unusual number of loaded-module observations. SHAP contribution = +0.024235, which increases the anomaly score.
+3. The process has an unusual number of child-process relationships. SHAP contribution = +0.023038, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 90; PSList: 1; PSTree: 1; Command line: 1; DLLList: 87; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+976
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+"C:\\Program Files\\AVG\\AVG9\\avgfws9.exe"
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-18, M57-Jean-MEM-PSTREE-16, M57-Jean-MEM-CMDLINE-18, M57-Jean-MEM-DLL-711, M57-Jean-MEM-DLL-712, M57-Jean-MEM-DLL-713, M57-Jean-MEM-DLL-714, M57-Jean-MEM-DLL-715, M57-Jean-MEM-DLL-716, M57-Jean-MEM-DLL-717, M57-Jean-MEM-DLL-718, M57-Jean-MEM-DLL-719, M57-Jean-MEM-DLL-720, M57-Jean-MEM-DLL-721, M57-Jean-MEM-DLL-722, M57-Jean-MEM-DLL-723, M57-Jean-MEM-DLL-724, M57-Jean-MEM-DLL-725, M57-Jean-MEM-DLL-726, M57-Jean-MEM-DLL-727, M57-Jean-MEM-DLL-728, M57-Jean-MEM-DLL-729, M57-Jean-MEM-DLL-730, M57-Jean-MEM-DLL-731, M57-Jean-MEM-DLL-732, M57-Jean-MEM-DLL-733, M57-Jean-MEM-DLL-734, M57-Jean-MEM-DLL-735, M57-Jean-MEM-DLL-736, M57-Jean-MEM-DLL-737, M57-Jean-MEM-DLL-738, M57-Jean-MEM-DLL-739, M57-Jean-MEM-DLL-740, M57-Jean-MEM-DLL-741, M57-Jean-MEM-DLL-742, M57-Jean-MEM-DLL-743, M57-Jean-MEM-DLL-744, M57-Jean-MEM-DLL-745, M57-Jean-MEM-DLL-746, M57-Jean-MEM-DLL-747, M57-Jean-MEM-DLL-748, M57-Jean-MEM-DLL-749, M57-Jean-MEM-DLL-750, M57-Jean-MEM-DLL-751, M57-Jean-MEM-DLL-752, M57-Jean-MEM-DLL-753, M57-Jean-MEM-DLL-754, M57-Jean-MEM-DLL-755, M57-Jean-MEM-DLL-756, M57-Jean-MEM-DLL-757, M57-Jean-MEM-DLL-758, M57-Jean-MEM-DLL-759, M57-Jean-MEM-DLL-760, M57-Jean-MEM-DLL-761, M57-Jean-MEM-DLL-762, M57-Jean-MEM-DLL-763, M57-Jean-MEM-DLL-764, M57-Jean-MEM-DLL-765, M57-Jean-MEM-DLL-766, M57-Jean-MEM-DLL-767, M57-Jean-MEM-DLL-768, M57-Jean-MEM-DLL-769, M57-Jean-MEM-DLL-770, M57-Jean-MEM-DLL-771, M57-Jean-MEM-DLL-772, M57-Jean-MEM-DLL-773, M57-Jean-MEM-DLL-774, M57-Jean-MEM-DLL-775, M57-Jean-MEM-DLL-776, M57-Jean-MEM-DLL-777, M57-Jean-MEM-DLL-778, M57-Jean-MEM-DLL-779, M57-Jean-MEM-DLL-780, M57-Jean-MEM-DLL-781, M57-Jean-MEM-DLL-782, M57-Jean-MEM-DLL-783, M57-Jean-MEM-DLL-784, M57-Jean-MEM-DLL-785, M57-Jean-MEM-DLL-786, M57-Jean-MEM-DLL-787, M57-Jean-MEM-DLL-788, M57-Jean-MEM-DLL-789, M57-Jean-MEM-DLL-790, M57-Jean-MEM-DLL-791, M57-Jean-MEM-DLL-792, M57-Jean-MEM-DLL-793, M57-Jean-MEM-DLL-794, M57-Jean-MEM-DLL-795, M57-Jean-MEM-DLL-796, M57-Jean-MEM-DLL-797
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 15
+======================================================================
+
+PROCESS
+-------
+Process name: iexplore.exe
+Process ID: 2576
+Anomaly score: 0.001965
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.030080, which increases the anomaly score.
+2. The process has an unusual command-line observation profile. SHAP contribution = +0.026238, which increases the anomaly score.
+3. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.014985, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 2; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+176
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-40, M57-Jean-MEM-PSTREE-47
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+
+
+======================================================================
+ANOMALY 16
+======================================================================
+
+PROCESS
+-------
+Process name: avgcmgr.exe
+Process ID: 2308
+Anomaly score: 0.001965
+
+WHY WAS IT FLAGGED?
+-------------------
+1. The process creation day contributes to its unusual temporal profile. SHAP contribution = +0.030073, which increases the anomaly score.
+2. The process has an unusual command-line observation profile. SHAP contribution = +0.025467, which increases the anomaly score.
+3. The process creation time contributes to its unusual temporal profile. SHAP contribution = +0.014451, which increases the anomaly score.
+
+FORENSIC EVIDENCE
+-----------------
+Process observations: 2; PSList: 1; PSTree: 1; Command line: 0; DLLList: 0; Malfind: 0.
+
+PARENT PROCESS IDS
+------------------
+1664
+
+CHILD PROCESS IDS
+-----------------
+None observed
+
+OBSERVED COMMAND LINES
+----------------------
+None observed
+
+EVIDENCE IDS
+------------
+M57-Jean-MEM-PSLIST-44, M57-Jean-MEM-PSTREE-7
+
+ASSESSMENT
+----------
+The process exhibits an anomalous feature profile relative to the processes evaluated by the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence.
+
+LIMITATION
+----------
+This anomaly score does not by itself establish malicious activity. The result represents an evidence-linked anomaly indication.
+

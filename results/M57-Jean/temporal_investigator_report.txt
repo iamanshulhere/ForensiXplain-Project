@@ -1,0 +1,182 @@
+ForensiXplain - Temporal Investigator Report
+============================================================
+
+Purpose:
+Identify temporally anomalous process-start events and provide evidence-grounded explanations.
+
+Important interpretation:
+Temporal anomaly does not mean malicious activity.
+Chronological adjacency is not treated as causality.
+Investigators should validate each candidate against the underlying forensic artifacts.
+
+Total temporal anomalies: 5
+
+------------------------------------------------------------
+Temporal Anomaly Rank: 1
+Anomaly Score: 0.066266
+Logical Event: LEVT-M57-Jean-PROCESS-3992-20091123170451
+Timeline Sequence: 36
+Timestamp: 2009-11-23 17:04:51+00:00
+Process: iexplore.exe (PID 3992)
+
+Temporal Context:
+Previous process: iexplore.exe (PID 2840.0)
+Process transition: iexplore.exe -> iexplore.exe
+Time since previous event: 0.00 seconds
+Events in previous/next 10-second window: 7
+Events in previous/next 30-second window: 16
+Events in previous/next 60-second window: 16
+
+SHAP Explanation:
+process_changed had value 0 and increased the anomaly score (SHAP=+0.070758). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.037283). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.037269).
+
+Evidence Summary:
+PSList=1, PSTree=1
+
+Process Relationships:
+Child processes: none observed
+
+Evidence IDs:
+M57-Jean-MEM-PSLIST-35;M57-Jean-MEM-PSTREE-44
+
+Assessment:
+The event was ranked as temporally anomalous relative to the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence and surrounding timeline context.
+
+Limitation:
+An anomaly score does not establish maliciousness, attack activity, or causality. Chronological adjacency is not treated as causal evidence. The result should be interpreted together with the linked forensic artifacts.
+
+------------------------------------------------------------
+Temporal Anomaly Rank: 2
+Anomaly Score: 0.032788
+Logical Event: LEVT-M57-Jean-PROCESS-2840-20091123170451
+Timeline Sequence: 35
+Timestamp: 2009-11-23 17:04:51+00:00
+Process: iexplore.exe (PID 2840)
+
+Temporal Context:
+Previous process: msimn.exe (PID 208.0)
+Process transition: msimn.exe -> iexplore.exe
+Time since previous event: 572.00 seconds
+Events in previous/next 10-second window: 7
+Events in previous/next 30-second window: 16
+Events in previous/next 60-second window: 16
+
+SHAP Explanation:
+local_density_10s had value 7 and increased the anomaly score (SHAP=+0.042841). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.039656). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.038414).
+
+Evidence Summary:
+PSList=1, PSTree=1
+
+Process Relationships:
+Child processes: none observed
+
+Evidence IDs:
+M57-Jean-MEM-PSLIST-36;M57-Jean-MEM-PSTREE-45
+
+Assessment:
+The event was ranked as temporally anomalous relative to the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence and surrounding timeline context.
+
+Limitation:
+An anomaly score does not establish maliciousness, attack activity, or causality. Chronological adjacency is not treated as causal evidence. The result should be interpreted together with the linked forensic artifacts.
+
+------------------------------------------------------------
+Temporal Anomaly Rank: 3
+Anomaly Score: 0.014503
+Logical Event: LEVT-M57-Jean-PROCESS-2004-20091123235245
+Timeline Sequence: 45
+Timestamp: 2009-11-23 23:52:45+00:00
+Process: avgcmgr.exe (PID 2004)
+
+Temporal Context:
+Previous process: avgcmgr.exe (PID 2308.0)
+Process transition: avgcmgr.exe -> avgcmgr.exe
+Time since previous event: 3484.00 seconds
+Events in previous/next 10-second window: 9
+Events in previous/next 30-second window: 15
+Events in previous/next 60-second window: 15
+
+SHAP Explanation:
+process_changed had value 0 and increased the anomaly score (SHAP=+0.105392). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.036620). local_density_60s had value 15 and decreased the anomaly score (SHAP=-0.008439).
+
+Evidence Summary:
+PSList=1, PSTree=1
+
+Process Relationships:
+Child processes: none observed
+
+Evidence IDs:
+M57-Jean-MEM-PSLIST-45;M57-Jean-MEM-PSTREE-9
+
+Assessment:
+The event was ranked as temporally anomalous relative to the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence and surrounding timeline context.
+
+Limitation:
+An anomaly score does not establish maliciousness, attack activity, or causality. Chronological adjacency is not treated as causal evidence. The result should be interpreted together with the linked forensic artifacts.
+
+------------------------------------------------------------
+Temporal Anomaly Rank: 4
+Anomaly Score: 0.007643
+Logical Event: LEVT-M57-Jean-PROCESS-4028-20091123171439
+Timeline Sequence: 37
+Timestamp: 2009-11-23 17:14:39+00:00
+Process: iexplore.exe (PID 4028)
+
+Temporal Context:
+Previous process: iexplore.exe (PID 3992.0)
+Process transition: iexplore.exe -> iexplore.exe
+Time since previous event: 588.00 seconds
+Events in previous/next 10-second window: 6
+Events in previous/next 30-second window: 15
+Events in previous/next 60-second window: 15
+
+SHAP Explanation:
+process_changed had value 0 and increased the anomaly score (SHAP=+0.090557). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.024318). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.018985).
+
+Evidence Summary:
+PSList=1, PSTree=1
+
+Process Relationships:
+Child processes: none observed
+
+Evidence IDs:
+M57-Jean-MEM-PSLIST-37;M57-Jean-MEM-PSTREE-46
+
+Assessment:
+The event was ranked as temporally anomalous relative to the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence and surrounding timeline context.
+
+Limitation:
+An anomaly score does not establish maliciousness, attack activity, or causality. Chronological adjacency is not treated as causal evidence. The result should be interpreted together with the linked forensic artifacts.
+
+------------------------------------------------------------
+Temporal Anomaly Rank: 5
+Anomaly Score: 0.000456
+Logical Event: LEVT-M57-Jean-PROCESS-1204-20091123165512
+Timeline Sequence: 33
+Timestamp: 2009-11-23 16:55:12+00:00
+Process: iexplore.exe (PID 1204)
+
+Temporal Context:
+Previous process: avgcsrvx.exe (PID 1356.0)
+Process transition: avgcsrvx.exe -> iexplore.exe
+Time since previous event: 228024.00 seconds
+Events in previous/next 10-second window: 6
+Events in previous/next 30-second window: 15
+Events in previous/next 60-second window: 15
+
+SHAP Explanation:
+gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.098289). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.031046). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010295).
+
+Evidence Summary:
+PSList=1, PSTree=1
+
+Process Relationships:
+Child processes: none observed
+
+Evidence IDs:
+M57-Jean-MEM-PSLIST-33;M57-Jean-MEM-PSTREE-43
+
+Assessment:
+The event was ranked as temporally anomalous relative to the Isolation Forest baseline. The anomaly indication should be reviewed against the underlying forensic evidence and surrounding timeline context.
+
+Limitation:
+An anomaly score does not establish maliciousness, attack activity, or causality. Chronological adjacency is not treated as causal evidence. The result should be interpreted together with the linked forensic artifacts.

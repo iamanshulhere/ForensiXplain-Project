@@ -33,15 +33,37 @@ data/raw/
 data/extracted/
 
 # Generated ML data
-data/features/
-data/normalized/
+data/features/*
+data/normalized/*
 
 # Models
 models/
 
 # Results generated locally
-results/
+results/*
+
+# --------------------------------------------------
+# Reproducible M57-Jean research artifacts
+# --------------------------------------------------
+
+# Allow selected normalized M57-Jean data
+!data/normalized/M57-Jean/
+!data/normalized/M57-Jean/events.csv
+!data/normalized/M57-Jean/logical_timeline.csv
+!data/normalized/M57-Jean/timeline.csv
+!data/normalized/M57-Jean/untimestamped_events.csv
+
+# Allow selected M57-Jean feature data
+!data/features/M57-Jean/
+!data/features/M57-Jean/temporal_features.csv
+!data/features/M57-Jean/graph_features.csv
+
+# Allow M57-Jean research results
+!results/M57-Jean/
+!results/M57-Jean/*.csv
+!results/M57-Jean/*.txt
 
 # OS
 .DS_Store
 Thumbs.db
+data/features/M57-Jean/features.csv
