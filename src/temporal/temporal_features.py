@@ -219,15 +219,15 @@ def main():
 
         # Events around the current event.
         #
-        # Subtract one so the current event itself
-        # is not counted.
+        # Both directional windows include the current event.
+        # Subtract two so it is excluded from local density.
 
         df[
             f"local_density_{window}s"
         ] = (
             df[f"events_prev_{window}s"]
             + df[f"events_next_{window}s"]
-            - 1
+            - 2
         )
 
     # ---------------------------------------------------------
