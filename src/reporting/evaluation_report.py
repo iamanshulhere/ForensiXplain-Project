@@ -43,6 +43,10 @@ GRAPH_FILE = RESULTS_DIR / "graph_anomalies.csv"
 GRAPH_ONLY_FILE = RESULTS_DIR / "graph_only_anomalies.csv"
 COMPARISON_FILE = RESULTS_DIR / "model_comparison.csv"
 
+EVENTS_FILE = (
+    PROJECT_ROOT / "data" / "normalized" / CASE_ID / "events.csv"
+)
+
 TEMPORAL_EXPLANATION_FILE = (
     RESULTS_DIR / "temporal_investigator_explanations.csv"
 )
@@ -97,6 +101,7 @@ def main():
     graph = load_csv(GRAPH_FILE)
     graph_only = load_csv(GRAPH_ONLY_FILE)
     comparison = load_csv(COMPARISON_FILE)
+    events = load_csv(EVENTS_FILE)
 
     temporal_exp = load_csv(TEMPORAL_EXPLANATION_FILE)
     graph_exp = load_csv(GRAPH_EXPLANATION_FILE)
@@ -115,6 +120,51 @@ def main():
     graph_only_set = anomaly_pids(
         graph_only,
         "graph_only_predicted_anomaly"
+    )
+
+    # --------------------------------------------------------
+    # Malfind evidence correlation
+    # --------------------------------------------------------
+
+    events["process_id"] = pd.to_numeric(
+        events["process_id"],
+        errors="coerce"
+    )
+
+    malfind = events[
+        events["artifact_type"]
+        .astype(str)
+        .str.lower()
+        .eq("malfind")
+    ].copy()
+
+    malfind_counts = (
+        malfind.groupby("process_id")
+        .size()
+        .rename("malfind_count")
+    )
+
+    candidate_ids = (
+        temporal_set |
+        graph_set |
+        graph_only_set
+    )
+
+    graph_involved = graph_set | graph_only_set
+
+    temporal_only_count = len(
+        temporal_set - graph_set - graph_only_set
+    )
+
+    graph_involved_with_malfind = (
+        graph_involved.intersection(
+            set(malfind_counts.index)
+        )
+    )
+
+    temporal_only_with_malfind = (
+        (temporal_set - graph_set - graph_only_set)
+        .intersection(set(malfind_counts.index))
     )
 
     temporal_only = (
@@ -156,6 +206,21 @@ def main():
     )
     print("Graph-only model only:", sorted_list(graph_only_model))
     print("All three:", sorted_list(all_three))
+
+    print()
+    print("=== Evidence Correlation ===")
+
+    print(
+        "Graph-involved candidates with malfind:",
+        f"{len(graph_involved_with_malfind)} "
+        f"of {len(graph_involved)}"
+    )
+
+    print(
+        "Temporal-only candidates with malfind:",
+        f"{len(temporal_only_with_malfind)} "
+        f"of {temporal_only_count}"
+    )
 
     # --------------------------------------------------------
     # Evaluation summary
