@@ -23,12 +23,12 @@ Temporal Context:
 Previous process: iexplore.exe (PID 2840.0)
 Process transition: iexplore.exe -> iexplore.exe
 Time since previous event: 0.00 seconds
-Events in previous/next 10-second window: 7
-Events in previous/next 30-second window: 16
-Events in previous/next 60-second window: 16
+Events in previous/next 10-second window: 6
+Events in previous/next 30-second window: 15
+Events in previous/next 60-second window: 15
 
 SHAP Explanation:
-process_changed had value 0 and increased the anomaly score (SHAP=+0.070758). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.037283). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.037269).
+process_changed had value 0 and increased the anomaly score (SHAP=+0.071710). local_density_30s had value 15 and increased the anomaly score (SHAP=+0.037497). local_density_60s had value 15 and increased the anomaly score (SHAP=+0.036977).
 
 Evidence Summary:
 PSList=1, PSTree=1
@@ -57,12 +57,12 @@ Temporal Context:
 Previous process: msimn.exe (PID 208.0)
 Process transition: msimn.exe -> iexplore.exe
 Time since previous event: 572.00 seconds
-Events in previous/next 10-second window: 7
-Events in previous/next 30-second window: 16
-Events in previous/next 60-second window: 16
+Events in previous/next 10-second window: 6
+Events in previous/next 30-second window: 15
+Events in previous/next 60-second window: 15
 
 SHAP Explanation:
-local_density_10s had value 7 and increased the anomaly score (SHAP=+0.042841). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.039656). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.038414).
+local_density_10s had value 6 and increased the anomaly score (SHAP=+0.042778). local_density_30s had value 15 and increased the anomaly score (SHAP=+0.039928). local_density_60s had value 15 and increased the anomaly score (SHAP=+0.038288).
 
 Evidence Summary:
 PSList=1, PSTree=1
@@ -91,12 +91,12 @@ Temporal Context:
 Previous process: avgcmgr.exe (PID 2308.0)
 Process transition: avgcmgr.exe -> avgcmgr.exe
 Time since previous event: 3484.00 seconds
-Events in previous/next 10-second window: 9
-Events in previous/next 30-second window: 15
-Events in previous/next 60-second window: 15
+Events in previous/next 10-second window: 8
+Events in previous/next 30-second window: 14
+Events in previous/next 60-second window: 14
 
 SHAP Explanation:
-process_changed had value 0 and increased the anomaly score (SHAP=+0.105392). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.036620). local_density_60s had value 15 and decreased the anomaly score (SHAP=-0.008439).
+process_changed had value 0 and increased the anomaly score (SHAP=+0.107682). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.032599). local_density_60s had value 14 and decreased the anomaly score (SHAP=-0.007691).
 
 Evidence Summary:
 PSList=1, PSTree=1
@@ -125,12 +125,12 @@ Temporal Context:
 Previous process: iexplore.exe (PID 3992.0)
 Process transition: iexplore.exe -> iexplore.exe
 Time since previous event: 588.00 seconds
-Events in previous/next 10-second window: 6
-Events in previous/next 30-second window: 15
-Events in previous/next 60-second window: 15
+Events in previous/next 10-second window: 5
+Events in previous/next 30-second window: 14
+Events in previous/next 60-second window: 14
 
 SHAP Explanation:
-process_changed had value 0 and increased the anomaly score (SHAP=+0.090557). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.024318). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.018985).
+process_changed had value 0 and increased the anomaly score (SHAP=+0.092394). local_density_10s had value 5 and increased the anomaly score (SHAP=+0.024237). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.018492).
 
 Evidence Summary:
 PSList=1, PSTree=1
@@ -159,12 +159,12 @@ Temporal Context:
 Previous process: avgcsrvx.exe (PID 1356.0)
 Process transition: avgcsrvx.exe -> iexplore.exe
 Time since previous event: 228024.00 seconds
-Events in previous/next 10-second window: 6
-Events in previous/next 30-second window: 15
-Events in previous/next 60-second window: 15
+Events in previous/next 10-second window: 5
+Events in previous/next 30-second window: 14
+Events in previous/next 60-second window: 14
 
 SHAP Explanation:
-gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.098289). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.031046). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010295).
+gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.099053). local_density_10s had value 5 and increased the anomaly score (SHAP=+0.030600). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010335).
 
 Evidence Summary:
 PSList=1, PSTree=1

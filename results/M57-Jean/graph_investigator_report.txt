@@ -169,7 +169,7 @@ TOP SHAP CONTRIBUTORS
 ----------------------------------------
 process_changed;local_density_60s;local_density_30s
 SHAP values: -0.891626;-0.433690;-0.391079
-Feature values: process_changed=0.000000;local_density_60s=16.000000;local_density_30s=16.000000
+Feature values: process_changed=0.000000;local_density_60s=15.000000;local_density_30s=15.000000
 
 TEMPORAL CONTEXT
 ----------------------------------------

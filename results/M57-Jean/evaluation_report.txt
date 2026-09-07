@@ -26,7 +26,7 @@ PID 1204 iexplore.exe
   Models detecting candidate: 1
   Agreement category: temporal_only
   Temporal score: 0.0004556870757799
-  Temporal SHAP: gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.098289). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.031046). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010295).
+  Temporal SHAP: gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.099053). local_density_10s had value 5 and increased the anomaly score (SHAP=+0.030600). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010335).
   Temporal evidence: available in temporal investigator explanation.
 
 PID 1372 svchost.exe
@@ -60,14 +60,14 @@ PID 2004 avgcmgr.exe
   Models detecting candidate: 1
   Agreement category: temporal_only
   Temporal score: 0.014502861912613
-  Temporal SHAP: process_changed had value 0 and increased the anomaly score (SHAP=+0.105392). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.036620). local_density_60s had value 15 and decreased the anomaly score (SHAP=-0.008439).
+  Temporal SHAP: process_changed had value 0 and increased the anomaly score (SHAP=+0.107682). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.032599). local_density_60s had value 14 and decreased the anomaly score (SHAP=-0.007691).
   Temporal evidence: available in temporal investigator explanation.
 
 PID 2840 iexplore.exe
   Models detecting candidate: 1
   Agreement category: temporal_only
   Temporal score: 0.0327884061088914
-  Temporal SHAP: local_density_10s had value 7 and increased the anomaly score (SHAP=+0.042841). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.039656). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.038414).
+  Temporal SHAP: local_density_10s had value 6 and increased the anomaly score (SHAP=+0.042778). local_density_30s had value 15 and increased the anomaly score (SHAP=+0.039928). local_density_60s had value 15 and increased the anomaly score (SHAP=+0.038288).
   Temporal evidence: available in temporal investigator explanation.
 
 PID 2892 firefox.exe
@@ -95,7 +95,7 @@ PID 3992 iexplore.exe
   Agreement category: temporal_and_graph
   Temporal score: 0.0662659038335485
   Graph score: 0.022357
-  Temporal SHAP: process_changed had value 0 and increased the anomaly score (SHAP=+0.070758). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.037283). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.037269).
+  Temporal SHAP: process_changed had value 0 and increased the anomaly score (SHAP=+0.071710). local_density_30s had value 15 and increased the anomaly score (SHAP=+0.037497). local_density_60s had value 15 and increased the anomaly score (SHAP=+0.036977).
   Graph SHAP: process_changed;local_density_60s;local_density_30s
   Temporal evidence: available in temporal investigator explanation.
   Graph evidence: pslist: M57-Jean-MEM-PSLIST-35; pstree: M57-Jean-MEM-PSTREE-44
@@ -104,7 +104,7 @@ PID 4028 iexplore.exe
   Models detecting candidate: 1
   Agreement category: temporal_only
   Temporal score: 0.0076434922566847
-  Temporal SHAP: process_changed had value 0 and increased the anomaly score (SHAP=+0.090557). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.024318). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.018985).
+  Temporal SHAP: process_changed had value 0 and increased the anomaly score (SHAP=+0.092394). local_density_10s had value 5 and increased the anomaly score (SHAP=+0.024237). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.018492).
   Temporal evidence: available in temporal investigator explanation.
 
 Interpretation:
