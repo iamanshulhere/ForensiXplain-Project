@@ -743,6 +743,17 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Run the Active M57-Jean Pipeline
+
+From the repository root, after `data/normalized/M57-Jean/events.csv` is available:
+
+```bash
+python run_pipeline.py
+```
+
+The runner validates each active stage's required inputs and expected outputs,
+and stops immediately if a stage fails.
+
 ---
 
 # Git Contribution Workflow
