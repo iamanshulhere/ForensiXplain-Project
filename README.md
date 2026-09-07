@@ -2,9 +2,17 @@
 
 ## An Evidence-Grounded Explainable Framework for Temporal Reconstruction and Anomaly Detection in Digital Forensics
 
-ForensiXplain is a research-oriented digital forensics framework designed to transform heterogeneous forensic artifacts into a structured temporal representation, detect anomalous event patterns, connect anomalies back to forensic evidence, and generate investigator-readable explanations.
+ForensiXplain is a research-oriented digital forensics framework designed to transform heterogeneous forensic artifacts into a structured temporal representation, detect anomalous event and process patterns, connect anomalies back to forensic evidence, and generate investigator-readable explanations.
 
-The project combines **digital forensics, temporal event reconstruction, graph-based representation, unsupervised anomaly detection, and explainable AI**.
+The project combines:
+
+* Digital forensics
+* Temporal event reconstruction
+* Graph-based representation
+* Unsupervised anomaly detection
+* Explainable AI
+* Evidence attribution
+* Investigator-readable reporting
 
 ---
 
@@ -26,7 +34,8 @@ ForensiXplain aims to:
 6. Explain anomaly scores using SHAP.
 7. Link anomalous events back to their supporting forensic evidence.
 8. Generate investigator-readable explanations without treating anomaly scores as proof of malicious activity.
-9. Provide a reproducible research pipeline suitable for academic evaluation.
+9. Compare temporal and graph-based anomaly detection perspectives.
+10. Provide a reproducible research pipeline suitable for academic evaluation.
 
 ---
 
@@ -58,10 +67,11 @@ ForensiXplain aims to:
                      Graph
                           |
              +------------+------------+
-             |                         |
-       Temporal Features         Graph Features
-             |                         |
-             +------------+------------+
+             |            |             |
+        Temporal      Graph-aware   Graph-only
+        Features       Features      Features
+             |            |             |
+             +------------+-------------+
                           |
                 Unsupervised Anomaly
                      Detection
@@ -75,68 +85,155 @@ ForensiXplain aims to:
                           |
                 Investigator Explanation
                           |
+                   Model Comparison
+                          |
                   Human-in-the-Loop
 ```
 
 ---
 
+# Implemented Analytical Pipeline
+
+The current implementation contains three complementary anomaly-detection perspectives.
+
+```text
+                         M57-Jean
+                            |
+              +-------------+-------------+
+              |             |             |
+              v             v             v
+          Temporal      Graph-aware   Graph-only
+          Features       Features      Features
+              |             |             |
+              v             v             v
+        Isolation       Isolation     Isolation
+         Forest          Forest        Forest
+              |             |             |
+              v             v             v
+          Temporal      Graph SHAP   Graph-only
+            SHAP                       SHAP
+              |             |             |
+              v             v             v
+          Evidence      Evidence      Evidence
+         Attribution   Attribution   Attribution
+              |             |             |
+              v             v             v
+        Investigator   Investigator  Investigator
+         Explanation    Explanation   Explanation
+              \             |             /
+               \            |            /
+                +-----------+-----------+
+                            |
+                     Model Comparison
+```
+
+The three paths are intended to provide different analytical views of unusual process/event behavior rather than to establish malicious activity.
+
+---
+
 # Core Pipeline
 
-ForensiXplain follows a structured research pipeline:
+ForensiXplain follows the following research workflow:
 
 ```text
 Forensic Artifacts
-        ↓
+        |
 Artifact Extraction
-        ↓
+        |
 Event Normalization
-        ↓
+        |
 Temporal Reconstruction
-        ↓
+        |
 Temporal Knowledge Graph
-        ↓
+        |
 Feature Engineering
-        ↓
-Unsupervised Anomaly Detection
-        ↓
-SHAP-Based Explanation
-        ↓
-Evidence Attribution
-        ↓
-Investigator-Readable Explanation
+        |
++-------------------------------+
+|                               |
+Temporal Features          Graph Features
+|                               |
+v                               v
+Temporal Model             Graph-aware Model
+|                               |
+v                               v
+Temporal SHAP               Graph SHAP
+|                               |
+v                               v
+Temporal Evidence           Graph Evidence
+Attribution                 Attribution
+|                               |
++---------------+---------------+
+                |
+       Investigator Explanation
+                |
+         Model Comparison
+                |
+        Human-in-the-Loop
 ```
 
 ---
 
-# Key Components
+# Dataset / Experimental Case
 
-## 1. Artifact Extraction
+The current implemented experiment uses the **M57-Jean** forensic case.
 
-The framework processes heterogeneous digital forensic artifacts and extracts structured observations from available forensic sources.
+The case is represented through normalized forensic observations and a reconstructed logical timeline.
 
-Potential sources include:
+Key data products include:
 
-* Disk artifacts
-* Memory artifacts
-* System logs
-* Process information
-* File-system activity
-* Network-related artifacts
-* Other forensic evidence sources
+```text
+data/normalized/M57-Jean/events.csv
+data/normalized/M57-Jean/logical_timeline.csv
+data/features/M57-Jean/graph_features.csv
+```
+
+The forensic evidence represented in the current experiment includes Windows memory-forensics observations such as:
+
+* `pslist`
+* `pstree`
+* `cmdline`
+* `dlllist`
+* `malfind`
+
+The current M57-Jean experiment contains:
+
+**47 logical timeline events.**
+
+These events are used as the common observation set for the temporal, graph-aware, and graph-only anomaly-detection experiments.
 
 ---
 
-## 2. Event Normalization
+# 1. Artifact Extraction
+
+The framework processes heterogeneous digital forensic artifacts and converts available forensic observations into structured records.
+
+For the current M57-Jean experiment, the evidence includes Windows memory-forensics observations produced through Volatility-based analysis.
+
+Examples include:
+
+```text
+Process listing
+Process tree
+Command-line observations
+Loaded-module observations
+Memory-region observations
+Malfind observations
+```
+
+---
+
+# 2. Event Normalization
 
 Forensic observations from different sources are converted into a common event representation.
 
-A normalized event can contain information such as:
+A normalized event can contain:
 
 ```text
 Event ID
 Timestamp
 Timestamp Confidence
 Event Type
+Process ID
 Process
 Artifact
 Source
@@ -144,192 +241,469 @@ Action
 Evidence Reference
 ```
 
-This allows evidence from different forensic sources to be analyzed within a unified representation.
+This allows observations from different forensic artifacts to be analyzed within a unified representation.
 
 ---
 
-## 3. Temporal Reconstruction
+# 3. Temporal Reconstruction
 
 The framework reconstructs the sequence of forensic events chronologically.
 
-The reconstruction process considers:
+Temporal processing considers:
 
 * Event timestamps
 * Timestamp confidence
 * Event ordering
-* Process relationships
-* Artifact relationships
-* Cross-source temporal relationships
+* Previous and next events
+* Process transitions
+* Time gaps
+* Local event density
+* Temporal relationships
 
-The goal is to produce a timeline that preserves the uncertainty inherent in forensic timestamps.
+The resulting logical timeline provides the temporal foundation for subsequent analysis.
 
 ---
 
-## 4. Temporal Knowledge Graph
+# 4. Temporal Features
 
-Normalized events are represented as a temporal knowledge graph.
+Temporal features capture characteristics of event timing and process transitions.
 
-The graph captures relationships between entities such as:
+Implemented examples include:
+
+* `gap_log_seconds`
+* `local_density_10s`
+* `local_density_30s`
+* `local_density_60s`
+* `process_changed`
+* `rapid_event`
+* `short_event_gap`
+* `medium_event_gap`
+* `long_event_gap`
+
+These features are used by the temporal anomaly-detection path.
+
+---
+
+# 5. Temporal Anomaly Detection
+
+The temporal anomaly-detection path uses an unsupervised Isolation Forest model to identify unusual temporal/event profiles.
+
+The current M57-Jean experiment produced:
+
+```text
+Logical events:       47
+Temporal anomalies:    5
+```
+
+The temporal model identified the following process IDs as anomalous:
+
+```text
+1204
+2004
+2840
+3992
+4028
+```
+
+An anomaly represents an unusual feature profile under the corresponding model. It does not independently establish malicious activity.
+
+---
+
+# 6. Temporal SHAP Explainability
+
+SHAP is used to examine the contribution of temporal features to anomaly-model outputs.
+
+This provides feature-level explanations for why an event received its model output.
+
+The temporal explanation pipeline connects:
+
+```text
+Temporal anomaly
+       |
+Temporal SHAP
+       |
+Important temporal features
+       |
+Temporal evidence
+       |
+Investigator explanation
+```
+
+---
+
+# 7. Graph Representation
+
+The framework represents process and forensic relationships using graph-derived features.
+
+Graph characteristics include relationships such as:
 
 ```text
 Process
    |
-   +----> Event
+   +---- Parent Process
    |
-   +----> File
+   +---- Child Process
    |
-   +----> Network Artifact
+   +---- Command-line Evidence
    |
-   +----> System Artifact
+   +---- Loaded Modules
+   |
+   +---- Memory Regions
+   |
+   +---- Other Relationships
 ```
 
-Temporal relationships allow the framework to represent not only **what happened**, but also **when it happened and how events are related**.
+The graph representation allows process behavior to be examined from a structural perspective in addition to temporal behavior.
 
 ---
 
-## 5. Feature Engineering
+# 8. Graph-aware Anomaly Detection
 
-Features are extracted from reconstructed events and graph structures.
+The graph-aware anomaly-detection path uses graph-derived features to identify unusual process profiles.
 
-These may include:
+The current M57-Jean experiment produced:
 
-* Temporal features
-* Event frequency
-* Process behavior
-* Event sequences
-* Graph connectivity
-* Process-artifact relationships
-* Structural graph characteristics
+```text
+Logical events:       47
+Graph-aware anomalies: 5
+```
 
-The resulting feature representation is used for anomaly detection.
+The graph-aware model identified:
 
----
+```text
+1372
+1944
+2892
+3560
+3992
+```
 
-## 6. Unsupervised Anomaly Detection
-
-ForensiXplain uses unsupervised machine learning to identify unusual event and process patterns.
-
-The anomaly detection component is intended to identify observations that differ from established behavioral patterns.
-
-An anomaly score represents **unusualness**, not proof of malicious activity.
+as anomalous process IDs.
 
 ---
 
-## 7. Explainable AI with SHAP
+# 9. Graph SHAP Explainability
 
-SHAP is used to analyze the contribution of individual features to model outputs.
+Graph SHAP explanations identify graph-derived features contributing to graph anomaly-model outputs.
 
-This helps answer questions such as:
+Examples of graph-derived features include:
 
-* Why was an event considered anomalous?
-* Which features contributed most to the anomaly score?
-* Which behavioral characteristics distinguish the event from other observations?
+* `parent_count`
+* `child_count`
+* `graph_degree`
+* `in_degree`
+* `out_degree`
+* `command_line_count`
+* `module_count`
+* `memory_region_count`
+* `relationship_type_count`
 
-The objective is to make machine-learning outputs more interpretable to forensic investigators.
+The graph explanation pipeline connects:
+
+```text
+Graph anomaly
+       |
+Graph SHAP
+       |
+Important graph features
+       |
+Graph relationships
+       |
+Forensic evidence
+       |
+Investigator explanation
+```
 
 ---
 
-## 8. Evidence Attribution
+# 10. Graph-only Anomaly Detection
 
-Detected anomalies are connected back to the forensic evidence that supports the corresponding events.
+A separate graph-only analytical path was implemented to evaluate graph-derived behavior independently.
 
-This creates an evidence chain:
+The graph-only model uses graph-derived features without the temporal feature set.
+
+The current M57-Jean experiment produced:
+
+```text
+Logical events:       47
+Graph-only anomalies: 5
+```
+
+The graph-only model identified:
+
+```text
+1372
+1836
+1944
+2892
+3560
+```
+
+as anomalous process IDs.
+
+---
+
+# 11. Graph-only SHAP
+
+Graph-only SHAP explanations provide feature-level attribution for the graph-only anomaly model.
+
+The current implementation generates:
+
+```text
+results/M57-Jean/graph_only_shap_explanations.csv
+```
+
+The explanation records contain SHAP values for graph-derived features including:
+
+```text
+parent_count
+child_count
+graph_degree
+in_degree
+out_degree
+command_line_count
+module_count
+memory_region_count
+relationship_type_count
+```
+
+For example, the graph-only analysis can identify a feature such as `module_count`, `child_count`, or `memory_region_count` as an important contributor to an individual model output.
+
+---
+
+# 12. Evidence Attribution
+
+Detected anomalies are connected back to the underlying forensic evidence.
+
+The evidence-attribution stage creates an evidence chain:
 
 ```text
 Anomaly
-   ↓
+   |
 Anomalous Event
-   ↓
-Process / Artifact Relationship
-   ↓
-Source Evidence
-   ↓
-Forensic Artifact
+   |
+Process
+   |
+Graph Relationship
+   |
+Forensic Evidence
+   |
+Artifact Observation
 ```
 
-This evidence-grounded design helps investigators inspect the underlying evidence rather than relying solely on a machine-learning score.
-
----
-
-## 9. Investigator-Readable Explanation
-
-The final stage converts the analytical results into explanations that can be interpreted by investigators.
-
-An explanation may contain:
+For the graph-only pipeline, the generated output is:
 
 ```text
-Observed Event
-        ↓
-Why It Is Unusual
-        ↓
-Important Contributing Features
-        ↓
-Supporting Evidence
-        ↓
-Temporal Context
+results/M57-Jean/graph_only_evidence_attribution.csv
 ```
 
-The framework is designed to support investigators rather than replace human forensic judgment.
+The attribution records connect graph-only anomaly candidates with information such as:
+
+* Parent processes
+* Child processes
+* Graph features
+* Raw forensic event counts
+* Artifact types
+* Event types
+* Evidence IDs
+* Command-line observations
+* Timeline evidence
+* Provenance
 
 ---
 
-# Research Principles
+# 13. Investigator-Readable Explanations
 
-ForensiXplain follows several important principles:
+The framework converts analytical results into investigator-readable explanations.
 
-### Evidence Grounding
+Current outputs include:
 
-Explanations should be connected to the underlying forensic evidence.
+```text
+Temporal:
+results/M57-Jean/temporal_investigator_explanations.csv
+results/M57-Jean/temporal_investigator_report.txt
 
-### Temporal Awareness
+Graph-aware:
+results/M57-Jean/graph_investigator_explanations.csv
+results/M57-Jean/graph_investigator_report.txt
 
-Events should be interpreted in their chronological and contextual sequence.
+Graph-only:
+results/M57-Jean/graph_only_evidence_attribution.csv
+results/M57-Jean/graph_only_shap_explanations.csv
+```
 
-### Explainability
+The explanations provide context such as:
 
-Anomaly detection results should provide interpretable reasons rather than unexplained scores.
+```text
+Process
+Anomaly score
+Important contributing features
+Process relationships
+Temporal context
+Raw evidence
+Artifact information
+Evidence references
+Model limitations
+```
 
-### Human-in-the-Loop Analysis
+The purpose is to help investigators inspect the evidence supporting an analytical observation.
 
-The framework supports investigators in evaluating evidence and analytical results.
+---
 
-### Reproducibility
+# 14. Model Comparison
 
-The research pipeline is intended to be reproducible for academic experimentation and evaluation.
+The project includes a model-comparison stage that compares anomaly flags from:
 
-### Conservative Interpretation
+1. Temporal model
+2. Graph-aware model
+3. Graph-only model
 
-An anomalous event should not automatically be interpreted as malicious activity. Additional forensic evidence and investigator assessment are required.
+Output files:
+
+```text
+results/M57-Jean/model_comparison.csv
+results/M57-Jean/model_comparison_report.txt
+```
+
+The comparison records whether a process was identified by each model.
+
+---
+
+## Current M57-Jean Comparison
+
+The current experiment contains:
+
+| Model       | Logical Events | Anomalies |
+| ----------- | -------------: | --------: |
+| Temporal    |             47 |         5 |
+| Graph-aware |             47 |         5 |
+| Graph-only  |             47 |         5 |
+
+Observed overlap:
+
+```text
+Temporal ∩ Graph-aware:
+[3992]
+
+Temporal ∩ Graph-only:
+[]
+
+Graph-aware ∩ Graph-only:
+[1372, 1944, 2892, 3560]
+
+All three:
+[]
+```
+
+The corresponding comparison categories include:
+
+```text
+Temporal-only:
+1204
+2004
+2840
+4028
+
+Graph-aware and graph-only:
+1372
+1944
+2892
+3560
+
+Graph-only model only:
+1836
+
+Temporal and graph-aware:
+3992
+```
+
+These results describe agreement and disagreement between analytical models. They should not be interpreted as independent proof that any listed process is malicious.
+
+---
+
+# Results Directory
+
+The current M57-Jean experiment produces the following major analytical outputs:
+
+```text
+results/M57-Jean/
+|
++-- isolation_forest_results.csv
+|
++-- temporal_anomalies.csv
++-- temporal_shap_explanations.csv
++-- temporal_evidence_attribution.csv
++-- temporal_investigator_explanations.csv
++-- temporal_investigator_report.txt
+|
++-- graph_anomalies.csv
++-- graph_shap_explanations.csv
++-- graph_evidence_attribution.csv
++-- graph_investigator_explanations.csv
++-- graph_investigator_report.txt
+|
++-- graph_only_anomalies.csv
++-- graph_only_shap_explanations.csv
++-- graph_only_evidence_attribution.csv
+|
++-- model_comparison.csv
++-- model_comparison_report.txt
+```
 
 ---
 
 # Project Structure
 
-The repository is organized around the research pipeline and supporting resources.
-
-A typical structure is:
-
 ```text
 ForensiXplain-Project/
-│
-├── configs/
-│   └── Configuration files
-│
-├── data/
-│   └── Datasets and forensic artifacts
-│
-├── results/
-│   └── Experimental results
-│
-├── src/
-│   └── Source code
-│
-├── .gitignore
-├── README.md
-└── requirements.txt
+|
++-- data/
+|   +-- normalized/
+|   |   +-- M57-Jean/
+|   |
+|   +-- features/
+|       +-- M57-Jean/
+|
++-- results/
+|   +-- M57-Jean/
+|
++-- src/
+|   +-- anomaly/
+|   |   +-- evidence_analysis.py
+|   |   +-- features.py
+|   |   +-- graph_features.py
+|   |   +-- graph_isolation_forest.py
+|   |   +-- graph_only_isolation_forest.py
+|   |   +-- isolation_forest.py
+|   |   +-- temporal_features.py
+|   |   +-- temporal_isolation_forest.py
+|   |
+|   +-- explainability/
+|   |   +-- evidence_attribution.py
+|   |   +-- explanation_generator.py
+|   |   +-- graph_evidence_attribution.py
+|   |   +-- graph_explanation_generator.py
+|   |   +-- graph_only_evidence_attribution.py
+|   |   +-- graph_only_shap.py
+|   |   +-- graph_shap.py
+|   |   +-- isolation_forest_shap.py
+|   |   +-- temporal_evidence_attribution.py
+|   |   +-- temporal_explanation_generator.py
+|   |   +-- temporal_shap.py
+|   |
+|   +-- reporting/
+|   |   +-- model_comparison.py
+|   |
+|   +-- graph/
+|   +-- ingestion/
+|   +-- normalization/
+|   +-- temporal/
+|   +-- timeline/
+|
++-- README.md
++-- requirements.txt
++-- .gitignore
 ```
-
-The exact structure may evolve as the research implementation develops.
 
 ---
 
@@ -392,27 +766,73 @@ After pushing the branch, create a Pull Request for review.
 
 ---
 
+# Research Principles
+
+## Evidence Grounding
+
+Explanations should be connected to the underlying forensic evidence.
+
+## Temporal Awareness
+
+Events should be interpreted in their chronological and contextual sequence.
+
+## Graph Awareness
+
+Process and artifact relationships provide structural context for anomaly analysis.
+
+## Explainability
+
+Anomaly detection results should provide interpretable feature-level information rather than unexplained scores.
+
+## Model Comparison
+
+Different analytical perspectives should be compared to identify agreement and disagreement between temporal and graph-derived anomaly signals.
+
+## Human-in-the-Loop Analysis
+
+The framework supports investigators in evaluating evidence and analytical results rather than replacing forensic judgment.
+
+## Reproducibility
+
+The research pipeline is intended to be reproducible for academic experimentation and evaluation.
+
+## Conservative Interpretation
+
+An anomalous event should not automatically be interpreted as malicious activity. Additional forensic evidence, contextual analysis, model limitations, and investigator assessment are required.
+
+---
+
 # Current Research Direction
 
-The project focuses on developing an integrated pipeline that connects:
+The implemented research pipeline connects:
 
 ```text
 Digital Forensics
+       +
+Event Normalization
        +
 Temporal Reconstruction
        +
 Knowledge Graphs
        +
-Anomaly Detection
+Temporal Anomaly Detection
        +
-Explainable AI
+Graph Anomaly Detection
+       +
+Graph-only Anomaly Detection
+       +
+SHAP Explainability
        +
 Evidence Attribution
+       +
+Model Comparison
+       +
+Investigator-readable Reporting
        =
 ForensiXplain
 ```
 
-The intended outcome is a research framework capable of connecting **raw forensic observations → temporal events → graph relationships → anomaly detection → explanations → supporting evidence**.
+The current experimental focus is on understanding how temporal and graph-derived representations identify and explain unusual process/event behavior within forensic data.
 
 ---
 
@@ -426,9 +846,25 @@ Anomaly detection results should be treated as analytical indicators rather than
 
 # Project Status
 
-🚧 **Research and Development**
+**Research and Development — Core Analytical Pipeline Implemented**
 
-The framework is under active development. Components, datasets, experiments, and implementation details may change as the research progresses.
+The current implementation includes:
+
+* Event normalization
+* Temporal reconstruction
+* Temporal feature engineering
+* Graph feature engineering
+* Temporal anomaly detection
+* Graph-aware anomaly detection
+* Graph-only anomaly detection
+* SHAP-based explanations
+* Evidence attribution
+* Investigator-readable explanations
+* Model comparison reporting
+
+The current experimental case is **M57-Jean**, containing 47 logical timeline events used across the implemented anomaly-detection comparisons.
+
+Additional datasets, experiments, evaluation methodology, reporting, and research validation may be added as development continues.
 
 ---
 
@@ -450,4 +886,3 @@ To contribute:
 # License
 
 License information will be added as the project is finalized.
-     
