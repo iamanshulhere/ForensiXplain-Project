@@ -801,6 +801,39 @@ results/M57-Jean/evaluation_summary.csv
 results/M57-Jean/evaluation_candidates.csv
 results/M57-Jean/evaluation_report.txt
 
+---
+
+# 16. Experimental Results
+
+## M57-Jean
+
+Three complementary anomaly-detection models were evaluated:
+
+| Model | Rows | Anomalies |
+|---|---:|---:|
+| Temporal | 47 | 5 |
+| Graph-aware | 47 | 5 |
+| Graph-only | 47 | 5 |
+
+### Detection overlap
+
+- Temporal-only: 4 candidates
+- Temporal + Graph-aware: 1 candidate
+- Graph-aware + Graph-only: 4 candidates
+- Graph-only model only: 1 candidate
+- All three models: 0 candidates
+
+### Evidence correlation
+
+- Graph-involved candidates with malfind: 5/6
+- Temporal-only candidates with malfind: 0/4
+
+The results indicate that graph-involved anomaly detections showed greater overlap
+with the available `malfind` observations in this experiment. This should not be
+interpreted as proof of malicious activity or as a definitive comparison of model
+accuracy. Further validation across additional forensic cases and evidence types
+is required.
+
 ## Human-in-the-Loop Analysis
 
 The framework supports investigators in evaluating evidence and analytical results rather than replacing forensic judgment.
@@ -899,3 +932,5 @@ To contribute:
 # License
 
 License information will be added as the project is finalized.
+
+
