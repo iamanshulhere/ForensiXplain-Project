@@ -285,6 +285,10 @@ def main():
             "graph_only_anomaly": pid in graph_only_set,
         }
 
+        row["malfind_count"] = int(
+            malfind_counts.get(pid, 0)
+        )
+
         if pid in comparison_index.index:
             comparison_row = comparison_index.loc[pid]
 
