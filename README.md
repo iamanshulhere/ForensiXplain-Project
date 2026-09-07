@@ -788,6 +788,19 @@ Anomaly detection results should provide interpretable feature-level information
 
 Different analytical perspectives should be compared to identify agreement and disagreement between temporal and graph-derived anomaly signals.
 
+# 15. Final Evaluation
+
+The final evaluation stage consolidates the outputs of the temporal, graph-aware, and graph-only anomaly-detection paths.
+
+It compares model agreement and disagreement and correlates graph-involved anomaly candidates with `malfind` forensic evidence.
+
+The evaluation produces:
+
+```text
+results/M57-Jean/evaluation_summary.csv
+results/M57-Jean/evaluation_candidates.csv
+results/M57-Jean/evaluation_report.txt
+
 ## Human-in-the-Loop Analysis
 
 The framework supports investigators in evaluating evidence and analytical results rather than replacing forensic judgment.
