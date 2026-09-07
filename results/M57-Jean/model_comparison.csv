@@ -1,0 +1,11 @@
+case_id,process_id,process,temporal_anomaly,graph_anomaly,graph_only_anomaly,detection_count,agreement_category
+M57-Jean,1204,iexplore.exe,True,False,False,1,temporal_only
+M57-Jean,1372,svchost.exe,False,True,True,2,graph_and_graph_only
+M57-Jean,1836,AVGIDSMonitor.e,False,False,True,1,graph_only_model_only
+M57-Jean,1944,explorer.exe,False,True,True,2,graph_and_graph_only
+M57-Jean,2004,avgcmgr.exe,True,False,False,1,temporal_only
+M57-Jean,2840,iexplore.exe,True,False,False,1,temporal_only
+M57-Jean,2892,firefox.exe,False,True,True,2,graph_and_graph_only
+M57-Jean,3560,soffice.bin,False,True,True,2,graph_and_graph_only
+M57-Jean,3992,iexplore.exe,True,True,False,2,temporal_and_graph
+M57-Jean,4028,iexplore.exe,True,False,False,1,temporal_only
