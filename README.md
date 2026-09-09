@@ -4,6 +4,7 @@
 
 ForensiXplain is a research-oriented digital forensics framework designed to transform heterogeneous forensic artifacts into a structured temporal representation, detect anomalous event and process patterns, connect anomalies back to forensic evidence, and generate investigator-readable explanations.
 
+<<<<<<< HEAD
 The project combines:
 
 * Digital forensics
@@ -13,6 +14,9 @@ The project combines:
 * Explainable AI
 * Evidence attribution
 * Investigator-readable reporting
+=======
+The project combines **digital forensics, temporal event reconstruction, graph-based representation, unsupervised anomaly detection, and explainable AI**.
+>>>>>>> origin/utkarsh-readme-update
 
 ---
 
@@ -85,13 +89,17 @@ ForensiXplain aims to:
                           |
                 Investigator Explanation
                           |
+<<<<<<< HEAD
                    Model Comparison
                           |
+=======
+>>>>>>> origin/utkarsh-readme-update
                   Human-in-the-Loop
 ```
 
 ---
 
+<<<<<<< HEAD
 # Implemented Analytical Pipeline
 
 The current implementation contains three complementary anomaly-detection perspectives.
@@ -169,10 +177,37 @@ Attribution                 Attribution
          Model Comparison
                 |
         Human-in-the-Loop
+=======
+# Core Pipeline
+
+ForensiXplain follows a structured research pipeline:
+
+```text
+Forensic Artifacts
+        ↓
+Artifact Extraction
+        ↓
+Event Normalization
+        ↓
+Temporal Reconstruction
+        ↓
+Temporal Knowledge Graph
+        ↓
+Feature Engineering
+        ↓
+Unsupervised Anomaly Detection
+        ↓
+SHAP-Based Explanation
+        ↓
+Evidence Attribution
+        ↓
+Investigator-Readable Explanation
+>>>>>>> origin/utkarsh-readme-update
 ```
 
 ---
 
+<<<<<<< HEAD
 # Dataset / Experimental Case
 
 The current implemented experiment uses the **M57-Jean** forensic case.
@@ -227,13 +262,41 @@ Malfind observations
 Forensic observations from different sources are converted into a common event representation.
 
 A normalized event can contain:
+=======
+# Key Components
+
+## 1. Artifact Extraction
+
+The framework processes heterogeneous digital forensic artifacts and extracts structured observations from available forensic sources.
+
+Potential sources include:
+
+* Disk artifacts
+* Memory artifacts
+* System logs
+* Process information
+* File-system activity
+* Network-related artifacts
+* Other forensic evidence sources
+
+---
+
+## 2. Event Normalization
+
+Forensic observations from different sources are converted into a common event representation.
+
+A normalized event can contain information such as:
+>>>>>>> origin/utkarsh-readme-update
 
 ```text
 Event ID
 Timestamp
 Timestamp Confidence
 Event Type
+<<<<<<< HEAD
 Process ID
+=======
+>>>>>>> origin/utkarsh-readme-update
 Process
 Artifact
 Source
@@ -241,6 +304,7 @@ Action
 Evidence Reference
 ```
 
+<<<<<<< HEAD
 This allows observations from different forensic artifacts to be analyzed within a unified representation.
 
 ---
@@ -250,10 +314,22 @@ This allows observations from different forensic artifacts to be analyzed within
 The framework reconstructs the sequence of forensic events chronologically.
 
 Temporal processing considers:
+=======
+This allows evidence from different forensic sources to be analyzed within a unified representation.
+
+---
+
+## 3. Temporal Reconstruction
+
+The framework reconstructs the sequence of forensic events chronologically.
+
+The reconstruction process considers:
+>>>>>>> origin/utkarsh-readme-update
 
 * Event timestamps
 * Timestamp confidence
 * Event ordering
+<<<<<<< HEAD
 * Previous and next events
 * Process transitions
 * Time gaps
@@ -336,10 +412,26 @@ Investigator explanation
 The framework represents process and forensic relationships using graph-derived features.
 
 Graph characteristics include relationships such as:
+=======
+* Process relationships
+* Artifact relationships
+* Cross-source temporal relationships
+
+The goal is to produce a timeline that preserves the uncertainty inherent in forensic timestamps.
+
+---
+
+## 4. Temporal Knowledge Graph
+
+Normalized events are represented as a temporal knowledge graph.
+
+The graph captures relationships between entities such as:
+>>>>>>> origin/utkarsh-readme-update
 
 ```text
 Process
    |
+<<<<<<< HEAD
    +---- Parent Process
    |
    +---- Child Process
@@ -649,11 +741,140 @@ results/M57-Jean/
 +-- model_comparison.csv
 +-- model_comparison_report.txt
 ```
+=======
+   +----> Event
+   |
+   +----> File
+   |
+   +----> Network Artifact
+   |
+   +----> System Artifact
+```
+
+Temporal relationships allow the framework to represent not only **what happened**, but also **when it happened and how events are related**.
+
+---
+
+## 5. Feature Engineering
+
+Features are extracted from reconstructed events and graph structures.
+
+These may include:
+
+* Temporal features
+* Event frequency
+* Process behavior
+* Event sequences
+* Graph connectivity
+* Process-artifact relationships
+* Structural graph characteristics
+
+The resulting feature representation is used for anomaly detection.
+
+---
+
+## 6. Unsupervised Anomaly Detection
+
+ForensiXplain uses unsupervised machine learning to identify unusual event and process patterns.
+
+The anomaly detection component is intended to identify observations that differ from established behavioral patterns.
+
+An anomaly score represents **unusualness**, not proof of malicious activity.
+
+---
+
+## 7. Explainable AI with SHAP
+
+SHAP is used to analyze the contribution of individual features to model outputs.
+
+This helps answer questions such as:
+
+* Why was an event considered anomalous?
+* Which features contributed most to the anomaly score?
+* Which behavioral characteristics distinguish the event from other observations?
+
+The objective is to make machine-learning outputs more interpretable to forensic investigators.
+
+---
+
+## 8. Evidence Attribution
+
+Detected anomalies are connected back to the forensic evidence that supports the corresponding events.
+
+This creates an evidence chain:
+
+```text
+Anomaly
+   ↓
+Anomalous Event
+   ↓
+Process / Artifact Relationship
+   ↓
+Source Evidence
+   ↓
+Forensic Artifact
+```
+
+This evidence-grounded design helps investigators inspect the underlying evidence rather than relying solely on a machine-learning score.
+
+---
+
+## 9. Investigator-Readable Explanation
+
+The final stage converts the analytical results into explanations that can be interpreted by investigators.
+
+An explanation may contain:
+
+```text
+Observed Event
+        ↓
+Why It Is Unusual
+        ↓
+Important Contributing Features
+        ↓
+Supporting Evidence
+        ↓
+Temporal Context
+```
+
+The framework is designed to support investigators rather than replace human forensic judgment.
+
+---
+
+# Research Principles
+
+ForensiXplain follows several important principles:
+
+### Evidence Grounding
+
+Explanations should be connected to the underlying forensic evidence.
+
+### Temporal Awareness
+
+Events should be interpreted in their chronological and contextual sequence.
+
+### Explainability
+
+Anomaly detection results should provide interpretable reasons rather than unexplained scores.
+
+### Human-in-the-Loop Analysis
+
+The framework supports investigators in evaluating evidence and analytical results.
+
+### Reproducibility
+
+The research pipeline is intended to be reproducible for academic experimentation and evaluation.
+
+### Conservative Interpretation
+
+An anomalous event should not automatically be interpreted as malicious activity. Additional forensic evidence and investigator assessment are required.
+>>>>>>> origin/utkarsh-readme-update
 
 ---
 
 # Project Structure
 
+<<<<<<< HEAD
 ```text
 ForensiXplain-Project/
 |
@@ -705,6 +926,34 @@ ForensiXplain-Project/
 +-- .gitignore
 ```
 
+=======
+The repository is organized around the research pipeline and supporting resources.
+
+A typical structure is:
+
+```text
+ForensiXplain-Project/
+│
+├── configs/
+│   └── Configuration files
+│
+├── data/
+│   └── Datasets and forensic artifacts
+│
+├── results/
+│   └── Experimental results
+│
+├── src/
+│   └── Source code
+│
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
+
+The exact structure may evolve as the research implementation develops.
+
+>>>>>>> origin/utkarsh-readme-update
 ---
 
 # Environment Setup
@@ -743,6 +992,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+<<<<<<< HEAD
 ## Run the Active M57-Jean Pipeline
 
 From the repository root, after `data/normalized/M57-Jean/events.csv` is available:
@@ -754,6 +1004,8 @@ python run_pipeline.py
 The runner validates each active stage's required inputs and expected outputs,
 and stops immediately if a stage fails.
 
+=======
+>>>>>>> origin/utkarsh-readme-update
 ---
 
 # Git Contribution Workflow
@@ -777,6 +1029,7 @@ After pushing the branch, create a Pull Request for review.
 
 ---
 
+<<<<<<< HEAD
 # Research Principles
 
 ## Evidence Grounding
@@ -862,16 +1115,25 @@ An anomalous event should not automatically be interpreted as malicious activity
 # Current Research Direction
 
 The implemented research pipeline connects:
+=======
+# Current Research Direction
+
+The project focuses on developing an integrated pipeline that connects:
+>>>>>>> origin/utkarsh-readme-update
 
 ```text
 Digital Forensics
        +
+<<<<<<< HEAD
 Event Normalization
        +
+=======
+>>>>>>> origin/utkarsh-readme-update
 Temporal Reconstruction
        +
 Knowledge Graphs
        +
+<<<<<<< HEAD
 Temporal Anomaly Detection
        +
 Graph Anomaly Detection
@@ -885,11 +1147,22 @@ Evidence Attribution
 Model Comparison
        +
 Investigator-readable Reporting
+=======
+Anomaly Detection
+       +
+Explainable AI
+       +
+Evidence Attribution
+>>>>>>> origin/utkarsh-readme-update
        =
 ForensiXplain
 ```
 
+<<<<<<< HEAD
 The current experimental focus is on understanding how temporal and graph-derived representations identify and explain unusual process/event behavior within forensic data.
+=======
+The intended outcome is a research framework capable of connecting **raw forensic observations → temporal events → graph relationships → anomaly detection → explanations → supporting evidence**.
+>>>>>>> origin/utkarsh-readme-update
 
 ---
 
@@ -903,6 +1176,7 @@ Anomaly detection results should be treated as analytical indicators rather than
 
 # Project Status
 
+<<<<<<< HEAD
 **Research and Development — Core Analytical Pipeline Implemented**
 
 The current implementation includes:
@@ -922,6 +1196,11 @@ The current implementation includes:
 The current experimental case is **M57-Jean**, containing 47 logical timeline events used across the implemented anomaly-detection comparisons.
 
 Additional datasets, experiments, evaluation methodology, reporting, and research validation may be added as development continues.
+=======
+🚧 **Research and Development**
+
+The framework is under active development. Components, datasets, experiments, and implementation details may change as the research progresses.
+>>>>>>> origin/utkarsh-readme-update
 
 ---
 
@@ -943,5 +1222,8 @@ To contribute:
 # License
 
 License information will be added as the project is finalized.
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/utkarsh-readme-update
