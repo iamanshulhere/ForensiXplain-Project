@@ -127,7 +127,9 @@ def test_timestamp_preparation_removes_invalid_events_and_sorts():
         "second.exe",
         "third.exe",
     ]
-    assert str(result["timestamp"].dtype) == "datetime64[ns, UTC]"
+    assert result["timestamp"].dt.tz is not None
+    assert str(result["timestamp"].dt.tz) == "UTC"
+    assert result["timestamp"].is_monotonic_increasing
     assert result["timestamp"].tolist() == [
         pd.Timestamp("2009-11-21T00:00:00+00:00"),
         pd.Timestamp("2009-11-21T00:00:10+00:00"),
@@ -231,15 +233,28 @@ def test_temporal_density_uses_inclusive_window_boundaries():
 
     result = build_temporal_features(timeline)
 
-    assert result["events_prev_10s"].tolist() == [1, 2, 1, 1]
-    assert result["events_next_10s"].tolist() == [2, 1, 1, 1]
-    assert result["local_density_10s"].tolist() == [2, 2, 1, 1]
-    assert result["events_prev_30s"].tolist() == [1, 2, 3, 1]
-    assert result["events_next_30s"].tolist() == [3, 2, 1, 1]
-    assert result["local_density_30s"].tolist() == [3, 3, 3, 1]
-    assert result["events_prev_60s"].tolist() == [1, 2, 3, 4]
-    assert result["events_next_60s"].tolist() == [4, 3, 2, 1]
-    assert result["local_density_60s"].tolist() == [4, 4, 4, 4]
+    assert result["events_prev_10s"].tolist() == [0, 1, 0, 0]
+    assert result["events_next_10s"].tolist() == [1, 0, 0, 0]
+    assert result["local_density_10s"].tolist() == [1, 1, 0, 0]
+    assert result["events_prev_30s"].tolist() == [0, 1, 2, 0]
+    assert result["events_next_30s"].tolist() == [2, 1, 0, 0]
+    assert result["local_density_30s"].tolist() == [2, 2, 2, 0]
+    assert result["events_prev_60s"].tolist() == [0, 1, 2, 3]
+    assert result["events_next_60s"].tolist() == [3, 2, 1, 0]
+    assert result["local_density_60s"].tolist() == [3, 3, 3, 3]
+
+
+def test_previous_window_excludes_the_current_event():
+    timestamps_ns = np.array(
+        [0, 0, 5_000_000_000],
+        dtype=np.int64,
+    )
+
+    assert count_events_within_window(
+        timestamps_ns,
+        10,
+        direction="previous",
+    ) == [0, 1, 2]
 
 
 def test_window_count_rejects_unknown_direction():

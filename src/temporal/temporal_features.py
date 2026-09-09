@@ -37,42 +37,53 @@ def count_events_within_window(
     Count events in a temporal window around each event.
 
     previous:
-        Events from [current_time - window, current_time]
+        Prior events from [current_time - window, current_time].
 
     next:
-        Events from [current_time, current_time + window]
+        Later events from [current_time, current_time + window].
+
+    ``timestamps_ns`` must be chronologically sorted. Events with the
+    same timestamp retain their input order, so each event is excluded
+    from its own count while earlier/later peers are counted correctly.
     """
 
     window_ns = window_seconds * 1_000_000_000
 
     counts = []
 
-    for current_time in timestamps_ns:
+    for event_index, current_time in enumerate(timestamps_ns):
 
         if direction == "previous":
             lower = current_time - window_ns
-            upper = current_time
+
+            left = np.searchsorted(
+                timestamps_ns,
+                lower,
+                side="left",
+            )
+
+            # The current event is not a previous event. Using its
+            # position also includes earlier events with the same
+            # timestamp while excluding later peers.
+            right = event_index
 
         elif direction == "next":
-            lower = current_time
             upper = current_time + window_ns
+
+            # The current event is not a next event. Starting after its
+            # position includes later events with the same timestamp.
+            left = event_index + 1
+
+            right = np.searchsorted(
+                timestamps_ns,
+                upper,
+                side="right",
+            )
 
         else:
             raise ValueError(
                 "direction must be 'previous' or 'next'"
             )
-
-        left = np.searchsorted(
-            timestamps_ns,
-            lower,
-            side="left",
-        )
-
-        right = np.searchsorted(
-            timestamps_ns,
-            upper,
-            side="right",
-        )
 
         counts.append(right - left)
 
@@ -105,10 +116,12 @@ def prepare_timestamped_events(logical_timeline):
 def add_temporal_density_features(df):
     """Add previous, next, and local density counts for each time window."""
 
-    timestamps_ns = (
-        df["timestamp"]
-        .astype("int64")
-        .to_numpy()
+    # ``Timestamp.value`` is always nanoseconds since the Unix epoch.
+    # This avoids pandas-version-dependent datetime storage resolutions
+    # such as ``datetime64[us, UTC]``.
+    timestamps_ns = np.array(
+        [timestamp.value for timestamp in df["timestamp"]],
+        dtype=np.int64,
     )
 
     for window in TEMPORAL_DENSITY_WINDOWS:
@@ -129,17 +142,14 @@ def add_temporal_density_features(df):
             direction="next",
         )
 
-        # Events around the current event.
-        #
-        # Subtract one so the current event itself
-        # is not counted.
+        # Events around the current event. Directional counts already
+        # exclude the current event.
 
         df[
             f"local_density_{window}s"
         ] = (
             df[f"events_prev_{window}s"]
             + df[f"events_next_{window}s"]
-            - 1
         )
 
     return df
