@@ -3,10 +3,6 @@ from pathlib import Path
 import pandas as pd
 
 
-# =========================================================
-# Configuration
-# =========================================================
-
 CASE_ID = "M57-Jean"
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -26,34 +22,19 @@ OUTPUT_DIR = (
     / CASE_ID
 )
 
-OUTPUT_PATH = (
-    OUTPUT_DIR
-    / "logical_timeline.csv"
-)
+OUTPUT_PATH = OUTPUT_DIR / "logical_timeline.csv"
 
 
-# =========================================================
-# Main
-# =========================================================
+def build_logical_timeline(timeline, case_id):
+    """
+    Build logical process-start events from timeline observations.
 
-def main():
+    The input dataframe is not modified in-place.
+    """
 
-    print("=== ForensiXplain Logical Timeline ===")
+    timeline = timeline.copy()
 
-    # -----------------------------------------------------
-    # Load timeline
-    # -----------------------------------------------------
-
-    timeline = pd.read_csv(INPUT_PATH)
-
-    print(
-        f"Raw timeline observations: {len(timeline)}"
-    )
-
-    # -----------------------------------------------------
     # Parse timestamps
-    # -----------------------------------------------------
-
     timeline["timestamp"] = pd.to_datetime(
         timeline["timestamp"],
         errors="coerce",
@@ -64,10 +45,7 @@ def main():
         timeline["timestamp"].notna()
     ].copy()
 
-    # -----------------------------------------------------
     # Normalize process IDs
-    # -----------------------------------------------------
-
     timeline["process_id"] = pd.to_numeric(
         timeline["process_id"],
         errors="coerce",
@@ -78,74 +56,38 @@ def main():
         errors="coerce",
     )
 
-    # -----------------------------------------------------
     # Sort chronologically
-    # -----------------------------------------------------
-
     timeline = timeline.sort_values(
-        [
-            "timestamp",
-            "process_id",
-        ],
+        ["timestamp", "process_id"],
         kind="stable",
     ).reset_index(drop=True)
 
-    # -----------------------------------------------------
-    # Separate process observations
-    # -----------------------------------------------------
-
+    # Separate observations
     process_starts = timeline[
         timeline["event_type"] == "process"
     ].copy()
 
     relationships = timeline[
-        timeline["event_type"]
-        == "process_relationship"
+        timeline["event_type"] == "process_relationship"
     ].copy()
-
-    print(
-        f"Process-start observations: "
-        f"{len(process_starts)}"
-    )
-
-    print(
-        f"Relationship observations: "
-        f"{len(relationships)}"
-    )
-
-    # -----------------------------------------------------
-    # Create logical process-start events
-    # -----------------------------------------------------
 
     logical_events = []
 
     for _, process_event in process_starts.iterrows():
 
         pid = process_event["process_id"]
-
         timestamp = process_event["timestamp"]
+        if pd.isna(pid):
+            continue
 
-        # Find corresponding parent relationship
         matching_relationship = relationships[
-            (
-                relationships["process_id"]
-                == pid
-            )
-            &
-            (
-                relationships["timestamp"]
-                == timestamp
-            )
+            (relationships["process_id"] == pid)
+            & (relationships["timestamp"] == timestamp)
         ]
 
-        # -------------------------------------------------
         # Parent PID
-        # -------------------------------------------------
-
         parent_ids = (
-            matching_relationship[
-                "parent_process_id"
-            ]
+            matching_relationship["parent_process_id"]
             .dropna()
             .astype(int)
             .astype(str)
@@ -153,44 +95,29 @@ def main():
             .tolist()
         )
 
-        # -------------------------------------------------
-        # Supporting evidence
-        # -------------------------------------------------
-
+        # Evidence
         evidence_ids = [
             str(process_event["evidence_id"])
         ]
 
         if not matching_relationship.empty:
-
             evidence_ids.extend(
-                matching_relationship[
-                    "evidence_id"
-                ]
+                matching_relationship["evidence_id"]
                 .dropna()
                 .astype(str)
                 .tolist()
             )
 
-        # Remove duplicates while preserving order
-
         evidence_ids = list(
             dict.fromkeys(evidence_ids)
         )
 
-        # -------------------------------------------------
         # Provenance
-        # -------------------------------------------------
-
         provenance_values = [
             str(value)
-            for value in (
-                matching_relationship[
-                    "provenance"
-                ]
-                .dropna()
-                .tolist()
-            )
+            for value in matching_relationship[
+                "provenance"
+            ].dropna().tolist()
         ]
 
         provenance_values.append(
@@ -198,42 +125,31 @@ def main():
         )
 
         provenance_values = list(
-            dict.fromkeys(
-                provenance_values
-            )
+            dict.fromkeys(provenance_values)
         )
 
-        # -------------------------------------------------
-        # Create logical event
-        # -------------------------------------------------
-
+        # Logical event
         logical_events.append(
             {
-                "case_id": CASE_ID,
+                "case_id": case_id,
 
                 "logical_event_id": (
-                    f"LEVT-{CASE_ID}-"
+                    f"LEVT-{case_id}-"
                     f"PROCESS-{int(pid)}-"
                     f"{timestamp.strftime('%Y%m%d%H%M%S')}"
                 ),
 
                 "timestamp": timestamp,
 
-                "timestamp_confidence": (
-                    "observed"
-                ),
+                "timestamp_confidence": "observed",
 
-                "logical_event_type": (
-                    "process_start"
-                ),
+                "logical_event_type": "process_start",
 
                 "action": "process_start",
 
                 "process_id": int(pid),
 
-                "process": process_event[
-                    "process"
-                ],
+                "process": process_event["process"],
 
                 "parent_process_ids": (
                     ";".join(parent_ids)
@@ -244,85 +160,75 @@ def main():
                 ),
 
                 "source_observation_count": (
-                    1 + len(
-                        matching_relationship
-                    )
+                    1 + len(matching_relationship)
                 ),
 
                 "provenance": (
-                    " | ".join(
-                        provenance_values
-                    )
+                    " | ".join(provenance_values)
                 ),
             }
         )
 
-    # -----------------------------------------------------
-    # Add logical relationship events
-    # -----------------------------------------------------
+    logical = pd.DataFrame(logical_events)
 
-    #
-    # Important:
-    #
-    # Process relationships are already represented by
-    # the parent_process_ids field of the logical process
-    # start event.
-    #
-    # Therefore we do NOT create another logical event
-    # for the same PSTree observation.
-    #
+    # Empty input handling
+    if logical.empty:
+        logical["temporal_sequence"] = pd.Series(
+            dtype="int64"
+        )
 
-    logical = pd.DataFrame(
-        logical_events
-    )
+        logical["previous_timestamp"] = pd.Series(
+            dtype="datetime64[ns, UTC]"
+        )
 
-    # -----------------------------------------------------
+        logical[
+            "time_since_previous_event_seconds"
+        ] = pd.Series(dtype="float64")
+
+        return logical
+
     # Sort
-    # -----------------------------------------------------
-
     logical = logical.sort_values(
-        [
-            "timestamp",
-            "process_id",
-        ],
+        ["timestamp", "process_id"],
         kind="stable",
     ).reset_index(drop=True)
 
-    # -----------------------------------------------------
-    # Sequence number
-    # -----------------------------------------------------
-
-    logical["temporal_sequence"] = (
-        range(
-            1,
-            len(logical) + 1,
-        )
+    # Temporal sequence
+    logical["temporal_sequence"] = range(
+        1,
+        len(logical) + 1,
     )
 
-    # -----------------------------------------------------
-    # Time gap
-    # -----------------------------------------------------
-
+    # Previous timestamp
     logical["previous_timestamp"] = (
         logical["timestamp"].shift(1)
     )
 
+    # Time gap
     logical[
         "time_since_previous_event_seconds"
     ] = (
         logical["timestamp"]
         - logical["previous_timestamp"]
-    ).dt.total_seconds()
+    ).dt.total_seconds().fillna(0)
 
-    logical[
-        "time_since_previous_event_seconds"
-    ] = logical[
-        "time_since_previous_event_seconds"
-    ].fillna(0)
+    return logical
 
-    # -----------------------------------------------------
-    # Save
-    # -----------------------------------------------------
+
+def main():
+
+    print("=== ForensiXplain Logical Timeline ===")
+
+    timeline = pd.read_csv(INPUT_PATH)
+
+    print(
+        f"Raw timeline observations: {len(timeline)}"
+    )
+
+    logical = build_logical_timeline(
+        timeline,
+        CASE_ID,
+    )
 
     OUTPUT_DIR.mkdir(
         parents=True,
@@ -333,10 +239,6 @@ def main():
         OUTPUT_PATH,
         index=False,
     )
-
-    # -----------------------------------------------------
-    # Diagnostics
-    # -----------------------------------------------------
 
     print(
         "\n=== Logical Timeline Complete ==="
@@ -350,9 +252,10 @@ def main():
         f"Output: {OUTPUT_PATH}"
     )
 
-    print(
-        "\nLogical event types:"
-    )
+    if logical.empty:
+        return
+
+    print("\nLogical event types:")
 
     print(
         logical[
@@ -360,9 +263,7 @@ def main():
         ].value_counts()
     )
 
-    print(
-        "\nTime-gap statistics:"
-    )
+    print("\nTime-gap statistics:")
 
     print(
         logical[
@@ -370,9 +271,7 @@ def main():
         ].describe()
     )
 
-    print(
-        "\nFirst 20 logical events:"
-    )
+    print("\nFirst 20 logical events:")
 
     print(
         logical[

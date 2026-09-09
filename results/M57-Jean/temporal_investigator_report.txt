@@ -23,9 +23,10 @@ Temporal Context:
 Previous process: iexplore.exe (PID 2840.0)
 Process transition: iexplore.exe -> iexplore.exe
 Time since previous event: 0.00 seconds
-Events in previous/next 10-second window: 7
-Events in previous/next 30-second window: 16
-Events in previous/next 60-second window: 16
+Local density 10s: 7
+Local density 30s: 16
+Local density 60s: 16
+Process changed: 0
 
 SHAP Explanation:
 process_changed had value 0 and increased the anomaly score (SHAP=+0.070758). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.037283). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.037269).
@@ -34,7 +35,7 @@ Evidence Summary:
 PSList=1, PSTree=1
 
 Process Relationships:
-Child processes: none observed
+Parent process: PID 3180; Child processes: none observed
 
 Evidence IDs:
 M57-Jean-MEM-PSLIST-35;M57-Jean-MEM-PSTREE-44
@@ -57,9 +58,10 @@ Temporal Context:
 Previous process: msimn.exe (PID 208.0)
 Process transition: msimn.exe -> iexplore.exe
 Time since previous event: 572.00 seconds
-Events in previous/next 10-second window: 7
-Events in previous/next 30-second window: 16
-Events in previous/next 60-second window: 16
+Local density 10s: 7
+Local density 30s: 16
+Local density 60s: 16
+Process changed: 1
 
 SHAP Explanation:
 local_density_10s had value 7 and increased the anomaly score (SHAP=+0.042841). local_density_30s had value 16 and increased the anomaly score (SHAP=+0.039656). local_density_60s had value 16 and increased the anomaly score (SHAP=+0.038414).
@@ -68,7 +70,7 @@ Evidence Summary:
 PSList=1, PSTree=1
 
 Process Relationships:
-Child processes: none observed
+Parent process: PID 3180; Child processes: none observed
 
 Evidence IDs:
 M57-Jean-MEM-PSLIST-36;M57-Jean-MEM-PSTREE-45
@@ -91,18 +93,19 @@ Temporal Context:
 Previous process: avgcmgr.exe (PID 2308.0)
 Process transition: avgcmgr.exe -> avgcmgr.exe
 Time since previous event: 3484.00 seconds
-Events in previous/next 10-second window: 9
-Events in previous/next 30-second window: 15
-Events in previous/next 60-second window: 15
+Local density 10s: 9
+Local density 30s: 15
+Local density 60s: 15
+Process changed: 0
 
 SHAP Explanation:
-process_changed had value 0 and increased the anomaly score (SHAP=+0.105392). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.036620). local_density_60s had value 15 and decreased the anomaly score (SHAP=-0.008439).
+process_changed had value 0 and increased the anomaly score (SHAP=+0.105392). gap_log_seconds had value 8.1562 and increased the anomaly score (SHAP=+0.036620). local_density_60s had value 15 and decreased the anomaly score (SHAP=-0.008439).
 
 Evidence Summary:
 PSList=1, PSTree=1
 
 Process Relationships:
-Child processes: none observed
+Parent process: PID 1664; Child processes: none observed
 
 Evidence IDs:
 M57-Jean-MEM-PSLIST-45;M57-Jean-MEM-PSTREE-9
@@ -125,18 +128,19 @@ Temporal Context:
 Previous process: iexplore.exe (PID 3992.0)
 Process transition: iexplore.exe -> iexplore.exe
 Time since previous event: 588.00 seconds
-Events in previous/next 10-second window: 6
-Events in previous/next 30-second window: 15
-Events in previous/next 60-second window: 15
+Local density 10s: 6
+Local density 30s: 15
+Local density 60s: 15
+Process changed: 0
 
 SHAP Explanation:
-process_changed had value 0 and increased the anomaly score (SHAP=+0.090557). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.024318). gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.018985).
+process_changed had value 0 and increased the anomaly score (SHAP=+0.090557). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.024318). gap_log_seconds had value 6.3784 and increased the anomaly score (SHAP=+0.018985).
 
 Evidence Summary:
 PSList=1, PSTree=1
 
 Process Relationships:
-Child processes: none observed
+Parent process: PID 3180; Child processes: none observed
 
 Evidence IDs:
 M57-Jean-MEM-PSLIST-37;M57-Jean-MEM-PSTREE-46
@@ -159,18 +163,19 @@ Temporal Context:
 Previous process: avgcsrvx.exe (PID 1356.0)
 Process transition: avgcsrvx.exe -> iexplore.exe
 Time since previous event: 228024.00 seconds
-Events in previous/next 10-second window: 6
-Events in previous/next 30-second window: 15
-Events in previous/next 60-second window: 15
+Local density 10s: 6
+Local density 30s: 15
+Local density 60s: 15
+Process changed: 1
 
 SHAP Explanation:
-gap_log_seconds had value 0.0000 and increased the anomaly score (SHAP=+0.098289). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.031046). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010295).
+gap_log_seconds had value 12.3372 and increased the anomaly score (SHAP=+0.098289). local_density_10s had value 6 and increased the anomaly score (SHAP=+0.031046). process_changed had value 1 and decreased the anomaly score (SHAP=-0.010295).
 
 Evidence Summary:
 PSList=1, PSTree=1
 
 Process Relationships:
-Child processes: none observed
+Parent process: PID 3180; Child processes: none observed
 
 Evidence IDs:
 M57-Jean-MEM-PSLIST-33;M57-Jean-MEM-PSTREE-43
