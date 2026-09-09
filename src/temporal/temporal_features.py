@@ -25,6 +25,8 @@ OUTPUT_DIR = (
 
 OUTPUT_PATH = OUTPUT_DIR / "temporal_features.csv"
 
+TEMPORAL_DENSITY_WINDOWS = (10, 30, 60)
+
 
 def count_events_within_window(
     timestamps_ns,
@@ -35,70 +37,63 @@ def count_events_within_window(
     Count events in a temporal window around each event.
 
     previous:
-        Events from [current_time - window, current_time]
+        Prior events from [current_time - window, current_time].
 
     next:
-        Events from [current_time, current_time + window]
+        Later events from [current_time, current_time + window].
+
+    ``timestamps_ns`` must be chronologically sorted. Events with the
+    same timestamp retain their input order, so each event is excluded
+    from its own count while earlier/later peers are counted correctly.
     """
 
     window_ns = window_seconds * 1_000_000_000
 
     counts = []
 
-    for current_time in timestamps_ns:
+    for event_index, current_time in enumerate(timestamps_ns):
 
         if direction == "previous":
             lower = current_time - window_ns
-            upper = current_time
+
+            left = np.searchsorted(
+                timestamps_ns,
+                lower,
+                side="left",
+            )
+
+            # The current event is not a previous event. Using its
+            # position also includes earlier events with the same
+            # timestamp while excluding later peers.
+            right = event_index
 
         elif direction == "next":
-            lower = current_time
             upper = current_time + window_ns
+
+            # The current event is not a next event. Starting after its
+            # position includes later events with the same timestamp.
+            left = event_index + 1
+
+            right = np.searchsorted(
+                timestamps_ns,
+                upper,
+                side="right",
+            )
 
         else:
             raise ValueError(
                 "direction must be 'previous' or 'next'"
             )
 
-        left = np.searchsorted(
-            timestamps_ns,
-            lower,
-            side="left",
-        )
-
-        right = np.searchsorted(
-            timestamps_ns,
-            upper,
-            side="right",
-        )
-
         counts.append(right - left)
 
     return counts
 
 
-def main():
+def prepare_timestamped_events(logical_timeline):
+    """Parse, retain, and chronologically order timestamped events."""
 
-    print("=== ForensiXplain Temporal Feature Engineering ===")
-
-    # ---------------------------------------------------------
-    # Load logical timeline
-    # ---------------------------------------------------------
-
-    if not INPUT_PATH.exists():
-        raise FileNotFoundError(
-            f"Logical timeline not found:\n{INPUT_PATH}"
-        )
-
-    df = pd.read_csv(INPUT_PATH)
-
-    print(
-        f"Logical timeline events loaded: {len(df)}"
-    )
-
-    # ---------------------------------------------------------
-    # Timestamp preparation
-    # ---------------------------------------------------------
+    df = logical_timeline.copy()
 
     df["timestamp"] = pd.to_datetime(
         df["timestamp"],
@@ -115,9 +110,55 @@ def main():
         kind="stable",
     ).reset_index(drop=True)
 
-    print(
-        f"Timestamped events: {len(df)}"
+    return df
+
+
+def add_temporal_density_features(df):
+    """Add previous, next, and local density counts for each time window."""
+
+    # ``Timestamp.value`` is always nanoseconds since the Unix epoch.
+    # This avoids pandas-version-dependent datetime storage resolutions
+    # such as ``datetime64[us, UTC]``.
+    timestamps_ns = np.array(
+        [timestamp.value for timestamp in df["timestamp"]],
+        dtype=np.int64,
     )
+
+    for window in TEMPORAL_DENSITY_WINDOWS:
+
+        df[
+            f"events_prev_{window}s"
+        ] = count_events_within_window(
+            timestamps_ns,
+            window,
+            direction="previous",
+        )
+
+        df[
+            f"events_next_{window}s"
+        ] = count_events_within_window(
+            timestamps_ns,
+            window,
+            direction="next",
+        )
+
+        # Events around the current event. Directional counts already
+        # exclude the current event.
+
+        df[
+            f"local_density_{window}s"
+        ] = (
+            df[f"events_prev_{window}s"]
+            + df[f"events_next_{window}s"]
+        )
+
+    return df
+
+
+def build_temporal_features(logical_timeline):
+    """Build temporal features from a logical timeline without mutating it."""
+
+    df = prepare_timestamped_events(logical_timeline)
 
     # ---------------------------------------------------------
     # Temporal sequence
@@ -193,42 +234,7 @@ def main():
     # Temporal density
     # ---------------------------------------------------------
 
-    timestamps_ns = (
-        df["timestamp"]
-        .astype("int64")
-        .to_numpy()
-    )
-
-    for window in [10, 30, 60]:
-
-        df[
-            f"events_prev_{window}s"
-        ] = count_events_within_window(
-            timestamps_ns,
-            window,
-            direction="previous",
-        )
-
-        df[
-            f"events_next_{window}s"
-        ] = count_events_within_window(
-            timestamps_ns,
-            window,
-            direction="next",
-        )
-
-        # Events around the current event.
-        #
-        # Subtract one so the current event itself
-        # is not counted.
-
-        df[
-            f"local_density_{window}s"
-        ] = (
-            df[f"events_prev_{window}s"]
-            + df[f"events_next_{window}s"]
-            - 1
-        )
+    df = add_temporal_density_features(df)
 
     # ---------------------------------------------------------
     # Previous process context
@@ -350,6 +356,34 @@ def main():
             df["source_observation_count"],
             errors="coerce",
         ).fillna(0)
+    )
+
+    return df
+
+
+def main():
+
+    print("=== ForensiXplain Temporal Feature Engineering ===")
+
+    # ---------------------------------------------------------
+    # Load logical timeline
+    # ---------------------------------------------------------
+
+    if not INPUT_PATH.exists():
+        raise FileNotFoundError(
+            f"Logical timeline not found:\n{INPUT_PATH}"
+        )
+
+    logical_timeline = pd.read_csv(INPUT_PATH)
+
+    print(
+        f"Logical timeline events loaded: {len(logical_timeline)}"
+    )
+
+    df = build_temporal_features(logical_timeline)
+
+    print(
+        f"Timestamped events: {len(df)}"
     )
 
     # ---------------------------------------------------------

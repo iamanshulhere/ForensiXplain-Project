@@ -1,0 +1,29 @@
+ForensiXplain Model Comparison Report
+=============================================
+
+Case: M57-Jean
+
+Anomaly counts:
+  Temporal-only model: 5
+  Graph-aware model: 5
+  Graph-only model: 5
+
+Overlap:
+  Temporal AND Graph-aware: [3992]
+  Temporal AND Graph-only: []
+  Graph-aware AND Graph-only: [1372, 1944, 2892, 3560]
+  All three: []
+
+Temporal-only candidates:
+  [1204, 2004, 2840, 4028]
+
+Graph-aware-only candidates:
+  []
+
+Graph-only-model candidates:
+  [1836]
+
+Important:
+An anomaly indicates an unusual feature profile
+under the corresponding model. It does not by itself
+establish malicious activity.

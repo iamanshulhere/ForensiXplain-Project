@@ -78,14 +78,8 @@ def get_top_shap_features(row):
     """
     Return the top three SHAP contributors.
 
-    Each returned item contains:
-        feature_name
-        actual_feature_value
-        shap_value
-
-    This explicitly pairs every SHAP value with the correct
-    underlying feature value. This avoids accidentally displaying
-    a default/incorrect feature value in the report.
+    The actual feature value is read from the direct feature column
+    when available, otherwise from the corresponding value_* column.
     """
 
     feature_pairs = [
@@ -99,7 +93,6 @@ def get_top_shap_features(row):
     contributors = []
 
     for feature_name, shap_column in feature_pairs:
-
         if shap_column not in row.index:
             continue
 
@@ -107,6 +100,8 @@ def get_top_shap_features(row):
 
         if feature_name in row.index:
             feature_value = safe_float(row[feature_name])
+        elif f"value_{feature_name}" in row.index:
+            feature_value = safe_float(row[f"value_{feature_name}"])
         else:
             feature_value = 0.0
 
@@ -118,10 +113,9 @@ def get_top_shap_features(row):
             )
         )
 
-    # Highest absolute SHAP contribution first
     contributors.sort(
         key=lambda item: abs(item[2]),
-        reverse=True
+        reverse=True,
     )
 
     return contributors[:3]
@@ -132,9 +126,7 @@ def get_top_shap_features(row):
 # ============================================================
 
 def feature_description(feature, value, shap_value):
-    """
-    Convert a SHAP feature contribution into investigator-readable text.
-    """
+    """Convert a SHAP contribution into investigator-readable text."""
 
     feature_name = feature.replace("shap_", "")
 
@@ -188,13 +180,11 @@ def feature_description(feature, value, shap_value):
 
 
 # ============================================================
-# Evidence summary
+# Evidence helpers
 # ============================================================
 
 def build_evidence_summary(row):
-    """
-    Build a concise evidence summary from the attribution record.
-    """
+    """Build a concise evidence summary from the attribution record."""
 
     evidence_parts = []
 
@@ -207,16 +197,13 @@ def build_evidence_summary(row):
     ]
 
     for column, label in artifact_columns:
-
         if column not in row.index:
             continue
 
         count = safe_int(row[column])
 
         if count > 0:
-            evidence_parts.append(
-                f"{label}={count}"
-            )
+            evidence_parts.append(f"{label}={count}")
 
     if not evidence_parts:
         return "No artifact-specific observations were recorded."
@@ -225,9 +212,7 @@ def build_evidence_summary(row):
 
 
 def build_evidence_ids(row):
-    """
-    Return complete evidence IDs from the attribution record.
-    """
+    """Return complete evidence IDs from the attribution record."""
 
     if "evidence_ids" not in row.index:
         return ""
@@ -242,16 +227,22 @@ def build_evidence_ids(row):
 def build_relationship_summary(row):
     """
     Build parent/child relationship text.
+
+    parent_process_ids is preferred because it is the column used
+    by the temporal evidence attribution output.
     """
 
     parent_id = clean_text(
-        row.get("parent_process_id", ""),
-        default=""
+        row.get(
+            "parent_process_ids",
+            row.get("parent_process_id", ""),
+        ),
+        default="",
     )
 
     child_ids = clean_text(
         row.get("child_process_ids", ""),
-        default=""
+        default="",
     )
 
     parts = []
@@ -272,8 +263,10 @@ def build_relationship_summary(row):
 # ============================================================
 
 def generate_explanations():
-
-    print("=== ForensiXplain Temporal Investigator Explanation Generator ===")
+    print(
+        "=== ForensiXplain Temporal Investigator "
+        "Explanation Generator ==="
+    )
 
     # --------------------------------------------------------
     # Validate input files
@@ -293,13 +286,8 @@ def generate_explanations():
     # Load data
     # --------------------------------------------------------
 
-    attribution_df = pd.read_csv(
-        ATTRIBUTION_FILE
-    )
-
-    shap_df = pd.read_csv(
-        SHAP_FILE
-    )
+    attribution_df = pd.read_csv(ATTRIBUTION_FILE)
+    shap_df = pd.read_csv(SHAP_FILE)
 
     print(f"Attribution rows: {len(attribution_df)}")
     print(f"SHAP rows: {len(shap_df)}")
@@ -321,10 +309,9 @@ def generate_explanations():
         )
 
     # --------------------------------------------------------
-    # Merge attribution + SHAP
+    # Select SHAP columns
     # --------------------------------------------------------
 
-    # Keep SHAP feature columns and metadata.
     shap_columns = [
         "logical_event_id",
         "temporal_sequence",
@@ -345,6 +332,11 @@ def generate_explanations():
         "shap_local_density_30s",
         "shap_local_density_60s",
         "shap_process_changed",
+        "value_gap_log_seconds",
+        "value_local_density_10s",
+        "value_local_density_30s",
+        "value_local_density_60s",
+        "value_process_changed",
     ]
 
     available_shap_columns = [
@@ -353,11 +345,9 @@ def generate_explanations():
         if column in shap_df.columns
     ]
 
-    shap_subset = shap_df[
-        available_shap_columns
-    ].copy()
+    shap_subset = shap_df[available_shap_columns].copy()
 
-    # Prevent duplicate metadata columns during merge.
+    # Prevent duplicate columns during merge.
     duplicate_columns = [
         column
         for column in shap_subset.columns
@@ -366,9 +356,11 @@ def generate_explanations():
     ]
 
     if duplicate_columns:
-        shap_subset = shap_subset.drop(
-            columns=duplicate_columns
-        )
+        shap_subset = shap_subset.drop(columns=duplicate_columns)
+
+    # --------------------------------------------------------
+    # Merge attribution + SHAP
+    # --------------------------------------------------------
 
     merged_df = attribution_df.merge(
         shap_subset,
@@ -377,10 +369,6 @@ def generate_explanations():
         validate="one_to_one",
         suffixes=("", "_shap"),
     )
-
-    # --------------------------------------------------------
-    # Validate merged anomaly information
-    # --------------------------------------------------------
 
     if "temporal_anomaly_score" not in merged_df.columns:
         raise ValueError(
@@ -391,7 +379,6 @@ def generate_explanations():
         merged_df["temporal_anomaly_score"].notna()
     ].copy()
 
-    # Highest anomaly first
     merged_df = merged_df.sort_values(
         by="temporal_anomaly_score",
         ascending=False,
@@ -404,13 +391,13 @@ def generate_explanations():
     explanation_records = []
 
     for _, row in merged_df.iterrows():
-
         process_id = clean_text(
             row.get("process_id", "")
         )
 
         process_name = clean_text(
-            row.get("process", "unknown")
+            row.get("process", "unknown"),
+            default="unknown",
         )
 
         anomaly_score = safe_float(
@@ -430,7 +417,7 @@ def generate_explanations():
         )
 
         # ----------------------------------------------------
-        # SHAP contributors
+        # SHAP explanation
         # ----------------------------------------------------
 
         contributors = get_top_shap_features(row)
@@ -438,7 +425,6 @@ def generate_explanations():
         contributor_text = []
 
         for feature_name, value, shap_value in contributors:
-
             contributor_text.append(
                 feature_description(
                     feature_name,
@@ -447,9 +433,10 @@ def generate_explanations():
                 )
             )
 
-        shap_explanation = " ".join(
-            contributor_text
-        )
+        shap_explanation = " ".join(contributor_text)
+
+        if not shap_explanation:
+            shap_explanation = "No SHAP explanation available."
 
         # ----------------------------------------------------
         # Temporal context
@@ -467,7 +454,7 @@ def generate_explanations():
 
         process_transition = clean_text(
             row.get("process_transition", ""),
-            default="",
+            default="not available",
         )
 
         time_gap = safe_float(
@@ -489,32 +476,27 @@ def generate_explanations():
             row.get("local_density_60s", 0)
         )
 
+        process_changed = safe_int(
+            row.get("process_changed", 0)
+        )
+
         # ----------------------------------------------------
         # Evidence
         # ----------------------------------------------------
 
-        evidence_summary = build_evidence_summary(
-            row
-        )
-
-        evidence_ids = build_evidence_ids(
-            row
-        )
-
-        relationship_summary = build_relationship_summary(
-            row
-        )
+        evidence_summary = build_evidence_summary(row)
+        evidence_ids = build_evidence_ids(row)
+        relationship_summary = build_relationship_summary(row)
 
         # ----------------------------------------------------
-        # Assessment
+        # Assessment and limitation
         # ----------------------------------------------------
 
         assessment = (
-            "The event was ranked as temporally anomalous "
-            "relative to the Isolation Forest baseline. "
-            "The anomaly indication should be reviewed against "
-            "the underlying forensic evidence and surrounding "
-            "timeline context."
+            "The event was ranked as temporally anomalous relative "
+            "to the Isolation Forest baseline. The anomaly indication "
+            "should be reviewed against the underlying forensic "
+            "evidence and surrounding timeline context."
         )
 
         limitation = (
@@ -526,7 +508,7 @@ def generate_explanations():
         )
 
         # ----------------------------------------------------
-        # Machine-readable explanation record
+        # Machine-readable record
         # ----------------------------------------------------
 
         explanation_records.append(
@@ -547,9 +529,7 @@ def generate_explanations():
                 "local_density_10s": local_density_10s,
                 "local_density_30s": local_density_30s,
                 "local_density_60s": local_density_60s,
-                "process_changed": safe_int(
-                    row.get("process_changed", 0)
-                ),
+                "process_changed": process_changed,
                 "shap_explanation": shap_explanation,
                 "evidence_summary": evidence_summary,
                 "evidence_ids": evidence_ids,
@@ -559,9 +539,7 @@ def generate_explanations():
             }
         )
 
-    explanations_df = pd.DataFrame(
-        explanation_records
-    )
+    explanations_df = pd.DataFrame(explanation_records)
 
     # --------------------------------------------------------
     # Save CSV
@@ -569,7 +547,7 @@ def generate_explanations():
 
     RESULTS_DIR.mkdir(
         parents=True,
-        exist_ok=True
+        exist_ok=True,
     )
 
     explanations_df.to_csv(
@@ -578,224 +556,125 @@ def generate_explanations():
         encoding="utf-8",
     )
 
-    # ========================================================
+    # --------------------------------------------------------
     # Generate investigator report
-    # ========================================================
-
-    report_lines = []
-
-    report_lines.append(
-        "ForensiXplain - Temporal Investigator Report"
-    )
-    report_lines.append(
-        "=" * 60
-    )
-    report_lines.append("")
-
-    report_lines.append(
-        "Purpose:"
-    )
-    report_lines.append(
-        "Identify temporally anomalous process-start events "
-        "and provide evidence-grounded explanations."
-    )
-    report_lines.append("")
-
-    report_lines.append(
-        "Important interpretation:"
-    )
-    report_lines.append(
-        "Temporal anomaly does not mean malicious activity."
-    )
-    report_lines.append(
-        "Chronological adjacency is not treated as causality."
-    )
-    report_lines.append(
-        "Investigators should validate each candidate against "
-        "the underlying forensic artifacts."
-    )
-    report_lines.append("")
-
-    report_lines.append(
-        f"Total temporal anomalies: {len(explanations_df)}"
-    )
-    report_lines.append("")
-
     # --------------------------------------------------------
-    # Individual anomaly reports
-    # --------------------------------------------------------
+
+    report_lines = [
+        "ForensiXplain - Temporal Investigator Report",
+        "=" * 60,
+        "",
+        "Purpose:",
+        (
+            "Identify temporally anomalous process-start events "
+            "and provide evidence-grounded explanations."
+        ),
+        "",
+        "Important interpretation:",
+        "Temporal anomaly does not mean malicious activity.",
+        "Chronological adjacency is not treated as causality.",
+        (
+            "Investigators should validate each candidate against "
+            "the underlying forensic artifacts."
+        ),
+        "",
+        f"Total temporal anomalies: {len(explanations_df)}",
+        "",
+    ]
 
     for _, row in explanations_df.iterrows():
-
-        report_lines.append(
-            "-" * 60
+        report_lines.extend(
+            [
+                "-" * 60,
+                (
+                    "Temporal Anomaly Rank: "
+                    f"{safe_int(row['temporal_anomaly_rank'])}"
+                ),
+                (
+                    "Anomaly Score: "
+                    f"{safe_float(row['temporal_anomaly_score']):.6f}"
+                ),
+                (
+                    "Logical Event: "
+                    f"{clean_text(row['logical_event_id'])}"
+                ),
+                (
+                    "Timeline Sequence: "
+                    f"{safe_int(row['temporal_sequence'])}"
+                ),
+                (
+                    "Timestamp: "
+                    f"{clean_text(row['timestamp'])}"
+                ),
+                (
+                    "Process: "
+                    f"{clean_text(row['process'])} "
+                    f"(PID {clean_text(row['process_id'])})"
+                ),
+                "",
+                "Temporal Context:",
+                (
+                    "Previous process: "
+                    f"{clean_text(row['previous_process'])} "
+                    f"(PID {clean_text(row['previous_process_id'])})"
+                ),
+                (
+                    "Process transition: "
+                    f"{clean_text(row['process_transition'], 'not available')}"
+                ),
+                (
+                    "Time since previous event: "
+                    f"{safe_float(row['time_since_previous_event_seconds']):.2f} seconds"
+                ),
+                (
+                    "Local density 10s: "
+                    f"{safe_int(row['local_density_10s'])}"
+                ),
+                (
+                    "Local density 30s: "
+                    f"{safe_int(row['local_density_30s'])}"
+                ),
+                (
+                    "Local density 60s: "
+                    f"{safe_int(row['local_density_60s'])}"
+                ),
+                (
+                    "Process changed: "
+                    f"{safe_int(row['process_changed'])}"
+                ),
+                "",
+                "SHAP Explanation:",
+                clean_text(
+                    row["shap_explanation"],
+                    default="No SHAP explanation available.",
+                ),
+                "",
+                "Evidence Summary:",
+                clean_text(
+                    row["evidence_summary"],
+                    default="No artifact-specific observations recorded.",
+                ),
+                "",
+                "Process Relationships:",
+                clean_text(
+                    row["relationship_summary"],
+                    default="No process relationship information.",
+                ),
+                "",
+                "Evidence IDs:",
+                clean_text(
+                    row["evidence_ids"],
+                    default="No evidence IDs recorded.",
+                ),
+                "",
+                "Assessment:",
+                clean_text(row["assessment"]),
+                "",
+                "Limitation:",
+                clean_text(row["limitation"]),
+                "",
+            ]
         )
-
-        report_lines.append(
-            f"Temporal Anomaly Rank: "
-            f"{safe_int(row['temporal_anomaly_rank'])}"
-        )
-
-        report_lines.append(
-            f"Anomaly Score: "
-            f"{safe_float(row['temporal_anomaly_score']):.6f}"
-        )
-
-        report_lines.append(
-            f"Logical Event: "
-            f"{clean_text(row['logical_event_id'])}"
-        )
-
-        report_lines.append(
-            f"Timeline Sequence: "
-            f"{safe_int(row['temporal_sequence'])}"
-        )
-
-        report_lines.append(
-            f"Timestamp: "
-            f"{clean_text(row['timestamp'])}"
-        )
-
-        report_lines.append(
-            f"Process: "
-            f"{clean_text(row['process'])} "
-            f"(PID {clean_text(row['process_id'])})"
-        )
-
-        report_lines.append("")
-
-        # ----------------------------------------------------
-        # Temporal context
-        # ----------------------------------------------------
-
-        report_lines.append(
-            "Temporal Context:"
-        )
-
-        report_lines.append(
-            f"Previous process: "
-            f"{clean_text(row['previous_process'])} "
-            f"(PID {clean_text(row['previous_process_id'])})"
-        )
-
-        report_lines.append(
-            f"Process transition: "
-            f"{clean_text(row['process_transition'], 'not available')}"
-        )
-
-        report_lines.append(
-            f"Time since previous event: "
-            f"{safe_float(row['time_since_previous_event_seconds']):.2f} seconds"
-        )
-
-        report_lines.append(
-            f"Events in previous/next 10-second window: "
-            f"{safe_int(row['local_density_10s'])}"
-        )
-
-        report_lines.append(
-            f"Events in previous/next 30-second window: "
-            f"{safe_int(row['local_density_30s'])}"
-        )
-
-        report_lines.append(
-            f"Events in previous/next 60-second window: "
-            f"{safe_int(row['local_density_60s'])}"
-        )
-
-        report_lines.append("")
-
-        # ----------------------------------------------------
-        # SHAP explanation
-        # ----------------------------------------------------
-
-        report_lines.append(
-            "SHAP Explanation:"
-        )
-
-        shap_text = clean_text(
-            row["shap_explanation"],
-            default="No SHAP explanation available."
-        )
-
-        report_lines.append(
-            shap_text
-        )
-
-        report_lines.append("")
-
-        # ----------------------------------------------------
-        # Evidence
-        # ----------------------------------------------------
-
-        report_lines.append(
-            "Evidence Summary:"
-        )
-
-        report_lines.append(
-            clean_text(
-                row["evidence_summary"],
-                default="No artifact-specific observations recorded."
-            )
-        )
-
-        report_lines.append("")
-
-        report_lines.append(
-            "Process Relationships:"
-        )
-
-        report_lines.append(
-            clean_text(
-                row["relationship_summary"],
-                default="No process relationship information."
-            )
-        )
-
-        report_lines.append("")
-
-        report_lines.append(
-            "Evidence IDs:"
-        )
-
-        evidence_ids = clean_text(
-            row["evidence_ids"],
-            default="No evidence IDs recorded."
-        )
-
-        report_lines.append(
-            evidence_ids
-        )
-
-        report_lines.append("")
-
-        # ----------------------------------------------------
-        # Assessment
-        # ----------------------------------------------------
-
-        report_lines.append(
-            "Assessment:"
-        )
-
-        report_lines.append(
-            clean_text(row["assessment"])
-        )
-
-        report_lines.append("")
-
-        # ----------------------------------------------------
-        # Limitation
-        # ----------------------------------------------------
-
-        report_lines.append(
-            "Limitation:"
-        )
-
-        report_lines.append(
-            clean_text(row["limitation"])
-        )
-
-        report_lines.append("")
 
     # --------------------------------------------------------
     # Save report
@@ -812,15 +691,9 @@ def generate_explanations():
 
     print("")
     print("=== Temporal Investigator Explanation Complete ===")
-    print(
-        f"Explanation rows: {len(explanations_df)}"
-    )
-    print(
-        f"CSV output: {OUTPUT_CSV}"
-    )
-    print(
-        f"Report output: {OUTPUT_REPORT}"
-    )
+    print(f"Explanation rows: {len(explanations_df)}")
+    print(f"CSV output: {OUTPUT_CSV}")
+    print(f"Report output: {OUTPUT_REPORT}")
 
 
 # ============================================================

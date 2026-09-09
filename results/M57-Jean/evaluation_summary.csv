@@ -1,0 +1,6 @@
+case_id,category,process_count,process_ids
+M57-Jean,temporal_only,4,"1204, 2004, 2840, 4028"
+M57-Jean,temporal_and_graph,1,3992
+M57-Jean,graph_and_graph_only,4,"1372, 1944, 2892, 3560"
+M57-Jean,graph_only_model_only,1,1836
+M57-Jean,all_three_models,0,None
