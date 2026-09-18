@@ -163,7 +163,7 @@ def main():
     # Replace infinite values
     X = X.replace(
         [float("inf"), float("-inf")],
-        pd.NA
+        float("nan")
     )
 
     # Median imputation
