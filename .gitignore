@@ -36,8 +36,12 @@ data/extracted/
 data/features/*
 data/normalized/*
 
-# Models
+# Generated model artifacts
 models/
+
+# Source model code
+!src/models/
+!src/models/*.py
 
 # Results generated locally
 results/*
