@@ -1,0 +1,2 @@
+dataset,total_events,graph_anomalies_flagged,graph_anomaly_rate_percent,detection_method,comparison_identifier,temporal_anomalies,temporal_graph_overlap,graph_only_anomalies
+M57-Jean,47,5,10.638297872340425,Graph Isolation Forest,logical_event_id,5,1,4
