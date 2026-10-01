@@ -1,0 +1,5 @@
+method,selected_anomalies,temporal_overlap,graph_overlap,fused_overlap,unique_findings,evaluation_type
+Temporal-only,5,-,1,2,4,Unsupervised proxy
+Graph-only,5,1,-,4,4,Unsupervised proxy
+Temporal + Graph fused,5,2,4,-,0,Unsupervised proxy
+Random baseline,5,0.543 +/- 0.657,0.491 +/- 0.648,0.515 +/- 0.637,N/A,Random reference
