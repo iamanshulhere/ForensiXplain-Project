@@ -1,0 +1,95 @@
+ForensiXplain temporal + graph score fusion experiment
+Dataset: M57-Jean
+
+Method
+------
+Graph-only scores are produced by the configured Isolation Forest using only the nine graph metrics in graph_features.csv.
+Graph-only configuration: n_estimators=500, contamination=0.1, random_state=42, n_jobs=1.
+Existing Graph-aware scores come from the unchanged graph_isolation_forest.py output, which uses its 14 temporal and graph features and was fit on all 47 events.
+The fusion Graph-only fit uses 46 scored events and is also the Controlled Graph-only comparator; it uses exactly the nine graph metrics. Controlled Graph-aware is a new refit of the existing 14-feature family on the same 46 events.
+This controlled comparison holds the event cohort constant across feature families. The saved existing Graph-aware output remains a separate 47-event-fit reference and is not overwritten.
+Fusion is alpha * normalized_temporal_score + (1 - alpha) * normalized_graph_score.
+Both component scores use min-max normalization over the common scored-event cohort.
+Alpha values: 0.00, 0.25, 0.50, 0.75, 1.00
+Higher scores indicate more anomalous events. Ranks break ties by logical_event_id, except alpha=1 uses temporal_anomaly_rank to reproduce the temporal detector's native tie order.
+Fused predicted-anomaly flags select the top ceil(0.10 * N) events; alpha=1 preserves temporal detector flags when supplied.
+
+Score ranges before normalization
+-------------------------------
+Temporal score: min=-0.189210618, max=0.053828950
+Graph-only score: min=-0.188363162, max=0.099331202
+
+Event alignment
+---------------
+Temporal events: 47
+Graph-feature events: 47
+Graph-aware model events: 47
+Matched temporal/graph keys: 47
+Temporal-only keys: 0 []
+Graph-only keys: 0 []
+Temporal-only vs graph-aware keys: 0 []
+Graph-aware-only keys: 0 []
+Duplicate keys: 0
+Matched keys across temporal, graph features, and graph-aware output: 47
+Unscored temporal events excluded from fusion: 1
+Scored fusion cohort: 46 events
+Join key: logical_event_id; PID and UTC timestamps were checked across inputs.
+
+Model comparison
+----------------
+Top-5 overlap among component detectors:
+  Temporal / graph-only top-5 intersection: 0
+  Temporal / graph-aware top-5 intersection: 1
+  Graph-only / graph-aware top-5 intersection: 4
+  Controlled graph-only / controlled graph-aware top-5 intersection: 4
+
+Temporal-only: 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-3996-20091121013335;LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-1248-20091121013234;LEVT-M57-Jean-PROCESS-2004-20091123235245
+  Evidence-linked top-5 candidates: 3 [LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-2004-20091123235245]
+Graph-only: 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1836-20091121013308
+  Evidence-linked top-5 candidates: 4 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335]
+Existing Graph-aware: 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1944-20091121013301
+  Evidence-linked top-5 candidates: 5 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1944-20091121013301]
+Controlled Graph-only: 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1836-20091121013308
+  Evidence-linked top-5 candidates: 4 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335]
+Controlled Graph-aware: 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1944-20091121013301
+  Evidence-linked top-5 candidates: 5 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1944-20091121013301]
+Fused (alpha=0.00): 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1836-20091121013308
+  Evidence-linked top-5 candidates: 4 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335]
+  Top-5 overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 0 / 5 / 4 / 5 / 4
+  Predicted-anomaly overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 0 / 5 / 4 / 5 / 4
+Fused (alpha=0.25): 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1572-20091121013258;LEVT-M57-Jean-PROCESS-1944-20091121013301
+  Evidence-linked top-5 candidates: 4 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1944-20091121013301]
+  Top-5 overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 0 / 4 / 4 / 4 / 4
+  Predicted-anomaly overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 0 / 4 / 4 / 4 / 4
+Fused (alpha=0.50): 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-1572-20091121013258;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-3996-20091121013335
+  Evidence-linked top-5 candidates: 3 [LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335]
+  Top-5 overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 1 / 3 / 3 / 3 / 3
+  Predicted-anomaly overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 1 / 3 / 3 / 3 / 3
+Fused (alpha=0.75): 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-3996-20091121013335;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-1572-20091121013258;LEVT-M57-Jean-PROCESS-1204-20091123165512
+  Evidence-linked top-5 candidates: 3 [LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-1204-20091123165512]
+  Top-5 overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 3 / 1 / 2 / 1 / 2
+  Predicted-anomaly overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 3 / 1 / 2 / 1 / 2
+Fused (alpha=1.00): 46 events, 5 predicted anomalies
+  Top 5: LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-3996-20091121013335;LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-1248-20091121013234;LEVT-M57-Jean-PROCESS-2004-20091123235245
+  Evidence-linked top-5 candidates: 3 [LEVT-M57-Jean-PROCESS-3992-20091123170451;LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-2004-20091123235245]
+  Top-5 overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 5 / 0 / 1 / 0 / 1
+  Predicted-anomaly overlap with temporal / graph-only / existing graph-aware / controlled graph-only / controlled graph-aware: 5 / 0 / 1 / 0 / 1
+
+Interpretation and limits
+--------------------------
+Top-5 overlap describes ranking agreement; predicted-anomaly overlap describes detector-flag agreement.
+Evidence-linked candidates measure traceability to existing temporal or graph attribution records. No fused SHAP or attribution is generated.
+No independent M57-Jean ground-truth anomaly labels were found in the evaluation inputs. These results describe score behavior, overlap, deterministic ranking, and evidence traceability; they do not measure detection accuracy.
+Retrospective scope: temporal local-density features include events_next_* context, graph metrics are computed from the full reconstructed process graph, and min-max normalization uses the complete scored cohort.
+The experiment does not claim that scores can be computed causally at the exact event time. A future causal evaluation requires time-aware feature construction and time-local normalization.
+
+Reproduce with: python -m src.evaluation.temporal_graph_fusion

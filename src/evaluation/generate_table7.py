@@ -23,6 +23,7 @@ from src.anomaly.temporal_isolation_forest import MODEL_FEATURES as TEMPORAL_MOD
 from src.evaluation.temporal_graph_fusion import (
     DEFAULT_FUSION_WEIGHT,
     build_fused_frame,
+    select_top_k_events as _select_top_k_events,
 )
 
 
@@ -88,25 +89,7 @@ def select_top_k_events(
     k: int = TOP_K,
 ) -> list[str]:
     """Select a deterministic top-k ranking, breaking ties by event ID."""
-    if k <= 0:
-        raise ValueError("k must be greater than 0")
-    if "logical_event_id" not in frame.columns:
-        raise KeyError("Missing logical_event_id column")
-    if score_column not in frame.columns:
-        raise KeyError(f"Missing score column: {score_column}")
-    if frame["logical_event_id"].duplicated().any():
-        raise ValueError("Cannot rank duplicate logical_event_id values")
-    if k > len(frame):
-        raise ValueError("k cannot exceed the number of events")
-
-    ranked = frame.copy()
-    ranked[score_column] = _numeric_scores(ranked, score_column, "Ranking input")
-    ranked = ranked.sort_values(
-        [score_column, "logical_event_id"],
-        ascending=[False, True],
-        kind="mergesort",
-    )
-    return ranked.head(k)["logical_event_id"].astype(str).tolist()
+    return _select_top_k_events(frame, score_column, k)
 
 
 def _build_model_inputs(
