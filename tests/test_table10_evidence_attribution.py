@@ -37,7 +37,7 @@ def test_table10_evidence_attribution():
 
     assert fused_ids.mean() == 54.6875
     assert graph_ids.mean() == 118.8
-    assert temporal["evidence_id_count"].mean() == 2.0
+    assert temporal["evidence_id_count"].mean() == 10.8
 
     assert fused_ids.median() == 22
     assert graph_ids.median() == 115
@@ -69,6 +69,6 @@ def test_table10_evidence_attribution():
 
     assert (temporal["pslist_count"] > 0).sum() == 5
     assert (temporal["pstree_count"] > 0).sum() == 5
-    assert (temporal["cmdline_count"] > 0).sum() == 0
-    assert (temporal["dlllist_count"] > 0).sum() == 0
-    assert (temporal["malfind_count"] > 0).sum() == 0
+    assert (temporal["cmdline_count"] > 0).sum() == 2
+    assert (temporal["dlllist_count"] > 0).sum() == 2
+    assert (temporal["malfind_count"] > 0).sum() == 1
