@@ -1,0 +1,44 @@
+{
+  "dataset_name": "M57-Jean",
+  "has_ground_truth_labels": false,
+  "label_meaning": "No independent ground-truth anomaly labels available",
+  "unit_of_labeling": "event",
+  "mappable_to_logical_event_id": true,
+  "timestamps_available": true,
+  "process_ids_available": true,
+  "graph_entities_available": true,
+  "suitable_for_supervised_evaluation": false,
+  "notes": "Unsupervised forensic timeline scenario. Used for ranking overlap, score fusion, and evidence attribution.",
+  "evaluation_results": [
+    {
+      "dataset": "M57-Jean",
+      "model_pair": "Temporal-only vs Graph-only",
+      "cohort_size": 46,
+      "top_k": 5,
+      "top_k_overlap": 1,
+      "jaccard_similarity": 0.1111111111111111,
+      "kendall_tau": 0.3055309124760906,
+      "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
+    },
+    {
+      "dataset": "M57-Jean",
+      "model_pair": "Temporal-only vs Fused (alpha=0.50)",
+      "cohort_size": 46,
+      "top_k": 5,
+      "top_k_overlap": 1,
+      "jaccard_similarity": 0.1111111111111111,
+      "kendall_tau": 0.5732341881694272,
+      "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
+    },
+    {
+      "dataset": "M57-Jean",
+      "model_pair": "Graph-only vs Fused (alpha=0.50)",
+      "cohort_size": 46,
+      "top_k": 5,
+      "top_k_overlap": 3,
+      "jaccard_similarity": 0.42857142857142855,
+      "kendall_tau": 0.5458937198067633,
+      "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
+    }
+  ]
+}

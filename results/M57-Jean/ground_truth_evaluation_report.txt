@@ -1,0 +1,31 @@
+ForensiXplain Ground-Truth Evaluation Report — M57-Jean
+=================================================================
+Dataset: M57-Jean
+Has Ground-Truth Labels: False
+Label Meaning: No independent ground-truth anomaly labels available
+Unit of Labeling: event
+Mappable to logical_event_id: True
+Timestamps Available: True
+Process IDs Available: True
+Graph Entities Available: True
+Suitable for Supervised Ground-Truth Evaluation: False
+Dataset Notes: Unsupervised forensic timeline scenario. Used for ranking overlap, score fusion, and evidence attribution.
+-----------------------------------------------------------------
+ForensiXplain Model Comparison Report — M57-Jean
+============================================================
+Dataset: M57-Jean
+Ground Truth Status: Unlabeled (Unsupervised / Proxy evaluation)
+Mappable to logical_event_id: True
+Aligned Cohort Size: 46 events
+Join Key: logical_event_id
+------------------------------------------------------------
+Excluded from Temporal-only: 1 events (['LEVT-M57-Jean-PROCESS-812-20091121013230']...)
+Excluded from Graph-only: 1 events (['LEVT-M57-Jean-PROCESS-812-20091121013230']...)
+Excluded from Fused (alpha=0.50): 0 events
+------------------------------------------------------------
+Unsupervised Proxy Evaluation (Top-K Overlap & Rank Correlation):
+Model Pair                          | Top-K  | Overlap | Jaccard | Kendall Tau
+---------------------------------------------------------------------------
+Temporal-only vs Graph-only         | 5      | 1       | 0.1111 | 0.3055     
+Temporal-only vs Fused (alpha=0.50) | 5      | 1       | 0.1111 | 0.5732     
+Graph-only vs Fused (alpha=0.50)    | 5      | 3       | 0.4286 | 0.5459     

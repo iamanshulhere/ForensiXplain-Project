@@ -1,0 +1,4 @@
+dataset,model_pair,cohort_size,top_k,top_k_overlap,jaccard_similarity,kendall_tau,evaluation_type
+M57-Jean,Temporal-only vs Graph-only,46,5,1,0.1111111111111111,0.3055309124760906,Unsupervised Proxy (Rank Overlap)
+M57-Jean,Temporal-only vs Fused (alpha=0.50),46,5,1,0.1111111111111111,0.5732341881694272,Unsupervised Proxy (Rank Overlap)
+M57-Jean,Graph-only vs Fused (alpha=0.50),46,5,3,0.42857142857142855,0.5458937198067633,Unsupervised Proxy (Rank Overlap)
