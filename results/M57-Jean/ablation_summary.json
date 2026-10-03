@@ -1,0 +1,470 @@
+{
+  "cohort_identity": "logical_event_id",
+  "cohort_logical_event_ids": [
+    "LEVT-M57-Jean-PROCESS-1152-20091121013234",
+    "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+    "LEVT-M57-Jean-PROCESS-1248-20091121013234",
+    "LEVT-M57-Jean-PROCESS-1356-20091121013448",
+    "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+    "LEVT-M57-Jean-PROCESS-1432-20091121013235",
+    "LEVT-M57-Jean-PROCESS-1504-20091121013305",
+    "LEVT-M57-Jean-PROCESS-1508-20091121013305",
+    "LEVT-M57-Jean-PROCESS-1528-20091121013305",
+    "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+    "LEVT-M57-Jean-PROCESS-1612-20091121013235",
+    "LEVT-M57-Jean-PROCESS-1620-20091121013235",
+    "LEVT-M57-Jean-PROCESS-1664-20091121013258",
+    "LEVT-M57-Jean-PROCESS-1676-20091121013306",
+    "LEVT-M57-Jean-PROCESS-1732-20091121013237",
+    "LEVT-M57-Jean-PROCESS-1752-20091121013306",
+    "LEVT-M57-Jean-PROCESS-1760-20091121013238",
+    "LEVT-M57-Jean-PROCESS-1796-20091121013301",
+    "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+    "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+    "LEVT-M57-Jean-PROCESS-1996-20091121013242",
+    "LEVT-M57-Jean-PROCESS-2004-20091123235245",
+    "LEVT-M57-Jean-PROCESS-2028-20091121013242",
+    "LEVT-M57-Jean-PROCESS-208-20091123165519",
+    "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+    "LEVT-M57-Jean-PROCESS-2132-20091121013311",
+    "LEVT-M57-Jean-PROCESS-2244-20091121013313",
+    "LEVT-M57-Jean-PROCESS-2296-20091121013314",
+    "LEVT-M57-Jean-PROCESS-2308-20091123225441",
+    "LEVT-M57-Jean-PROCESS-2488-20091121013317",
+    "LEVT-M57-Jean-PROCESS-2576-20091123220845",
+    "LEVT-M57-Jean-PROCESS-2840-20091123170451",
+    "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+    "LEVT-M57-Jean-PROCESS-2992-20091124000124",
+    "LEVT-M57-Jean-PROCESS-3196-20091123182209",
+    "LEVT-M57-Jean-PROCESS-344-20091121013301",
+    "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+    "LEVT-M57-Jean-PROCESS-3908-20091123221634",
+    "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+    "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+    "LEVT-M57-Jean-PROCESS-4028-20091123171439",
+    "LEVT-M57-Jean-PROCESS-620-20091123235925",
+    "LEVT-M57-Jean-PROCESS-908-20091121013232",
+    "LEVT-M57-Jean-PROCESS-932-20091121013232",
+    "LEVT-M57-Jean-PROCESS-976-20091121013232",
+    "LEVT-M57-Jean-PROCESS-988-20091121013232"
+  ],
+  "cohort_size": 46,
+  "comparisons": [
+    {
+      "cohort_size": 46,
+      "comparison": "E1 vs E2",
+      "experiment_a": "E1",
+      "experiment_a_candidate_count": 5,
+      "experiment_a_top5_evidence_traceability_coverage": 1.0,
+      "experiment_b": "E2",
+      "experiment_b_candidate_count": 5,
+      "experiment_b_top5_evidence_traceability_coverage": 1.0,
+      "kendall_tau": 0.012914625932527379,
+      "kendall_tau_pvalue": 0.9014097282317197,
+      "question": "Temporal anomaly structure vs process-tree topology",
+      "research_question": "RQ1",
+      "top_5_jaccard": 0.0,
+      "top_5_overlap_count": 0,
+      "top_5_overlap_event_ids": "",
+      "top_anomaly_candidate_overlap_count": 0,
+      "top_anomaly_candidate_overlap_event_ids": "",
+      "top_k": 5
+    },
+    {
+      "cohort_size": 46,
+      "comparison": "E2 vs E3",
+      "experiment_a": "E2",
+      "experiment_a_candidate_count": 5,
+      "experiment_a_top5_evidence_traceability_coverage": 1.0,
+      "experiment_b": "E3",
+      "experiment_b_candidate_count": 5,
+      "experiment_b_top5_evidence_traceability_coverage": 1.0,
+      "kendall_tau": 0.3063632670781569,
+      "kendall_tau_pvalue": 0.003915264978802972,
+      "question": "Marginal comparison after adding process/artifact features",
+      "research_question": "RQ2",
+      "top_5_jaccard": 0.42857142857142855,
+      "top_5_overlap_count": 3,
+      "top_5_overlap_event_ids": "LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "top_anomaly_candidate_overlap_count": 3,
+      "top_anomaly_candidate_overlap_event_ids": "LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "top_k": 5
+    },
+    {
+      "cohort_size": 46,
+      "comparison": "E3 vs E4",
+      "experiment_a": "E3",
+      "experiment_a_candidate_count": 5,
+      "experiment_a_top5_evidence_traceability_coverage": 1.0,
+      "experiment_b": "E4",
+      "experiment_b_candidate_count": 5,
+      "experiment_b_top5_evidence_traceability_coverage": 1.0,
+      "kendall_tau": 0.3365660336187245,
+      "kendall_tau_pvalue": 0.001203512810541351,
+      "question": "Graph-full model vs graph-full plus temporal features",
+      "research_question": "RQ3",
+      "top_5_jaccard": 0.42857142857142855,
+      "top_5_overlap_count": 3,
+      "top_5_overlap_event_ids": "LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "top_anomaly_candidate_overlap_count": 3,
+      "top_anomaly_candidate_overlap_event_ids": "LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "top_k": 5
+    },
+    {
+      "cohort_size": 46,
+      "comparison": "E4 vs E6",
+      "experiment_a": "E4",
+      "experiment_a_candidate_count": 5,
+      "experiment_a_top5_evidence_traceability_coverage": 1.0,
+      "experiment_b": "E6",
+      "experiment_b_candidate_count": 5,
+      "experiment_b_top5_evidence_traceability_coverage": 1.0,
+      "kendall_tau": 0.6927536231884058,
+      "kendall_tau_pvalue": 1.131760126566698e-11,
+      "question": "Joint graph-aware feature space vs score-level fusion",
+      "research_question": "RQ4",
+      "top_5_jaccard": 0.6666666666666666,
+      "top_5_overlap_count": 4,
+      "top_5_overlap_event_ids": "LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "top_anomaly_candidate_overlap_count": 4,
+      "top_anomaly_candidate_overlap_event_ids": "LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "top_k": 5
+    }
+  ],
+  "controls": {
+    "contamination": 0.1,
+    "fusion_alpha": 0.5,
+    "fusion_normalization": "min-max per component over the full cohort",
+    "model": "sklearn.ensemble.IsolationForest",
+    "n_estimators": 500,
+    "n_jobs": -1,
+    "random_state": 42,
+    "scaler": "StandardScaler",
+    "top_k": 5
+  },
+  "dataset": "M57-Jean",
+  "excluded_boundary_event": "LEVT-M57-Jean-PROCESS-812-20091121013230",
+  "experiments": {
+    "E1": {
+      "candidate_count": 5,
+      "cohort_size": 46,
+      "feature_columns": {
+        "joint": [
+          "gap_log_seconds",
+          "time_since_previous_event_seconds",
+          "events_prev_10s",
+          "events_next_10s",
+          "local_density_10s",
+          "events_prev_30s",
+          "events_next_30s",
+          "local_density_30s",
+          "events_prev_60s",
+          "events_next_60s",
+          "local_density_60s",
+          "process_changed",
+          "rapid_event",
+          "short_event_gap",
+          "medium_event_gap",
+          "long_event_gap"
+        ]
+      },
+      "feature_component_counts": {
+        "joint": 16
+      },
+      "feature_count": 16,
+      "feature_groups": [
+        "A"
+      ],
+      "model_type": "single IsolationForest",
+      "name": "Temporal-only",
+      "top_5_evidence_traceability_coverage": 1.0,
+      "top_5_evidence_traceable_count": 5,
+      "top_5_logical_event_ids": [
+        "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+        "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+        "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+        "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+        "LEVT-M57-Jean-PROCESS-3992-20091123170451"
+      ]
+    },
+    "E2": {
+      "candidate_count": 5,
+      "cohort_size": 46,
+      "feature_columns": {
+        "joint": [
+          "parent_count",
+          "child_count",
+          "graph_degree",
+          "in_degree",
+          "out_degree"
+        ]
+      },
+      "feature_component_counts": {
+        "joint": 5
+      },
+      "feature_count": 5,
+      "feature_groups": [
+        "B"
+      ],
+      "model_type": "single IsolationForest",
+      "name": "Graph-Structural-only",
+      "top_5_evidence_traceability_coverage": 1.0,
+      "top_5_evidence_traceable_count": 5,
+      "top_5_logical_event_ids": [
+        "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+        "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+        "LEVT-M57-Jean-PROCESS-976-20091121013232",
+        "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+        "LEVT-M57-Jean-PROCESS-932-20091121013232"
+      ]
+    },
+    "E3": {
+      "candidate_count": 5,
+      "cohort_size": 46,
+      "feature_columns": {
+        "joint": [
+          "parent_count",
+          "child_count",
+          "graph_degree",
+          "in_degree",
+          "out_degree",
+          "command_line_count",
+          "module_count",
+          "memory_region_count",
+          "relationship_type_count"
+        ]
+      },
+      "feature_component_counts": {
+        "joint": 9
+      },
+      "feature_count": 9,
+      "feature_groups": [
+        "B",
+        "C"
+      ],
+      "model_type": "single IsolationForest",
+      "name": "Graph-Full",
+      "top_5_evidence_traceability_coverage": 1.0,
+      "top_5_evidence_traceable_count": 5,
+      "top_5_logical_event_ids": [
+        "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+        "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+        "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+        "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+        "LEVT-M57-Jean-PROCESS-1836-20091121013308"
+      ]
+    },
+    "E4": {
+      "candidate_count": 5,
+      "cohort_size": 46,
+      "feature_columns": {
+        "joint": [
+          "gap_log_seconds",
+          "time_since_previous_event_seconds",
+          "events_prev_10s",
+          "events_next_10s",
+          "local_density_10s",
+          "events_prev_30s",
+          "events_next_30s",
+          "local_density_30s",
+          "events_prev_60s",
+          "events_next_60s",
+          "local_density_60s",
+          "process_changed",
+          "rapid_event",
+          "short_event_gap",
+          "medium_event_gap",
+          "long_event_gap",
+          "parent_count",
+          "child_count",
+          "graph_degree",
+          "in_degree",
+          "out_degree",
+          "command_line_count",
+          "module_count",
+          "memory_region_count",
+          "relationship_type_count"
+        ]
+      },
+      "feature_component_counts": {
+        "joint": 25
+      },
+      "feature_count": 25,
+      "feature_groups": [
+        "A",
+        "B",
+        "C"
+      ],
+      "model_type": "joint feature-space IsolationForest",
+      "name": "Graph-aware Combined IF",
+      "top_5_evidence_traceability_coverage": 1.0,
+      "top_5_evidence_traceable_count": 5,
+      "top_5_logical_event_ids": [
+        "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+        "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+        "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+        "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+        "LEVT-M57-Jean-PROCESS-1372-20091121013235"
+      ]
+    },
+    "E5": {
+      "candidate_count": 5,
+      "cohort_size": 46,
+      "feature_columns": {
+        "graph": [
+          "parent_count",
+          "child_count",
+          "graph_degree",
+          "in_degree",
+          "out_degree"
+        ],
+        "temporal": [
+          "gap_log_seconds",
+          "time_since_previous_event_seconds",
+          "events_prev_10s",
+          "events_next_10s",
+          "local_density_10s",
+          "events_prev_30s",
+          "events_next_30s",
+          "local_density_30s",
+          "events_prev_60s",
+          "events_next_60s",
+          "local_density_60s",
+          "process_changed",
+          "rapid_event",
+          "short_event_gap",
+          "medium_event_gap",
+          "long_event_gap"
+        ]
+      },
+      "feature_component_counts": {
+        "graph": 5,
+        "temporal": 16
+      },
+      "feature_count": 21,
+      "feature_groups": [
+        "A",
+        "B"
+      ],
+      "model_type": "score-level fusion",
+      "name": "Temporal + Graph-Structural Fused",
+      "top_5_evidence_traceability_coverage": 1.0,
+      "top_5_evidence_traceable_count": 5,
+      "top_5_logical_event_ids": [
+        "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+        "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+        "LEVT-M57-Jean-PROCESS-976-20091121013232",
+        "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+        "LEVT-M57-Jean-PROCESS-1944-20091121013301"
+      ]
+    },
+    "E6": {
+      "candidate_count": 5,
+      "cohort_size": 46,
+      "feature_columns": {
+        "graph": [
+          "parent_count",
+          "child_count",
+          "graph_degree",
+          "in_degree",
+          "out_degree",
+          "command_line_count",
+          "module_count",
+          "memory_region_count",
+          "relationship_type_count"
+        ],
+        "temporal": [
+          "gap_log_seconds",
+          "time_since_previous_event_seconds",
+          "events_prev_10s",
+          "events_next_10s",
+          "local_density_10s",
+          "events_prev_30s",
+          "events_next_30s",
+          "local_density_30s",
+          "events_prev_60s",
+          "events_next_60s",
+          "local_density_60s",
+          "process_changed",
+          "rapid_event",
+          "short_event_gap",
+          "medium_event_gap",
+          "long_event_gap"
+        ]
+      },
+      "feature_component_counts": {
+        "graph": 9,
+        "temporal": 16
+      },
+      "feature_count": 25,
+      "feature_groups": [
+        "A",
+        "B",
+        "C"
+      ],
+      "model_type": "score-level fusion",
+      "name": "Temporal + Graph-Full Fused",
+      "top_5_evidence_traceability_coverage": 1.0,
+      "top_5_evidence_traceable_count": 5,
+      "top_5_logical_event_ids": [
+        "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+        "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+        "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+        "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+        "LEVT-M57-Jean-PROCESS-1204-20091123165512"
+      ]
+    }
+  },
+  "feature_groups": {
+    "A_temporal": [
+      "gap_log_seconds",
+      "time_since_previous_event_seconds",
+      "events_prev_10s",
+      "events_next_10s",
+      "local_density_10s",
+      "events_prev_30s",
+      "events_next_30s",
+      "local_density_30s",
+      "events_prev_60s",
+      "events_next_60s",
+      "local_density_60s",
+      "process_changed",
+      "rapid_event",
+      "short_event_gap",
+      "medium_event_gap",
+      "long_event_gap"
+    ],
+    "B_graph_structural": [
+      "parent_count",
+      "child_count",
+      "graph_degree",
+      "in_degree",
+      "out_degree"
+    ],
+    "C_process_artifact_relationship": [
+      "command_line_count",
+      "module_count",
+      "memory_region_count",
+      "relationship_type_count"
+    ],
+    "D_metadata_identifiers_excluded": [
+      "case_id",
+      "logical_event_id",
+      "process_id",
+      "parent_process_id",
+      "process",
+      "timestamp",
+      "is_first_event",
+      "provenance",
+      "evidence_ids"
+    ]
+  },
+  "ground_truth_anomaly_labels_available": false,
+  "retrospective_scope": {
+    "events_next_uses_post_event_lookahead": true,
+    "graph_metrics_use_complete_reconstructed_graph": true,
+    "interpretation": "retrospective/post-mortem only; not causal, online, real-time, streaming, or deployment-ready",
+    "scaling_or_normalization_uses_complete_cohort": true
+  },
+  "supervised_classification_metrics_generated": false
+}
