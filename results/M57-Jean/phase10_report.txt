@@ -1,0 +1,87 @@
+ForensiXplain Phase 10: Robustness / Sensitivity Analysis
+Dataset: M57-Jean
+Scope: retrospective/post-mortem ranking robustness; no detection-validity claim.
+
+A. Research objective
+Assess whether Phase 9 ranking comparisons and temporal-graph fusion rankings persist under the approved alpha and limited one-factor IsolationForest sensitivity settings.
+
+B. Research questions
+RQ1 E1 vs E2; RQ2 E2 vs E3; RQ3 E3 vs E4; RQ4 E4 vs E6 at alpha=0.50.
+Fusion sensitivity compares E5/E6 alpha values to alpha=0.50 and checks graph/temporal endpoint equivalence.
+
+C/D. Exact experiments and settings
+Alpha grid: 0.00, 0.25, 0.50, 0.75, 1.00. E5 fuses E1/E2; E6 fuses E1/E3.
+IsolationForest one-factor-at-a-time settings: baseline (500, 0.10, 42); n_estimators 250/1000; contamination 0.05/0.15; random_state 0/123.
+n_jobs remains fixed within each existing model family: Phase 9 -1; legacy temporal -1; controlled legacy graph models 1.
+No full factorial sweep was run. E5/E6 alpha changes reuse the same fitted component scores for a parameter condition.
+
+E. Metrics and interpretation
+Top-K overlap counts and Jaccard at K=3,5,10; Kendall tau across all 46 events; candidate overlap counts, event IDs, and Jaccard.
+Kendall tau p-values are descriptive and unadjusted. They do not measure anomaly detection validity and are not used as pass/fail thresholds.
+No accuracy, precision, recall, F1, ROC-AUC, or PR-AUC is calculated for M57-Jean.
+
+F. Cohort
+All analyses use the same 46-event logical-event cohort, cross-checked against temporal_anomalies.csv and fused_anomalies.csv.
+Excluded boundary event: LEVT-M57-Jean-PROCESS-812-20091121013230.
+Phase 9 E1-E6 and Legacy outputs are separate tracks; their rankings are never combined.
+
+G. Stability classifications
+E1: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+E2: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+E3: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+E4: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+LegacyTemporal5: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+LegacyGraphOnly9: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+LegacyGraphAware14: stable (4/4 parameter perturbations pass the configured top-5/Jaccard/tau rule).
+RQ1: sensitive (0/4 non-contamination settings remain within the approved agreement and tau-delta rule).
+RQ2: sensitive (0/4 non-contamination settings remain within the approved agreement and tau-delta rule).
+RQ3: sensitive (0/4 non-contamination settings remain within the approved agreement and tau-delta rule).
+RQ4: mixed (2/4 non-contamination settings remain within the approved agreement and tau-delta rule).
+E5: sensitive (0/2 neighbors, alpha=.25 and .75, pass the top-5/Jaccard/tau rule).
+E6: sensitive (0/2 neighbors, alpha=.25 and .75, pass the top-5/Jaccard/tau rule).
+
+H. Leakage and retrospective-scope controls
+- events_next_* temporal features use post-event lookahead.
+- graph metrics use the complete reconstructed graph.
+- StandardScaler and fusion min-max normalization use the full 46-event cohort.
+- scope is retrospective/post-mortem forensic reconstruction.
+- no causal, online, real-time, streaming, or deployment-ready interpretation.
+- metadata, identifiers, provenance, evidence IDs, and model outputs are excluded from fit matrices.
+
+I. Outputs
+phase10_sensitivity_rankings.csv, phase10_sensitivity_comparisons.csv, phase10_artifact_manifest.json, phase10_summary.json, phase10_report.txt.
+
+J. Determinism and protected artifacts
+Baseline repeated-fit checks: PASS across 7 repeated model fits.
+Protected Phase 9 and legacy artifacts byte/hash stable: PASS.
+
+K. Computational cost
+56 IsolationForest fits, 29,750 trees, elapsed 45.67 seconds.
+
+L. Scientific risks and mitigations
+A single cohort of 46 events gives limited precision. Report agreement as ranking stability only; do not infer maliciousness, accuracy, or causal predictive value. Compare same logical IDs and preserve original feature and scaling semantics.
+Score-rank sensitivity and candidate-set stability are reported separately. Contamination changes the fitted decision threshold: absolute decision scores, score ordering, ranks, and model.predict candidate flags are audited empirically.
+Fused candidate sets use ceil(contamination*N), except alpha endpoints inherit component flags to preserve endpoint equivalence. Alpha and estimator/seed sensitivity remain ranking-agreement questions, not quality comparisons.
+
+M. Robustness decision criteria
+Model family: stable iff at least 3/4 n_estimators/seed perturbations have top-5 overlap >=4/5, Jaccard >=0.60, tau >=0.80; sensitive iff 0-1 pass; mixed iff 2 pass.
+RQ: stable iff at least 3/4 perturbations have top-5 overlap >=4/5 against the Phase 9 baseline and |tau - baseline tau| <=0.15; sensitive iff 0-1; mixed iff 2.
+Alpha-local E5/E6: stable iff both .25 and .75 against .50 have overlap >=4/5, Jaccard >=0.60, tau >=0.80; sensitive iff neither; mixed iff one.
+Endpoint equivalence is a separate correctness check, not a stability criterion. A stable result means ranking agreement under these tested settings, not anomaly-detection validity.
+
+Observed contamination behavior
+Across 7 standalone model families and both contamination changes, rank order was unchanged in 14/14 checks; absolute decision-score vectors were unchanged in 0/14 checks; observed candidate counts were [3, 7] (baseline contamination=.10 yielded five flags per family).
+Fusion endpoint checks: normalized scores, full rank order, top-K sets at K=3/5/10, and candidate flags were component-equivalent in 28/28 endpoint/configuration checks; alpha=1 retained temporal native tie order.
+
+Contamination candidate-count audit
+E1: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+E2: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+E3: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+E4: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+LegacyTemporal5: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+LegacyGraphOnly9: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+LegacyGraphAware14: contamination_005=3 (baseline overlap=3, Jaccard=0.600), contamination_015=7 (baseline overlap=5, Jaccard=0.714).
+fused_E5: baseline (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); n_estimators_250 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); n_estimators_1000 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); contamination_005 (alpha=0.00:3, alpha=0.25:3, alpha=0.50:3, alpha=0.75:3, alpha=1.00:3); contamination_015 (alpha=0.00:7, alpha=0.25:7, alpha=0.50:7, alpha=0.75:7, alpha=1.00:7); random_state_0 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); random_state_123 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5).
+fused_E6: baseline (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); n_estimators_250 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); n_estimators_1000 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); contamination_005 (alpha=0.00:3, alpha=0.25:3, alpha=0.50:3, alpha=0.75:3, alpha=1.00:3); contamination_015 (alpha=0.00:7, alpha=0.25:7, alpha=0.50:7, alpha=0.75:7, alpha=1.00:7); random_state_0 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5); random_state_123 (alpha=0.00:5, alpha=0.25:5, alpha=0.50:5, alpha=0.75:5, alpha=1.00:5).
+
+Detailed per-event rankings and comparisons are in the companion CSV files.
