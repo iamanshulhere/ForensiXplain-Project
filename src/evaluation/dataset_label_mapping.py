@@ -29,6 +29,10 @@ class DatasetMetadata:
     temporal_features_possible: bool
     graph_features_possible: bool
     suitable_for_supervised_evaluation: bool
+    ground_truth_doc_available: bool
+    telemetry_ingested: bool
+    label_mapping_implemented: bool
+    supervised_evaluation_ready: bool
     notes: str
 
 
@@ -46,6 +50,10 @@ DATASET_REGISTRY: Dict[str, DatasetMetadata] = {
         temporal_features_possible=True,
         graph_features_possible=True,
         suitable_for_supervised_evaluation=False,
+        ground_truth_doc_available=False,
+        telemetry_ingested=True,
+        label_mapping_implemented=False,
+        supervised_evaluation_ready=False,
         notes="Unsupervised forensic timeline scenario. Used for ranking overlap, score fusion, and evidence attribution.",
     ),
     "MalMem2022": DatasetMetadata(
@@ -60,6 +68,10 @@ DATASET_REGISTRY: Dict[str, DatasetMetadata] = {
         temporal_features_possible=False,
         graph_features_possible=False,
         suitable_for_supervised_evaluation=False,  # Unsuitable for event-level temporal-graph fusion
+        ground_truth_doc_available=True,
+        telemetry_ingested=True,
+        label_mapping_implemented=True,
+        supervised_evaluation_ready=True,  # For tabular sample-level binary classification only
         notes="Static Volatility memory dump aggregate features. Evaluated via tabular binary classification, not temporal-graph fusion.",
     ),
     "OpTC": DatasetMetadata(
@@ -73,8 +85,12 @@ DATASET_REGISTRY: Dict[str, DatasetMetadata] = {
         graph_entities_available=True,
         temporal_features_possible=True,
         graph_features_possible=True,
-        suitable_for_supervised_evaluation=True,
-        notes="DARPA OpTC host telemetry logs. PDF ground-truth report provides narrative attack timeline.",
+        suitable_for_supervised_evaluation=False,  # False in current workspace state until telemetry ingestion
+        ground_truth_doc_available=True,
+        telemetry_ingested=False,
+        label_mapping_implemented=False,
+        supervised_evaluation_ready=False,
+        notes="DARPA OpTC ground-truth PDF documentation exists, but supervised event-level evaluation remains pending until raw telemetry ingestion and label mapping are implemented.",
     ),
 }
 

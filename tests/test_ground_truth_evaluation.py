@@ -44,7 +44,10 @@ def test_dataset_metadata_registry():
     optc = get_dataset_metadata("OpTC")
     assert optc.has_ground_truth_labels
     assert optc.mappable_to_logical_event_id
-    assert optc.suitable_for_supervised_evaluation
+    assert not optc.suitable_for_supervised_evaluation
+    assert optc.ground_truth_doc_available
+    assert not optc.telemetry_ingested
+    assert not optc.supervised_evaluation_ready
 
     with pytest.raises(ValueError, match="Unknown dataset"):
         get_dataset_metadata("InvalidDataset")
@@ -193,3 +196,83 @@ def test_no_accidental_modification_of_existing_outputs():
 
     assert hash_before_csv == hash_after_csv, "fused_anomalies.csv was modified!"
     assert hash_before_txt == hash_after_txt, "fusion_report.txt was modified!"
+
+
+def test_four_model_comparison():
+    """Verify that model comparison aligns all four model variants on the exact same cohort."""
+    temporal_path = RESULTS_DIR / "temporal_anomalies.csv"
+    graph_path = RESULTS_DIR / "graph_anomalies.csv"
+    fused_path = RESULTS_DIR / "fused_anomalies.csv"
+
+    comp_df, summary_df, report_text = load_and_compare_models(
+        temporal_path=temporal_path,
+        graph_path=graph_path,
+        fused_path=fused_path,
+        dataset_name="M57-Jean",
+    )
+
+    models_in_summary = summary_df["model_name"].unique().tolist()
+    assert "Temporal-only" in models_in_summary
+    assert "Graph-only" in models_in_summary
+    assert "Graph-aware" in models_in_summary
+    assert "Fused (alpha=0.50)" in models_in_summary
+    assert len(models_in_summary) == 4
+
+    # Verify that all 4 models have the exact same cohort size
+    cohort_sizes = summary_df.groupby("model_name").size().to_dict()
+    assert cohort_sizes["Temporal-only"] == 46
+    assert cohort_sizes["Graph-only"] == 46
+    assert cohort_sizes["Graph-aware"] == 46
+    assert cohort_sizes["Fused (alpha=0.50)"] == 46
+
+    # Verify that Graph-aware vs Fused (alpha=0.50) Kendall Tau is approximately 0.5652
+    ga_fused_row = comp_df[comp_df["model_pair"] == "Graph-aware vs Fused (alpha=0.50)"]
+    assert not ga_fused_row.empty
+    tau = ga_fused_row["kendall_tau"].values[0]
+    assert pytest.approx(tau, abs=1e-3) == 0.5652
+
+
+def test_explicit_score_column_resolution_regression():
+    """Regression test proving explicit score-column mapping prevents column collision."""
+    from src.evaluation.model_comparison import _find_score_col
+
+    fused_path = RESULTS_DIR / "fused_anomalies.csv"
+    fused_df = pd.read_csv(fused_path)
+
+    ga_col = _find_score_col("Graph-aware", list(fused_df.columns))
+    fused_col = _find_score_col("Fused (alpha=0.50)", list(fused_df.columns))
+
+    assert ga_col == "controlled_graph_aware_score"
+    assert fused_col == "fusion_score_alpha_0_50"
+    assert ga_col != fused_col
+
+    # Verify actual score values are non-identical
+    ga_scores = fused_df[ga_col].to_numpy()
+    fused_scores = fused_df[fused_col].to_numpy()
+    assert not np.array_equal(ga_scores, fused_scores)
+
+
+def test_retrospective_disclosure_presence():
+    """Verify that generated report text contains the retrospective scope disclosure section."""
+    run_ground_truth_evaluation("M57-Jean")
+    report_file = RESULTS_DIR / "ground_truth_evaluation_report.txt"
+
+    assert report_file.exists()
+    report_content = report_file.read_text(encoding="utf-8")
+
+    assert "Retrospective Scope & Data Leakage Audit" in report_content
+    assert "events_next_*" in report_content
+    assert "causal detection" in report_content
+    assert "online detection" in report_content
+    assert "real-time detection" in report_content
+
+
+def test_missing_model_file_handling():
+    """Verify clean FileNotFoundError when a required model file is missing."""
+    with pytest.raises(FileNotFoundError, match="model output file missing"):
+        load_and_compare_models(
+            temporal_path=Path("non_existent_temporal.csv"),
+            graph_path=RESULTS_DIR / "graph_anomalies.csv",
+            fused_path=RESULTS_DIR / "fused_anomalies.csv",
+            dataset_name="M57-Jean",
+        )

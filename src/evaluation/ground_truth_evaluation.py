@@ -96,6 +96,26 @@ def run_ground_truth_evaluation(
         comp_df.to_csv(comparison_output_path, index=False)
         summary_df.to_csv(csv_output_path, index=False)
 
+        report_lines.extend([
+            "",
+            "Retrospective Scope & Data Leakage Audit",
+            "============================================================",
+            "1. Temporal Lookahead Features: events_next_* local density features use post-event time window lookahead.",
+            "2. Full-Graph Topology: Process degree, in-degree, out-degree, and child counts are computed from the full reconstructed graph.",
+            "3. Global Score Normalization: Min-Max scaling uses complete cohort minimum and maximum anomaly scores across all scored events.",
+            "4. Research Scope: Valid for post-mortem digital forensic timeline reconstruction. Must NOT be interpreted as causal detection, online detection, or real-time detection.",
+            "------------------------------------------------------------",
+            "",
+        ])
+
+        evaluation_summary["retrospective_scope_audit"] = {
+            "temporal_lookahead": "events_next_* features use post-event lookahead windows",
+            "full_graph_topology": "Graph degree and structure computed from full reconstructed execution graph",
+            "global_normalization": "Min-Max normalization uses complete cohort global min/max",
+            "valid_scope": "Post-mortem forensic timeline reconstruction",
+            "prohibited_interpretations": ["causal detection", "online detection", "real-time detection"],
+        }
+
         report_lines.append(comp_report)
         evaluation_summary["evaluation_results"] = comp_df.to_dict(orient="records")
 

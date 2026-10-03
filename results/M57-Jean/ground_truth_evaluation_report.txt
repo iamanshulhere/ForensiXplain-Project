@@ -11,6 +11,15 @@ Graph Entities Available: True
 Suitable for Supervised Ground-Truth Evaluation: False
 Dataset Notes: Unsupervised forensic timeline scenario. Used for ranking overlap, score fusion, and evidence attribution.
 -----------------------------------------------------------------
+
+Retrospective Scope & Data Leakage Audit
+============================================================
+1. Temporal Lookahead Features: events_next_* local density features use post-event time window lookahead.
+2. Full-Graph Topology: Process degree, in-degree, out-degree, and child counts are computed from the full reconstructed graph.
+3. Global Score Normalization: Min-Max scaling uses complete cohort minimum and maximum anomaly scores across all scored events.
+4. Research Scope: Valid for post-mortem digital forensic timeline reconstruction. Must NOT be interpreted as causal detection, online detection, or real-time detection.
+------------------------------------------------------------
+
 ForensiXplain Model Comparison Report — M57-Jean
 ============================================================
 Dataset: M57-Jean
@@ -21,11 +30,15 @@ Join Key: logical_event_id
 ------------------------------------------------------------
 Excluded from Temporal-only: 1 events (['LEVT-M57-Jean-PROCESS-812-20091121013230']...)
 Excluded from Graph-only: 1 events (['LEVT-M57-Jean-PROCESS-812-20091121013230']...)
+Excluded from Graph-aware: 0 events
 Excluded from Fused (alpha=0.50): 0 events
 ------------------------------------------------------------
 Unsupervised Proxy Evaluation (Top-K Overlap & Rank Correlation):
 Model Pair                          | Top-K  | Overlap | Jaccard | Kendall Tau
 ---------------------------------------------------------------------------
-Temporal-only vs Graph-only         | 5      | 1       | 0.1111 | 0.3055     
-Temporal-only vs Fused (alpha=0.50) | 5      | 1       | 0.1111 | 0.5732     
-Graph-only vs Fused (alpha=0.50)    | 5      | 3       | 0.4286 | 0.5459     
+Temporal-only vs Graph-only         | 5      | 1       | 0.1111 | 0.3055
+Temporal-only vs Graph-aware        | 5      | 1       | 0.1111 | 0.3133
+Temporal-only vs Fused (alpha=0.50) | 5      | 1       | 0.1111 | 0.5732
+Graph-only vs Graph-aware           | 5      | 5       | 1.0000 | 0.9614
+Graph-only vs Fused (alpha=0.50)    | 5      | 3       | 0.4286 | 0.5459
+Graph-aware vs Fused (alpha=0.50)   | 5      | 3       | 0.4286 | 0.5652

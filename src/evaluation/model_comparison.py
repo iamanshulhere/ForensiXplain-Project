@@ -21,46 +21,83 @@ from src.evaluation.evaluation_protocol import (
 )
 
 
-def _find_score_col(columns: list[str]) -> str:
-    for candidate in [
-        "fusion_score_alpha_0_50",
-        "fusion_score",
-        "temporal_anomaly_score",
-        "graph_anomaly_score",
+MODEL_SCORE_COLUMNS: Dict[str, List[str]] = {
+    "Temporal-only": ["temporal_anomaly_score", "anomaly_score", "score"],
+    "Graph-only": ["graph_anomaly_score", "graph_score", "anomaly_score", "score"],
+    "Graph-aware": [
+        "controlled_graph_aware_score",
         "graph_aware_score",
         "anomaly_score",
         "score",
-    ]:
+    ],
+    "Fused (alpha=0.50)": [
+        "fusion_score_alpha_0_50",
+        "fusion_score",
+        "fused_score",
+        "anomaly_score",
+        "score",
+    ],
+}
+
+MODEL_PRED_COLUMNS: Dict[str, List[str]] = {
+    "Temporal-only": [
+        "temporal_predicted_anomaly",
+        "predicted_anomaly",
+        "is_anomaly",
+    ],
+    "Graph-only": [
+        "graph_predicted_anomaly",
+        "predicted_anomaly",
+        "is_anomaly",
+    ],
+    "Graph-aware": [
+        "controlled_graph_aware_predicted_anomaly",
+        "graph_aware_predicted_anomaly",
+        "predicted_anomaly",
+        "is_anomaly",
+    ],
+    "Fused (alpha=0.50)": [
+        "fusion_predicted_anomaly_alpha_0_50",
+        "fusion_predicted_anomaly",
+        "predicted_anomaly",
+        "is_anomaly",
+    ],
+}
+
+
+def _find_score_col(model_name: str, columns: list[str]) -> str:
+    candidates = MODEL_SCORE_COLUMNS.get(
+        model_name,
+        ["anomaly_score", "score"],
+    )
+    for candidate in candidates:
         if candidate in columns:
             return candidate
     score_cols = [c for c in columns if "score" in c.lower()]
     if score_cols:
         return score_cols[0]
-    raise ValueError(f"No score column found in columns: {columns}")
+    raise ValueError(f"No score column found for model '{model_name}' in columns: {columns}")
 
 
-def _find_pred_col(columns: list[str]) -> str:
-    for candidate in [
-        "fusion_predicted_anomaly_alpha_0_50",
-        "fusion_predicted_anomaly",
-        "temporal_predicted_anomaly",
-        "graph_predicted_anomaly",
-        "graph_aware_predicted_anomaly",
-        "predicted_anomaly",
-        "is_anomaly",
-    ]:
+def _find_pred_col(model_name: str, columns: list[str]) -> str:
+    candidates = MODEL_PRED_COLUMNS.get(
+        model_name,
+        ["predicted_anomaly", "is_anomaly"],
+    )
+    for candidate in candidates:
         if candidate in columns:
             return candidate
     pred_cols = [c for c in columns if "predict" in c.lower() or "anomaly" in c.lower()]
     if pred_cols:
         return pred_cols[0]
-    raise ValueError(f"No prediction column found in columns: {columns}")
+    raise ValueError(f"No prediction column found for model '{model_name}' in columns: {columns}")
 
 
 def load_and_compare_models(
     temporal_path: Path,
     graph_path: Path,
     fused_path: Path,
+    graph_aware_path: Optional[Path] = None,
     dataset_name: str = "M57-Jean",
     join_key: str = "logical_event_id",
     ground_truth_labels: Optional[pd.Series] = None,
@@ -70,17 +107,32 @@ def load_and_compare_models(
 
     meta = get_dataset_metadata(dataset_name)
 
-    # 1. Read input CSV files
+    # 1. Read input CSV files for all four models
     frames: Dict[str, pd.DataFrame] = {}
-    for name, path in [
-        ("Temporal-only", temporal_path),
-        ("Graph-only", graph_path),
-        ("Fused (alpha=0.50)", fused_path),
-    ]:
-        if not path.exists():
-            raise FileNotFoundError(f"Model output file missing: {path}")
-        df = pd.read_csv(path, low_memory=False)
-        frames[name] = df
+
+    if not temporal_path.exists():
+        raise FileNotFoundError(f"Temporal model output file missing: {temporal_path}")
+    frames["Temporal-only"] = pd.read_csv(temporal_path, low_memory=False)
+
+    if not graph_path.exists():
+        raise FileNotFoundError(f"Graph model output file missing: {graph_path}")
+    frames["Graph-only"] = pd.read_csv(graph_path, low_memory=False)
+
+    # Load or derive Graph-aware frame
+    if graph_aware_path is not None and graph_aware_path.exists():
+        frames["Graph-aware"] = pd.read_csv(graph_aware_path, low_memory=False)
+    elif fused_path.exists():
+        fused_df = pd.read_csv(fused_path, low_memory=False)
+        if "controlled_graph_aware_score" in fused_df.columns or "graph_aware_score" in fused_df.columns:
+            frames["Graph-aware"] = fused_df
+        else:
+            raise FileNotFoundError("Graph-aware model score columns not found in fused_path")
+    else:
+        raise FileNotFoundError(f"Graph-aware model output file missing")
+
+    if not fused_path.exists():
+        raise FileNotFoundError(f"Fused model output file missing: {fused_path}")
+    frames["Fused (alpha=0.50)"] = pd.read_csv(fused_path, low_memory=False)
 
     # 2. Enforce SAME TEST COHORT across all models
     aligned_frames, common_keys, excluded_keys = enforce_same_test_cohort(
@@ -119,8 +171,8 @@ def load_and_compare_models(
         report_lines.append("-" * 75)
 
         for m_name, df in aligned_frames.items():
-            score_col = _find_score_col(list(df.columns))
-            pred_col = _find_pred_col(list(df.columns))
+            score_col = _find_score_col(m_name, list(df.columns))
+            pred_col = _find_pred_col(m_name, list(df.columns))
             
             y_scores = df[score_col]
             y_pred = df[pred_col].astype(int)
@@ -166,7 +218,7 @@ def load_and_compare_models(
         # Get scores dictionary indexed by join_key
         model_scores: Dict[str, pd.Series] = {}
         for m_name, df in aligned_frames.items():
-            score_col = _find_score_col(list(df.columns))
+            score_col = _find_score_col(m_name, list(df.columns))
             model_scores[m_name] = pd.Series(df[score_col].values, index=df[join_key])
 
         model_names = list(model_scores.keys())
@@ -184,7 +236,7 @@ def load_and_compare_models(
                 tau_str = f"{rank_metrics.kendall_tau:.4f}" if rank_metrics.kendall_tau is not None else "N/A"
 
                 report_lines.append(
-                    f"{pair_name:<35} | {rank_metrics.top_k:<6} | {rank_metrics.top_k_overlap_count:<7} | {rank_metrics.jaccard_similarity:.4f} | {tau_str:<11}"
+                    f"{pair_name:<35} | {rank_metrics.top_k:<6} | {rank_metrics.top_k_overlap_count:<7} | {rank_metrics.jaccard_similarity:.4f} | {tau_str:<11}".rstrip()
                 )
 
                 comparison_rows.append({

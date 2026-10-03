@@ -9,6 +9,17 @@
   "graph_entities_available": true,
   "suitable_for_supervised_evaluation": false,
   "notes": "Unsupervised forensic timeline scenario. Used for ranking overlap, score fusion, and evidence attribution.",
+  "retrospective_scope_audit": {
+    "temporal_lookahead": "events_next_* features use post-event lookahead windows",
+    "full_graph_topology": "Graph degree and structure computed from full reconstructed execution graph",
+    "global_normalization": "Min-Max normalization uses complete cohort global min/max",
+    "valid_scope": "Post-mortem forensic timeline reconstruction",
+    "prohibited_interpretations": [
+      "causal detection",
+      "online detection",
+      "real-time detection"
+    ]
+  },
   "evaluation_results": [
     {
       "dataset": "M57-Jean",
@@ -18,6 +29,16 @@
       "top_k_overlap": 1,
       "jaccard_similarity": 0.1111111111111111,
       "kendall_tau": 0.3055309124760906,
+      "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
+    },
+    {
+      "dataset": "M57-Jean",
+      "model_pair": "Temporal-only vs Graph-aware",
+      "cohort_size": 46,
+      "top_k": 5,
+      "top_k_overlap": 1,
+      "jaccard_similarity": 0.1111111111111111,
+      "kendall_tau": 0.3132904277135786,
       "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
     },
     {
@@ -32,12 +53,32 @@
     },
     {
       "dataset": "M57-Jean",
+      "model_pair": "Graph-only vs Graph-aware",
+      "cohort_size": 46,
+      "top_k": 5,
+      "top_k_overlap": 5,
+      "jaccard_similarity": 1.0,
+      "kendall_tau": 0.961352657004831,
+      "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
+    },
+    {
+      "dataset": "M57-Jean",
       "model_pair": "Graph-only vs Fused (alpha=0.50)",
       "cohort_size": 46,
       "top_k": 5,
       "top_k_overlap": 3,
       "jaccard_similarity": 0.42857142857142855,
       "kendall_tau": 0.5458937198067633,
+      "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
+    },
+    {
+      "dataset": "M57-Jean",
+      "model_pair": "Graph-aware vs Fused (alpha=0.50)",
+      "cohort_size": 46,
+      "top_k": 5,
+      "top_k_overlap": 3,
+      "jaccard_similarity": 0.42857142857142855,
+      "kendall_tau": 0.5652173913043479,
       "evaluation_type": "Unsupervised Proxy (Rank Overlap)"
     }
   ]
