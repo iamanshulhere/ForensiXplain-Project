@@ -1,0 +1,1820 @@
+{
+  "alpha_local_stability": {
+    "E5": {
+      "classification": "sensitive",
+      "passing_neighbors": 0,
+      "total_neighbors": 2
+    },
+    "E6": {
+      "classification": "sensitive",
+      "passing_neighbors": 0,
+      "total_neighbors": 2
+    }
+  },
+  "analysis": "retrospective robustness and sensitivity",
+  "artifact_protection": {
+    "all_protected_hashes_unchanged": true,
+    "protected_hashes_after_analysis": {
+      "results\\M57-Jean\\ablation_comparison.csv": "A8D75B44491C0235D86FB276DA6D8BFA44869FDAB13D00BA7B82C4C790173B78",
+      "results\\M57-Jean\\ablation_report.txt": "FC699FF1F08A320BB5E91C7A1548006BBD9BB46E7AD2D3666743497AA853166E",
+      "results\\M57-Jean\\ablation_results.csv": "7C6A9DE74E5E58C8B0C5DDFE88C80134CB89DE346089AD6C566F1388314F4F3C",
+      "results\\M57-Jean\\ablation_summary.json": "781EBC4114A9882F8AB9FDA6E53BE634600FBC1F0BA9A3B590E7BB480598C54D",
+      "results\\M57-Jean\\fused_anomalies.csv": "ECB194894073C27D441B77102B3777B03D8A7BE105BE92ED8C68D3D030CCBEED",
+      "results\\M57-Jean\\fusion_evaluation.csv": "1E46395A40DDF8B5C1DF2FBC35A1B271532DC77B6C9F6960C70EFC13506023F3",
+      "results\\M57-Jean\\fusion_report.txt": "9FDFDB6A7D3F9BE89E778D87702912A7E28EE0C7CB21D20148C31307BA7AF8CE"
+    },
+    "protected_hashes_before": {
+      "results\\M57-Jean\\ablation_comparison.csv": "A8D75B44491C0235D86FB276DA6D8BFA44869FDAB13D00BA7B82C4C790173B78",
+      "results\\M57-Jean\\ablation_report.txt": "FC699FF1F08A320BB5E91C7A1548006BBD9BB46E7AD2D3666743497AA853166E",
+      "results\\M57-Jean\\ablation_results.csv": "7C6A9DE74E5E58C8B0C5DDFE88C80134CB89DE346089AD6C566F1388314F4F3C",
+      "results\\M57-Jean\\ablation_summary.json": "781EBC4114A9882F8AB9FDA6E53BE634600FBC1F0BA9A3B590E7BB480598C54D",
+      "results\\M57-Jean\\fused_anomalies.csv": "ECB194894073C27D441B77102B3777B03D8A7BE105BE92ED8C68D3D030CCBEED",
+      "results\\M57-Jean\\fusion_evaluation.csv": "1E46395A40DDF8B5C1DF2FBC35A1B271532DC77B6C9F6960C70EFC13506023F3",
+      "results\\M57-Jean\\fusion_report.txt": "9FDFDB6A7D3F9BE89E778D87702912A7E28EE0C7CB21D20148C31307BA7AF8CE"
+    }
+  },
+  "cohort": {
+    "excluded_boundary_event": "LEVT-M57-Jean-PROCESS-812-20091121013230",
+    "logical_event_ids": [
+      "LEVT-M57-Jean-PROCESS-1152-20091121013234",
+      "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+      "LEVT-M57-Jean-PROCESS-1248-20091121013234",
+      "LEVT-M57-Jean-PROCESS-1356-20091121013448",
+      "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+      "LEVT-M57-Jean-PROCESS-1432-20091121013235",
+      "LEVT-M57-Jean-PROCESS-1504-20091121013305",
+      "LEVT-M57-Jean-PROCESS-1508-20091121013305",
+      "LEVT-M57-Jean-PROCESS-1528-20091121013305",
+      "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+      "LEVT-M57-Jean-PROCESS-1612-20091121013235",
+      "LEVT-M57-Jean-PROCESS-1620-20091121013235",
+      "LEVT-M57-Jean-PROCESS-1664-20091121013258",
+      "LEVT-M57-Jean-PROCESS-1676-20091121013306",
+      "LEVT-M57-Jean-PROCESS-1732-20091121013237",
+      "LEVT-M57-Jean-PROCESS-1752-20091121013306",
+      "LEVT-M57-Jean-PROCESS-1760-20091121013238",
+      "LEVT-M57-Jean-PROCESS-1796-20091121013301",
+      "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+      "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+      "LEVT-M57-Jean-PROCESS-1996-20091121013242",
+      "LEVT-M57-Jean-PROCESS-2004-20091123235245",
+      "LEVT-M57-Jean-PROCESS-2028-20091121013242",
+      "LEVT-M57-Jean-PROCESS-208-20091123165519",
+      "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+      "LEVT-M57-Jean-PROCESS-2132-20091121013311",
+      "LEVT-M57-Jean-PROCESS-2244-20091121013313",
+      "LEVT-M57-Jean-PROCESS-2296-20091121013314",
+      "LEVT-M57-Jean-PROCESS-2308-20091123225441",
+      "LEVT-M57-Jean-PROCESS-2488-20091121013317",
+      "LEVT-M57-Jean-PROCESS-2576-20091123220845",
+      "LEVT-M57-Jean-PROCESS-2840-20091123170451",
+      "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+      "LEVT-M57-Jean-PROCESS-2992-20091124000124",
+      "LEVT-M57-Jean-PROCESS-3196-20091123182209",
+      "LEVT-M57-Jean-PROCESS-344-20091121013301",
+      "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+      "LEVT-M57-Jean-PROCESS-3908-20091123221634",
+      "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+      "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+      "LEVT-M57-Jean-PROCESS-4028-20091123171439",
+      "LEVT-M57-Jean-PROCESS-620-20091123235925",
+      "LEVT-M57-Jean-PROCESS-908-20091121013232",
+      "LEVT-M57-Jean-PROCESS-932-20091121013232",
+      "LEVT-M57-Jean-PROCESS-976-20091121013232",
+      "LEVT-M57-Jean-PROCESS-988-20091121013232"
+    ],
+    "shared_across_all_comparisons": true,
+    "size": 46
+  },
+  "computational_cost": {
+    "base_families": 7,
+    "fit_count": 56,
+    "sensitivity_configurations_per_family": 7,
+    "total_trees": 29750
+  },
+  "contamination_audit": {
+    "E1": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+          "LEVT-M57-Jean-PROCESS-2840-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+          "LEVT-M57-Jean-PROCESS-908-20091121013232"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "E2": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-976-20091121013232"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-976-20091121013232"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1664-20091121013258",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-932-20091121013232",
+          "LEVT-M57-Jean-PROCESS-976-20091121013232"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-932-20091121013232",
+          "LEVT-M57-Jean-PROCESS-976-20091121013232"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "E3": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-976-20091121013232"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "E4": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "LegacyGraphAware14": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2004-20091123235245",
+          "LEVT-M57-Jean-PROCESS-208-20091123165519",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "LegacyGraphOnly9": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+          "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+          "LEVT-M57-Jean-PROCESS-976-20091121013232"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+          "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+          "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+          "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+          "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "LegacyTemporal5": {
+      "contamination_005": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 3,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+        ],
+        "candidate_jaccard": 0.6,
+        "candidate_overlap_count": 3,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      },
+      "contamination_015": {
+        "absolute_decision_scores_unchanged_from_baseline": false,
+        "candidate_count": 7,
+        "candidate_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1248-20091121013234",
+          "LEVT-M57-Jean-PROCESS-2004-20091123235245",
+          "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+          "LEVT-M57-Jean-PROCESS-4028-20091123171439"
+        ],
+        "candidate_jaccard": 0.7142857142857143,
+        "candidate_overlap_count": 5,
+        "candidate_overlap_event_ids": [
+          "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+          "LEVT-M57-Jean-PROCESS-1248-20091121013234",
+          "LEVT-M57-Jean-PROCESS-2004-20091123235245",
+          "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+          "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+        ],
+        "rank_order_unchanged_from_baseline": true,
+        "score_order_unchanged_from_baseline": true
+      }
+    },
+    "fused_E5": {
+      "baseline": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "contamination_005": {
+        "0.00": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 3
+        },
+        "0.25": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 3
+        },
+        "0.50": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 3
+        },
+        "0.75": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 3
+        },
+        "1.00": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 3
+        }
+      },
+      "contamination_015": {
+        "0.00": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1664-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 7
+        },
+        "0.25": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1664-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 7
+        },
+        "0.50": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 7
+        },
+        "0.75": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+            "LEVT-M57-Jean-PROCESS-908-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 7
+        },
+        "1.00": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-2840-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+            "LEVT-M57-Jean-PROCESS-908-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 7
+        }
+      },
+      "n_estimators_1000": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "n_estimators_250": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "random_state_0": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "random_state_123": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-932-20091121013232",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      }
+    },
+    "fused_E6": {
+      "baseline": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "contamination_005": {
+        "0.00": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 3
+        },
+        "0.25": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 3
+        },
+        "0.50": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 3
+        },
+        "0.75": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 3
+        },
+        "1.00": {
+          "candidate_count": 3,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 3
+        }
+      },
+      "contamination_015": {
+        "0.00": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 7
+        },
+        "0.25": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-976-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 7
+        },
+        "0.50": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 7
+        },
+        "0.75": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+            "LEVT-M57-Jean-PROCESS-908-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 7
+        },
+        "1.00": {
+          "candidate_count": 7,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-2840-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335",
+            "LEVT-M57-Jean-PROCESS-908-20091121013232"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 7
+        }
+      },
+      "n_estimators_1000": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "n_estimators_250": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "random_state_0": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      },
+      "random_state_123": {
+        "0.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1836-20091121013308",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        },
+        "0.25": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-1944-20091121013301",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.50": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1372-20091121013235",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2892-20091123220335",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "0.75": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3560-20091123221635",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": false,
+          "expected_top_ceil_count": 5
+        },
+        "1.00": {
+          "candidate_count": 5,
+          "candidate_event_ids": [
+            "LEVT-M57-Jean-PROCESS-1204-20091123165512",
+            "LEVT-M57-Jean-PROCESS-1572-20091121013258",
+            "LEVT-M57-Jean-PROCESS-2080-20091123221633",
+            "LEVT-M57-Jean-PROCESS-3992-20091123170451",
+            "LEVT-M57-Jean-PROCESS-3996-20091121013335"
+          ],
+          "endpoint_inherits_component_flags": true,
+          "expected_top_ceil_count": 5
+        }
+      }
+    }
+  },
+  "created_utc": "2026-10-03T20:29:25.638980+00:00",
+  "dataset": "M57-Jean",
+  "determinism": {
+    "all_repeats_exact": true,
+    "checks": [
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "E1",
+        "ranks_exact": true,
+        "scores_exact": true
+      },
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "E2",
+        "ranks_exact": true,
+        "scores_exact": true
+      },
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "E3",
+        "ranks_exact": true,
+        "scores_exact": true
+      },
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "E4",
+        "ranks_exact": true,
+        "scores_exact": true
+      },
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "LegacyTemporal5",
+        "ranks_exact": true,
+        "scores_exact": true
+      },
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "LegacyGraphOnly9",
+        "ranks_exact": true,
+        "scores_exact": true
+      },
+      {
+        "candidate_flags_exact": true,
+        "cohort_ids_exact": true,
+        "comparison_metrics_exact_at_k_3_5_10": true,
+        "model_family": "LegacyGraphAware14",
+        "ranks_exact": true,
+        "scores_exact": true
+      }
+    ],
+    "repeat_count": 7
+  },
+  "environment": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.2",
+    "python": "3.12.7",
+    "scikit_learn": "1.5.1",
+    "scipy": "1.13.1"
+  },
+  "feature_groups": {
+    "A_plus_B_plus_C": {
+      "columns": [
+        "gap_log_seconds",
+        "time_since_previous_event_seconds",
+        "events_prev_10s",
+        "events_next_10s",
+        "local_density_10s",
+        "events_prev_30s",
+        "events_next_30s",
+        "local_density_30s",
+        "events_prev_60s",
+        "events_next_60s",
+        "local_density_60s",
+        "process_changed",
+        "rapid_event",
+        "short_event_gap",
+        "medium_event_gap",
+        "long_event_gap",
+        "parent_count",
+        "child_count",
+        "graph_degree",
+        "in_degree",
+        "out_degree",
+        "command_line_count",
+        "module_count",
+        "memory_region_count",
+        "relationship_type_count"
+      ],
+      "count": 25
+    },
+    "A_temporal": {
+      "columns": [
+        "gap_log_seconds",
+        "time_since_previous_event_seconds",
+        "events_prev_10s",
+        "events_next_10s",
+        "local_density_10s",
+        "events_prev_30s",
+        "events_next_30s",
+        "local_density_30s",
+        "events_prev_60s",
+        "events_next_60s",
+        "local_density_60s",
+        "process_changed",
+        "rapid_event",
+        "short_event_gap",
+        "medium_event_gap",
+        "long_event_gap"
+      ],
+      "count": 16
+    },
+    "B_graph_structural": {
+      "columns": [
+        "parent_count",
+        "child_count",
+        "graph_degree",
+        "in_degree",
+        "out_degree"
+      ],
+      "count": 5
+    },
+    "B_plus_C_graph_full": {
+      "columns": [
+        "parent_count",
+        "child_count",
+        "graph_degree",
+        "in_degree",
+        "out_degree",
+        "command_line_count",
+        "module_count",
+        "memory_region_count",
+        "relationship_type_count"
+      ],
+      "count": 9
+    },
+    "legacy_graph_aware": {
+      "columns": [
+        "gap_log_seconds",
+        "local_density_10s",
+        "local_density_30s",
+        "local_density_60s",
+        "process_changed",
+        "parent_count",
+        "child_count",
+        "graph_degree",
+        "in_degree",
+        "out_degree",
+        "command_line_count",
+        "module_count",
+        "memory_region_count",
+        "relationship_type_count"
+      ],
+      "count": 14
+    },
+    "legacy_graph_only": {
+      "columns": [
+        "parent_count",
+        "child_count",
+        "graph_degree",
+        "in_degree",
+        "out_degree",
+        "command_line_count",
+        "module_count",
+        "memory_region_count",
+        "relationship_type_count"
+      ],
+      "count": 9
+    },
+    "legacy_temporal": {
+      "columns": [
+        "gap_log_seconds",
+        "local_density_10s",
+        "local_density_30s",
+        "local_density_60s",
+        "process_changed"
+      ],
+      "count": 5
+    }
+  },
+  "legacy_alpha_audit": {
+    "alpha_0_graph_component_equivalent": true,
+    "alpha_1_temporal_component_equivalent_and_native_ties_preserved": true,
+    "grid": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "recomputed_scores_ranks_candidates_match_saved_outputs": true,
+    "source_read_only": true
+  },
+  "model_parameter_stability": {
+    "E1": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    },
+    "E2": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    },
+    "E3": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    },
+    "E4": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    },
+    "LegacyGraphAware14": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    },
+    "LegacyGraphOnly9": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    },
+    "LegacyTemporal5": {
+      "classification": "stable",
+      "passing_perturbations": 4,
+      "total_perturbations": 4
+    }
+  },
+  "output_files": [
+    "results\\M57-Jean\\phase10_sensitivity_rankings.csv",
+    "results\\M57-Jean\\phase10_sensitivity_comparisons.csv",
+    "results\\M57-Jean\\phase10_artifact_manifest.json",
+    "results\\M57-Jean\\phase10_summary.json",
+    "results\\M57-Jean\\phase10_report.txt"
+  ],
+  "parameter_grid": {
+    "alphas": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "configs": [
+      {
+        "condition_id": "baseline",
+        "contamination": 0.1,
+        "n_estimators": 500,
+        "random_state": 42
+      },
+      {
+        "condition_id": "n_estimators_250",
+        "contamination": 0.1,
+        "n_estimators": 250,
+        "random_state": 42
+      },
+      {
+        "condition_id": "n_estimators_1000",
+        "contamination": 0.1,
+        "n_estimators": 1000,
+        "random_state": 42
+      },
+      {
+        "condition_id": "contamination_005",
+        "contamination": 0.05,
+        "n_estimators": 500,
+        "random_state": 42
+      },
+      {
+        "condition_id": "contamination_015",
+        "contamination": 0.15,
+        "n_estimators": 500,
+        "random_state": 42
+      },
+      {
+        "condition_id": "random_state_0",
+        "contamination": 0.1,
+        "n_estimators": 500,
+        "random_state": 0
+      },
+      {
+        "condition_id": "random_state_123",
+        "contamination": 0.1,
+        "n_estimators": 500,
+        "random_state": 123
+      }
+    ],
+    "n_jobs_by_track": {
+      "legacy_controlled_graph_models": 1,
+      "legacy_temporal": -1,
+      "phase9": -1
+    },
+    "one_factor_at_a_time": true
+  },
+  "phase": 10,
+  "phase9_endpoint_equivalence": {
+    "E5_baseline_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_baseline_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_contamination_005_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_contamination_005_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_contamination_015_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_contamination_015_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_n_estimators_1000_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_n_estimators_1000_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_n_estimators_250_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_n_estimators_250_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_random_state_0_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_random_state_0_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_random_state_123_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E5_random_state_123_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_baseline_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_baseline_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_contamination_005_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_contamination_005_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_contamination_015_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_contamination_015_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_n_estimators_1000_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_n_estimators_1000_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_n_estimators_250_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_n_estimators_250_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_random_state_0_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_random_state_0_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_random_state_123_alpha_0.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": false,
+      "top_k_3_5_10_equal": true
+    },
+    "E6_random_state_123_alpha_1.00": {
+      "candidate_flags_equal": true,
+      "full_rank_order_equal": true,
+      "normalized_component_scores_equal": true,
+      "temporal_native_tie_order_preserved": true,
+      "top_k_3_5_10_equal": true
+    }
+  },
+  "project": "ForensiXplain",
+  "research_question_stability": {
+    "RQ1": {
+      "classification": "sensitive",
+      "passing_perturbations": 0,
+      "total_perturbations": 4
+    },
+    "RQ2": {
+      "classification": "sensitive",
+      "passing_perturbations": 0,
+      "total_perturbations": 4
+    },
+    "RQ3": {
+      "classification": "sensitive",
+      "passing_perturbations": 0,
+      "total_perturbations": 4
+    },
+    "RQ4": {
+      "classification": "mixed",
+      "passing_perturbations": 2,
+      "total_perturbations": 4
+    }
+  },
+  "retrospective_leakage_disclosures": [
+    "events_next_* temporal features use post-event lookahead",
+    "graph metrics use the complete reconstructed graph",
+    "StandardScaler and fusion min-max normalization use the full 46-event cohort",
+    "scope is retrospective/post-mortem forensic reconstruction",
+    "no causal, online, real-time, streaming, or deployment-ready interpretation",
+    "metadata, identifiers, provenance, evidence IDs, and model outputs are excluded from fit matrices"
+  ],
+  "runtime_seconds": 45.665146,
+  "statistical_interpretation": {
+    "kendall_p_values": "descriptive, unadjusted, not used for acceptance or evidence of detection quality",
+    "small_sample": "n=46; rankings agreement only",
+    "supervised_metrics_calculated": false
+  }
+}
