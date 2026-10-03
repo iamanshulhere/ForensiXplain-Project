@@ -1,0 +1,80 @@
+ForensiXplain Multi-Component Ablation Study
+Dataset: M57-Jean
+
+1. Experiment definitions
+--------------------------
+E1: Temporal-only; one IsolationForest on Category A.
+E2: Graph-Structural-only; one IsolationForest on Category B.
+E3: Graph-Full; one IsolationForest on Categories B+C.
+E4: Graph-aware Combined IF; one joint feature-space IsolationForest on A+B+C.
+E5: Temporal + Graph-Structural Fused; A and B component IsolationForests, then score-level fusion.
+E6: Temporal + Graph-Full Fused; A and B+C component IsolationForests, then score-level fusion.
+E5 and E6 reuse the matching E1/E2/E3 component scores. E6 is score-level fusion, not a joint A+B+C model.
+
+2. Feature groups
+-----------------
+Category A (temporal; 16): gap_log_seconds; time_since_previous_event_seconds; events_prev_10s; events_next_10s; local_density_10s; events_prev_30s; events_next_30s; local_density_30s; events_prev_60s; events_next_60s; local_density_60s; process_changed; rapid_event; short_event_gap; medium_event_gap; long_event_gap
+Category B (graph structural; 5): parent_count; child_count; graph_degree; in_degree; out_degree
+Category C (process/artifact relationships; 4): command_line_count; module_count; memory_region_count; relationship_type_count
+Category D (metadata/identifiers; excluded from every model matrix): case_id; logical_event_id; process_id; parent_process_id; process; timestamp; is_first_event; provenance; evidence_ids
+
+3. Controlled settings
+-----------------------
+IsolationForest: n_estimators=500, contamination=0.10, random_state=42, n_jobs=-1.
+StandardScaler is fit separately to each exact feature matrix using the full cohort.
+E5/E6: min-max normalize each component score over the full cohort; alpha=0.50.
+Top-K: K=5; score ties are ordered by logical_event_id.
+
+4. Cohort definition
+---------------------
+All six experiments use the same 46 scored logical events, keyed by logical_event_id.
+Cohort IDs were cross-checked against temporal_anomalies.csv ranks and the validated fused_anomalies.csv.
+The first timeline boundary event LEVT-M57-Jean-PROCESS-812-20091121013230 remains excluded.
+Logical event IDs are unique in each feature source and in each experiment result.
+M57-Jean has no independent event-level ground-truth anomaly labels; this report uses only unsupervised/proxy comparisons.
+
+5. Results
+----------
+Experiment | Features | Candidate count | Top-5 evidence traceability | Top-5 logical_event_id values
+E1 Temporal-only | joint 16 (total 16) | 5 | 5/5 (1.000) | LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-2080-20091123221633;LEVT-M57-Jean-PROCESS-1572-20091121013258;LEVT-M57-Jean-PROCESS-3996-20091121013335;LEVT-M57-Jean-PROCESS-3992-20091123170451
+E2 Graph-Structural-only | joint 5 (total 5) | 5 | 5/5 (1.000) | LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-976-20091121013232;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-932-20091121013232
+E3 Graph-Full | joint 9 (total 9) | 5 | 5/5 (1.000) | LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1944-20091121013301;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1836-20091121013308
+E4 Graph-aware Combined IF | joint 25 (total 25) | 5 | 5/5 (1.000) | LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1204-20091123165512;LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-2080-20091123221633;LEVT-M57-Jean-PROCESS-1372-20091121013235
+E5 Temporal + Graph-Structural Fused | temporal 16 + graph 5 (total 21) | 5 | 5/5 (1.000) | LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-976-20091121013232;LEVT-M57-Jean-PROCESS-2080-20091123221633;LEVT-M57-Jean-PROCESS-1944-20091121013301
+E6 Temporal + Graph-Full Fused | temporal 16 + graph 9 (total 25) | 5 | 5/5 (1.000) | LEVT-M57-Jean-PROCESS-3560-20091123221635;LEVT-M57-Jean-PROCESS-1572-20091121013258;LEVT-M57-Jean-PROCESS-2892-20091123220335;LEVT-M57-Jean-PROCESS-1372-20091121013235;LEVT-M57-Jean-PROCESS-1204-20091123165512
+
+6. Pairwise comparisons
+------------------------
+RQ | Pair | Top-5 overlap | Jaccard | Kendall tau | tau p-value | Candidate overlap | Top-5 evidence coverage (A/B)
+RQ1 | E1 vs E2 | 0/5 | 0.000 | 0.012915 | 0.90141 | 0 | 1.000/1.000
+RQ2 | E2 vs E3 | 3/5 | 0.429 | 0.306363 | 0.00391526 | 3 | 1.000/1.000
+RQ3 | E3 vs E4 | 3/5 | 0.429 | 0.336566 | 0.00120351 | 3 | 1.000/1.000
+RQ4 | E4 vs E6 | 4/5 | 0.667 | 0.692754 | 1.13176e-11 | 4 | 1.000/1.000
+
+7. Interpretation limited to proxy metrics
+--------------------------------------------
+Top-5 overlap and Jaccard summarize agreement among the five highest-ranked events; Kendall tau summarizes rank association across all 46 events.
+Candidate overlap summarizes shared IsolationForest flags; for E5/E6, which have no separately fit fusion detector, candidates are the top ceil(0.10*N) fused scores.
+Evidence traceability coverage is the share of each experiment's top five with both non-empty evidence_ids and provenance in the source event record.
+These measures describe ranking agreement and source traceability. They do not establish which experiment is more accurate or whether an event is malicious.
+No supervised classification metrics are calculated or reported.
+
+8. Evidence traceability
+-------------------------
+Each event result retains evidence_ids and provenance as audit metadata; neither field is supplied to a model.
+The per-event ablation_results.csv records each experiment's score, rank, candidate status, source evidence IDs, and provenance.
+
+9. Retrospective scope and leakage disclosure
+----------------------------------------------
+The events_next_* features use post-event lookahead.
+Graph metrics are calculated from the complete reconstructed graph.
+Global normalization can use information across the complete cohort; StandardScaler and fusion min-max normalization are fit over all 46 events.
+Therefore, this is retrospective/post-mortem forensic reconstruction and comparison.
+It must not be presented as causal, online, real-time, streaming, or deployment-ready anomaly detection.
+
+10. Limitations
+---------------
+The single M57-Jean cohort is small and has no independent event-level anomaly labels.
+Top-K overlap and rank correlation measure agreement, not detection quality or forensic truth.
+Full-timeline temporal context, complete-graph metrics, and cohort-wide scaling/normalization make these rankings retrospective.
+Evidence IDs and provenance support review but do not establish maliciousness or causality.
