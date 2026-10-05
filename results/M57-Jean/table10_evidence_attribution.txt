@@ -4,13 +4,13 @@ Metric | Process/Fused | Graph-aware Top-5 | Temporal Top-5
 --- | ---: | ---: | ---:
 Attributed candidates | 16 | 5 | 5
 Candidates with linked evidence | 16/16 (100.00%) | 5/5 (100.00%) | 5/5 (100.00%)
-Mean evidence IDs/candidate | 54.69 | 118.80 | 2.00
+Mean evidence IDs/candidate | 54.69 | 118.80 | 10.80
 Median evidence IDs/candidate | 22 | 115 | 2
 PSList coverage | 16/16 (100.00%) | 5/5 (100.00%) | 5/5 (100.00%)
 PSTree coverage | 16/16 (100.00%) | 5/5 (100.00%) | 5/5 (100.00%)
-Cmdline coverage | 8/16 (50.00%) | 4/5 (80.00%) | 0/5 (0.00%)
-DLLList coverage | 9/16 (56.25%) | 4/5 (80.00%) | 0/5 (0.00%)
-Malfind coverage | 7/16 (43.75%) | 4/5 (80.00%) | 0/5 (0.00%)
+Cmdline coverage | 8/16 (50.00%) | 4/5 (80.00%) | 2/5 (40.00%)
+DLLList coverage | 9/16 (56.25%) | 4/5 (80.00%) | 2/5 (40.00%)
+Malfind coverage | 7/16 (43.75%) | 4/5 (80.00%) | 1/5 (20.00%)
 
 Interpretation:
 All evaluated anomaly candidates had explicit links to underlying forensic evidence. Evidence attribution varies by analytical view and evidence granularity.
