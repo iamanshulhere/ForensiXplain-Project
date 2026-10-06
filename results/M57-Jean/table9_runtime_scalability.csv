@@ -1,0 +1,7 @@
+﻿Pipeline Stage,M57-Jean Time (seconds),MalMem2022 Time (seconds),Peak Memory (MB),Measurement Status
+Data normalization,N/A,N/A,N/A,Not measured in current reproducible branch
+Temporal feature engineering,N/A,N/A,N/A,Not measured in current reproducible branch
+Temporal anomaly detection,N/A,N/A,N/A,Not measured in current reproducible branch
+Knowledge graph construction,N/A,N/A,N/A,Not measured in current reproducible branch
+Graph anomaly detection,N/A,N/A,N/A,Not measured in current reproducible branch
+SHAP explanation generation,N/A,N/A,N/A,Not measured in current reproducible branch

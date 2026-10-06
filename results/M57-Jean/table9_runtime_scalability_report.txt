@@ -1,0 +1,5 @@
+﻿Table 9. Runtime & Scalability Analysis
+
+The current reproducible branch does not expose a compatible end-to-end runtime instrumentation for the six historical pipeline stages. Therefore, stage-level timing and peak-memory values are not reported rather than estimated or fabricated. MalMem2022 is maintained as a separate supervised classification pipeline and is not forced through the M57 temporal/graph workflow.
+
+Measurement status: Not measured in the current reproducible branch.
