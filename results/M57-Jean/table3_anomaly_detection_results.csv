@@ -1,0 +1,2 @@
+﻿Dataset,Total events,Anomalies flagged,Anomaly rate (%),Contamination,Detection method
+M57-Jean,47,5,10.6,0.10,Temporal Isolation Forest
