@@ -1,0 +1,7 @@
+Pipeline Stage,Runtime (s),Peak Memory (MB),Hardware / Software
+Data normalization,1.072,N/R,"Intel Core i5-12500H (12 cores, 16 logical processors), 15.70 GB RAM, Windows 11, Python 3.12.7"
+Temporal feature engineering,0.877,N/R,"Intel Core i5-12500H (12 cores, 16 logical processors), 15.70 GB RAM, Windows 11, Python 3.12.7"
+Temporal anomaly detection,3.452,N/R,"Intel Core i5-12500H (12 cores, 16 logical processors), 15.70 GB RAM, Windows 11, Python 3.12.7"
+Knowledge graph construction,1.59,N/R,"Intel Core i5-12500H (12 cores, 16 logical processors), 15.70 GB RAM, Windows 11, Python 3.12.7"
+Graph anomaly detection,3.348,N/R,"Intel Core i5-12500H (12 cores, 16 logical processors), 15.70 GB RAM, Windows 11, Python 3.12.7"
+SHAP explanation,138.683,N/R,"Intel Core i5-12500H (12 cores, 16 logical processors), 15.70 GB RAM, Windows 11, Python 3.12.7"
