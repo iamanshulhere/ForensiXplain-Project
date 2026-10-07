@@ -1,0 +1,6 @@
+validation_category,test_file,tests_collected,tests_passed,tests_failed,status,validation_focus
+Logical timeline reconstruction,test_logical_timeline.py,13,13,0,PASS,"Timestamp/process ordering, logical event IDs, temporal sequence, parent/evidence/provenance handling"
+Temporal feature engineering,test_temporal_features.py,6,6,0,PASS,"UTC timezone handling, temporal ordering, time gaps, density windows, regression determinism"
+Graph construction,test_temporal_graph.py,9,9,0,PASS,"Process, parent-child, command, module, memory and process-ID graph construction"
+Temporal-graph fusion,test_temporal_graph_fusion.py,17,17,0,PASS,"Event alignment, normalization, deterministic ranking, tie handling, cohort consistency and auditability"
+Robustness and reproducibility,test_phase10_robustness.py,8,8,0,PASS,"Controlled parameter variation, stability classification, endpoint equivalence, proxy metrics and artifact determinism"
