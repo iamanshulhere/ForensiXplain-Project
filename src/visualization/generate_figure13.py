@@ -23,7 +23,7 @@ df.to_csv(OUT_DIR / "figure13_malmem_metrics.csv", index=False)
 fig, ax = plt.subplots(figsize=(8, 5))
 bars = ax.bar(df["metric"], df["value"])
 
-ax.set_ylim(0.99, 1.001)
+ax.set_ylim(0, 1.05)
 ax.set_ylabel("Score")
 ax.set_title("Figure 13. MalMem2022 Ground-Truth Classification Performance")
 ax.grid(axis="y", alpha=0.25)
