@@ -1,7 +1,7 @@
 stage,script,runtime_seconds,peak_memory_mb,return_code,status,python_version,platform,cpu,psutil_version
-Data normalization,src\normalization\memory_normalizer.py,1.072,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
-Temporal feature engineering,src\temporal\temporal_features.py,0.877,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
-Temporal anomaly detection,src\anomaly\temporal_isolation_forest.py,3.452,4.17,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
-Knowledge graph construction,src\graph\temporal_graph.py,1.59,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
-Graph anomaly detection,src\anomaly\graph_isolation_forest.py,3.348,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
-SHAP explanation,src\explainability\temporal_shap.py,138.683,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
+Data normalization,src\normalization\memory_normalizer.py,0.92,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
+Temporal feature engineering,src\temporal\temporal_features.py,0.874,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
+Temporal anomaly detection,src\anomaly\temporal_isolation_forest.py,3.503,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
+Knowledge graph construction,src\graph\temporal_graph.py,1.633,4.17,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
+Graph anomaly detection,src\anomaly\graph_isolation_forest.py,3.304,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
+SHAP explanation,src\explainability\temporal_shap.py,153.152,4.18,0,PASS,3.12.7,Windows-11-10.0.26300-SP0,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",7.2.2
