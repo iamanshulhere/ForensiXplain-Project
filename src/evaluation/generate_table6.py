@@ -29,6 +29,24 @@ def main() -> None:
         temporal_weight=FUSION_WEIGHT,
     )
 
+    # Restrict evaluation to events with valid temporal scores.
+    temporal_results = pd.read_csv(TEMPORAL_PATH)
+
+    scored_event_ids = set(
+        temporal_results.dropna(subset=["temporal_anomaly_rank"])[
+            "logical_event_id"
+        ].astype(str)
+    )
+
+    frame = frame[
+        frame["logical_event_id"].astype(str).isin(scored_event_ids)
+    ].copy()
+
+    if len(frame) != len(scored_event_ids):
+        raise ValueError("Mismatch in the common scored-event cohort")
+
+    print(f"Common scored events: {len(frame)}")
+
     temporal_events = set(
         frame.loc[
             frame["temporal_predicted_anomaly"],

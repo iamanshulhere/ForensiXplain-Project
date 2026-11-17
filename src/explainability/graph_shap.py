@@ -262,66 +262,51 @@ def main():
         "Isolation Forest score reproduction: PASS"
     )
 
+
     # ========================================================
-    # Fast SHAP
+    # Permutation SHAP
     # ========================================================
 
     print("")
-    print("Running Tree SHAP...")
+    print("Running Permutation SHAP...")
+
+    def anomaly_score_function(X_input):
+        return -model.decision_function(X_input)
 
     # --------------------------------------------------------
-    # TreeExplainer
-    # --------------------------------------------------------
-    #
-    # Isolation Forest is an ensemble of decision trees.
-    # TreeExplainer avoids the extremely expensive permutation
-    # process that previously caused KeyboardInterrupt.
-    #
-    # We explain the model's raw tree output. The anomaly
-    # score from graph_anomalies.csv remains the authoritative
-    # score used in the final results.
+    # Independent masker
     # --------------------------------------------------------
 
-    try:
-
-        explainer = shap.TreeExplainer(
-            model
-        )
-
-        shap_output = explainer.shap_values(
-            X_scaled
-        )
-
-    except Exception as exc:
-
-        raise RuntimeError(
-            "Tree SHAP failed for the Isolation Forest.\n"
-            f"Error: {exc}"
-        ) from exc
+    masker = shap.maskers.Independent(
+        X_scaled,
+        max_samples=len(X_scaled)
+    )
 
     # --------------------------------------------------------
-    # Normalize SHAP output
+    # Explain actual anomaly-score function
     # --------------------------------------------------------
 
-    if isinstance(shap_output, list):
+    explainer = shap.PermutationExplainer(
+        anomaly_score_function,
+        masker,
+        seed=42
+    )
 
-        if len(shap_output) != 1:
-            raise ValueError(
-                "Unexpected multi-output SHAP result."
-            )
+    shap_result = explainer(
+        X_scaled,
+        max_evals=2 * len(MODEL_FEATURES) + 1
+    )
 
-        shap_matrix = np.asarray(
-            shap_output[0]
-        )
+    shap_matrix = np.asarray(
+        shap_result.values
+    )
 
-    else:
-
-        shap_matrix = np.asarray(
-            shap_output
-        )
+    base_values = np.asarray(
+        shap_result.base_values
+    )
 
     # --------------------------------------------------------
-    # Validate SHAP shape
+    # Validate SHAP matrix
     # --------------------------------------------------------
 
     expected_shape = (
@@ -330,16 +315,45 @@ def main():
     )
 
     if shap_matrix.shape != expected_shape:
-
         raise ValueError(
-            "Unexpected SHAP output shape: "
-            f"{shap_matrix.shape}; "
+            f"Unexpected SHAP shape: {shap_matrix.shape}; "
             f"expected {expected_shape}"
         )
+
+    # --------------------------------------------------------
+    # Validate anomaly-score reconstruction
+    # --------------------------------------------------------
+
+    reconstructed_scores = (
+        base_values + shap_matrix.sum(axis=1)
+    )
+
+    actual_scores = anomaly_score_function(
+        X_scaled
+    )
+
+    max_difference = np.max(
+        np.abs(reconstructed_scores - actual_scores)
+    )
 
     print(
         f"SHAP matrix shape: {shap_matrix.shape}"
     )
+
+    print(
+        f"Maximum reconstruction error: "
+        f"{max_difference:.12e}"
+    )
+
+    if max_difference > 1e-10:
+        raise ValueError(
+            "SHAP reconstruction validation failed."
+        )
+
+    print(
+        "Permutation SHAP reconstruction: PASS"
+    )
+
 
     # ========================================================
     # Metadata

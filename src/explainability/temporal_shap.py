@@ -1,7 +1,10 @@
+
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import shap
+
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
@@ -11,35 +14,20 @@ CASE_ID = "M57-Jean"
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 INPUT_PATH = (
-    BASE_DIR
-    / "data"
-    / "features"
-    / CASE_ID
+    BASE_DIR / "data" / "features" / CASE_ID
     / "temporal_features.csv"
 )
 
 ANOMALY_PATH = (
-    BASE_DIR
-    / "results"
-    / CASE_ID
+    BASE_DIR / "results" / CASE_ID
     / "temporal_anomalies.csv"
 )
 
-OUTPUT_DIR = (
-    BASE_DIR
-    / "results"
-    / CASE_ID
-)
+OUTPUT_DIR = BASE_DIR / "results" / CASE_ID
 
 OUTPUT_PATH = (
-    OUTPUT_DIR
-    / "temporal_shap_explanations.csv"
+    OUTPUT_DIR / "temporal_shap_explanations.csv"
 )
-
-
-# ---------------------------------------------------------
-# These MUST match temporal_isolation_forest.py exactly.
-# ---------------------------------------------------------
 
 MODEL_FEATURES = [
     "gap_log_seconds",
@@ -49,79 +37,88 @@ MODEL_FEATURES = [
     "process_changed",
 ]
 
+SCORE_TOLERANCE = 1e-10
+SHAP_TOLERANCE = 1e-6
+
 
 def main():
 
     print("=== ForensiXplain Temporal SHAP ===")
 
-    # -----------------------------------------------------
-    # Load temporal features
-    # -----------------------------------------------------
+    # 1. Load inputs
 
     if not INPUT_PATH.exists():
-        raise FileNotFoundError(
-            f"Temporal features not found:\n{INPUT_PATH}"
-        )
+        raise FileNotFoundError(INPUT_PATH)
 
     if not ANOMALY_PATH.exists():
-        raise FileNotFoundError(
-            f"Temporal anomaly results not found:\n{ANOMALY_PATH}"
-        )
+        raise FileNotFoundError(ANOMALY_PATH)
 
     df = pd.read_csv(INPUT_PATH)
+    anomaly_df = pd.read_csv(ANOMALY_PATH)
 
-    anomaly_df = pd.read_csv(
-        ANOMALY_PATH
+    print(f"Temporal feature rows: {len(df)}")
+    print(f"Temporal anomaly rows: {len(anomaly_df)}")
+
+    # 2. Select eligible events
+
+    scoring_df = (
+        df[df["is_first_event"] == 0]
+        .copy()
+        .reset_index(drop=True)
     )
 
-    print(
-        f"Temporal feature rows: {len(df)}"
-    )
+    if scoring_df.empty:
+        raise ValueError("No eligible temporal events found.")
 
-    print(
-        f"Temporal anomaly rows: {len(anomaly_df)}"
-    )
+    print(f"Events eligible for SHAP: {len(scoring_df)}")
 
-    # -----------------------------------------------------
-    # Only events eligible for temporal scoring
-    # -----------------------------------------------------
+    # 3. Validate required columns
 
-    scoring_df = df[
-        df["is_first_event"] == 0
-    ].copy()
+    required_features = MODEL_FEATURES + [
+        "logical_event_id",
+        "is_first_event",
+    ]
 
-    scoring_df = scoring_df.reset_index(
-        drop=True
-    )
+    missing = [
+        col for col in required_features
+        if col not in df.columns
+    ]
 
-    print(
-        f"Events eligible for SHAP: "
-        f"{len(scoring_df)}"
-    )
+    if missing:
+        raise ValueError(f"Missing feature columns: {missing}")
 
-    # -----------------------------------------------------
-    # Prepare model features
-    # -----------------------------------------------------
+    anomaly_columns = [
+        "logical_event_id",
+        "temporal_anomaly_score",
+        "temporal_predicted_anomaly",
+        "temporal_anomaly_rank",
+    ]
 
-    X = scoring_df[
-        MODEL_FEATURES
-    ].copy()
+    missing = [
+        col for col in anomaly_columns
+        if col not in anomaly_df.columns
+    ]
+
+    if missing:
+        raise ValueError(f"Missing anomaly columns: {missing}")
+
+    # 4. Prepare features exactly as the detector does
+
+    X = scoring_df[MODEL_FEATURES].copy()
 
     X = X.fillna(
         X.median(numeric_only=True)
     )
 
-    # -----------------------------------------------------
-    # Standardization
-    # -----------------------------------------------------
+    if not np.isfinite(X.to_numpy(dtype=float)).all():
+        raise ValueError(
+            "Temporal feature matrix contains non-finite values."
+        )
+
+    # 5. Recreate the detector
 
     scaler = StandardScaler()
-
     X_scaled = scaler.fit_transform(X)
-
-    # -----------------------------------------------------
-    # Recreate the exact Temporal Isolation Forest
-    # -----------------------------------------------------
 
     model = IsolationForest(
         n_estimators=500,
@@ -132,24 +129,79 @@ def main():
 
     model.fit(X_scaled)
 
-    # -----------------------------------------------------
-    # Same anomaly score used by detector
-    # -----------------------------------------------------
+    recreated_scores = -model.decision_function(X_scaled)
 
-    def anomaly_score_function(X_input):
+    # 6. Match and validate detector scores
 
-        return -model.decision_function(
-            X_input
+    anomaly_scored = anomaly_df[
+        anomaly_df["logical_event_id"].isin(
+            scoring_df["logical_event_id"]
+        )
+    ].copy()
+
+    if anomaly_scored["logical_event_id"].duplicated().any():
+        raise ValueError("Duplicate event IDs in anomaly results.")
+
+    result = scoring_df[
+        [
+            col for col in [
+                "case_id",
+                "logical_event_id",
+                "temporal_sequence",
+                "timestamp",
+                "process_id",
+                "process",
+                "time_since_previous_event_seconds",
+            ]
+            if col in scoring_df.columns
+        ]
+    ].copy()
+
+    result["recreated_score"] = recreated_scores
+
+    result = result.merge(
+        anomaly_scored[anomaly_columns],
+        on="logical_event_id",
+        how="left",
+        validate="one_to_one",
+        indicator=True,
+    )
+
+    if not (result["_merge"] == "both").all():
+        raise ValueError(
+            "Some SHAP events could not be matched to detector results."
         )
 
-    # -----------------------------------------------------
-    # SHAP
-    # -----------------------------------------------------
+    result = result.drop(columns="_merge")
 
-    print()
-    print(
-        "Running permutation SHAP..."
+    score_difference = np.abs(
+        result["recreated_score"].to_numpy()
+        - result["temporal_anomaly_score"].to_numpy()
     )
+
+    max_score_difference = float(score_difference.max())
+
+    print(
+        "Maximum detector score difference: "
+        f"{max_score_difference:.12g}"
+    )
+
+    if max_score_difference > SCORE_TOLERANCE:
+        raise ValueError(
+            "Detector score verification failed. "
+            "SHAP generation stopped."
+        )
+
+    print("PASS: Detector scores reproduced.")
+
+    # 7. Define anomaly score function
+
+    def anomaly_score_function(data):
+        return -model.decision_function(data)
+
+    # 8. Generate permutation SHAP
+
+    print("Running permutation SHAP...")
 
     explainer = shap.Explainer(
         anomaly_score_function,
@@ -157,15 +209,49 @@ def main():
         algorithm="permutation",
     )
 
-    shap_result = explainer(
-        X_scaled
+    shap_result = explainer(X_scaled)
+
+    shap_values = np.asarray(shap_result.values)
+    base_values = np.asarray(shap_result.base_values).reshape(-1)
+
+    if shap_values.shape != (len(X), len(MODEL_FEATURES)):
+        raise ValueError(
+            f"Unexpected SHAP shape: {shap_values.shape}"
+        )
+
+    if base_values.size == 1:
+        base_values = np.repeat(base_values, len(X))
+
+    if base_values.size != len(X):
+        raise ValueError(
+            f"Unexpected SHAP base-value shape: {base_values.shape}"
+        )
+
+    # 9. Verify local accuracy
+
+    reconstructed_scores = (
+        base_values + shap_values.sum(axis=1)
     )
 
-    shap_values = shap_result.values
+    shap_score_difference = np.abs(
+        reconstructed_scores - recreated_scores
+    )
 
-    # -----------------------------------------------------
-    # SHAP dataframe
-    # -----------------------------------------------------
+    max_shap_error = float(shap_score_difference.max())
+
+    print(
+        "Maximum SHAP reconstruction error: "
+        f"{max_shap_error:.12g}"
+    )
+
+    if max_shap_error > SHAP_TOLERANCE:
+        raise ValueError(
+            "SHAP local accuracy verification failed."
+        )
+
+    print("PASS: SHAP local accuracy verified.")
+
+    # 10. Build explanation output
 
     shap_df = pd.DataFrame(
         shap_values,
@@ -175,77 +261,14 @@ def main():
         ],
     )
 
-    # Add actual feature values
-
     for feature in MODEL_FEATURES:
+        shap_df[f"value_{feature}"] = X[feature].to_numpy()
 
-        shap_df[
-            f"value_{feature}"
-        ] = X[feature].values
-
-    # -----------------------------------------------------
-    # Event metadata
-    # -----------------------------------------------------
-
-    metadata_columns = [
-        "case_id",
-        "logical_event_id",
-        "temporal_sequence",
-        "timestamp",
-        "process_id",
-        "process",
-        "time_since_previous_event_seconds",
-    ]
-
-    metadata = scoring_df[
-        metadata_columns
-    ].reset_index(drop=True)
-
-    # -----------------------------------------------------
-    # IMPORTANT FIX
-    #
-    # Get anomaly score / prediction / rank from the
-    # already-generated temporal anomaly results.
-    #
-    # Match using logical_event_id.
-    # -----------------------------------------------------
-
-    anomaly_columns = [
-        "logical_event_id",
-        "temporal_anomaly_score",
-        "temporal_predicted_anomaly",
-        "temporal_anomaly_rank",
-    ]
-
-    anomaly_metadata = anomaly_df[
-        anomaly_columns
-    ].copy()
-
-    result = metadata.merge(
-        anomaly_metadata,
-        on="logical_event_id",
-        how="left",
-        validate="one_to_one",
+    result["shap_base_value"] = base_values
+    result["shap_reconstructed_score"] = reconstructed_scores
+    result["shap_reconstruction_error"] = (
+        reconstructed_scores - recreated_scores
     )
-
-    # -----------------------------------------------------
-    # Validate merge
-    # -----------------------------------------------------
-
-    missing_scores = result[
-        "temporal_anomaly_score"
-    ].isna().sum()
-
-    if missing_scores > 0:
-
-        raise ValueError(
-            f"{missing_scores} SHAP events could not "
-            "be matched with temporal anomaly results."
-        )
-
-    # -----------------------------------------------------
-    # Combine metadata + SHAP
-    # -----------------------------------------------------
 
     result = pd.concat(
         [
@@ -255,104 +278,53 @@ def main():
         axis=1,
     )
 
-    # -----------------------------------------------------
-    # Sort by anomaly score
-    # -----------------------------------------------------
+    # 11. Sort and save
 
     result = result.sort_values(
         "temporal_anomaly_score",
         ascending=False,
     ).reset_index(drop=True)
 
-    # -----------------------------------------------------
-    # Save
-    # -----------------------------------------------------
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    OUTPUT_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    result.to_csv(OUTPUT_PATH, index=False)
 
-    result.to_csv(
-        OUTPUT_PATH,
-        index=False,
-    )
+    # 12. Diagnostics
 
-    # -----------------------------------------------------
-    # Diagnostics
-    # -----------------------------------------------------
+    anomalous = result[
+        result["temporal_predicted_anomaly"].astype(bool)
+    ]
 
-    anomaly_results = result[
-        result[
-            "temporal_predicted_anomaly"
-        ] == True
-    ].copy()
+    print("\n=== Temporal SHAP Complete ===")
+    print(f"Rows explained: {len(result)}")
+    print(f"Anomalous events explained: {len(anomalous)}")
+    print(f"Maximum detector score difference: {max_score_difference:.12g}")
+    print(f"Maximum SHAP reconstruction error: {max_shap_error:.12g}")
+    print(f"Output: {OUTPUT_PATH}")
 
-    print()
-    print(
-        "=== Temporal SHAP Complete ==="
-    )
+    # 13. Print top anomaly explanations
 
-    print(
-        f"Rows explained: {len(result)}"
-    )
+    for _, row in anomalous.iterrows():
 
-    print(
-        f"Anomalous events explained: "
-        f"{len(anomaly_results)}"
-    )
+        print("\n" + "-" * 55)
 
-    print(
-        f"Output: {OUTPUT_PATH}"
-    )
-
-    # -----------------------------------------------------
-    # Print explanations
-    # -----------------------------------------------------
-
-    for _, row in anomaly_results.iterrows():
-
-        print()
-        print(
-            "--------------------------------------------------"
-        )
-
-        print(
-            f"Rank: "
-            f"{int(row['temporal_anomaly_rank'])}"
-        )
-
+        print(f"Rank: {int(row['temporal_anomaly_rank'])}")
         print(
             f"Process: {row['process']} "
             f"(PID {int(row['process_id'])})"
         )
-
-        print(
-            f"Timestamp: {row['timestamp']}"
-        )
-
-        print(
-            f"Anomaly score: "
-            f"{row['temporal_anomaly_score']:.6f}"
-        )
+        print(f"Timestamp: {row['timestamp']}")
+        print(f"Anomaly score: {row['temporal_anomaly_score']:.6f}")
+        print(f"Base value: {row['shap_base_value']:.6f}")
 
         contributions = []
 
         for feature in MODEL_FEATURES:
-
-            shap_value = row[
-                f"shap_{feature}"
-            ]
-
-            feature_value = row[
-                f"value_{feature}"
-            ]
-
             contributions.append(
                 (
                     feature,
-                    shap_value,
-                    feature_value,
+                    row[f"shap_{feature}"],
+                    row[f"value_{feature}"],
                 )
             )
 
@@ -361,25 +333,17 @@ def main():
             reverse=True,
         )
 
-        print(
-            "Top temporal contributors:"
-        )
+        print("Top temporal contributors:")
 
-        for (
-            feature,
-            shap_value,
-            feature_value,
-        ) in contributions[:3]:
+        for feature, shap_value, feature_value in contributions[:3]:
 
             direction = (
-                "increased"
-                if shap_value > 0
+                "increased" if shap_value > 0
                 else "decreased"
             )
 
             print(
-                f"  {feature}: "
-                f"{direction} anomaly score "
+                f"  {feature}: {direction} anomaly score "
                 f"(SHAP={shap_value:+.6f}, "
                 f"value={feature_value:.4f})"
             )

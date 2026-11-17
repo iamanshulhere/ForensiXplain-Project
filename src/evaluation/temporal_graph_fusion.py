@@ -1202,3 +1202,92 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+def fuse_normalized_scores(
+    temporal_scores: pd.Series,
+    graph_scores: pd.Series,
+    temporal_weight: float = DEFAULT_FUSION_WEIGHT,
+) -> pd.Series:
+    """Fuse independently Min-Max-normalized temporal and graph scores."""
+    if not 0.0 <= temporal_weight <= 1.0:
+        raise ValueError("temporal_weight must be between 0 and 1")
+
+    if len(temporal_scores) != len(graph_scores):
+        raise ValueError("Temporal and graph scores must have equal lengths")
+
+    temporal_normalized = normalize_scores(temporal_scores)
+    graph_normalized = normalize_scores(graph_scores)
+
+    return (
+        temporal_weight * temporal_normalized
+        + (1.0 - temporal_weight) * graph_normalized
+    )
+
+
+def build_normalized_fused_frame(
+    temporal_path: str,
+    graph_path: str,
+    temporal_weight: float = DEFAULT_FUSION_WEIGHT,
+) -> pd.DataFrame:
+    """Create a normalized fusion ranking on the common scored cohort."""
+    temporal = pd.read_csv(temporal_path)
+    graph = pd.read_csv(graph_path)
+
+    if "temporal_anomaly_rank" in temporal.columns:
+        temporal = temporal.dropna(
+            subset=["temporal_anomaly_rank"]
+        ).copy()
+
+    required_temporal = {
+        "logical_event_id",
+        "temporal_anomaly_score",
+        "temporal_predicted_anomaly",
+    }
+    required_graph = {
+        "logical_event_id",
+        "graph_anomaly_score",
+        "graph_predicted_anomaly",
+    }
+
+    missing_temporal = required_temporal - set(temporal.columns)
+    missing_graph = required_graph - set(graph.columns)
+
+    if missing_temporal:
+        raise KeyError(f"Missing temporal columns: {sorted(missing_temporal)}")
+
+    if missing_graph:
+        raise KeyError(f"Missing graph columns: {sorted(missing_graph)}")
+
+    columns = [
+        column
+        for column in ["logical_event_id", "process_id", "process"]
+        if column in temporal.columns
+    ]
+
+    frame = temporal[columns + [
+        "temporal_anomaly_score",
+        "temporal_predicted_anomaly",
+    ]].merge(
+        graph[[
+            "logical_event_id",
+            "graph_anomaly_score",
+            "graph_predicted_anomaly",
+        ]],
+        on="logical_event_id",
+        how="inner",
+        validate="one_to_one",
+    )
+
+    if frame.empty:
+        raise ValueError("Temporal and graph results have no matching events")
+
+    frame["fused_normalized_score"] = fuse_normalized_scores(
+        frame["temporal_anomaly_score"],
+        frame["graph_anomaly_score"],
+        temporal_weight=temporal_weight,
+    )
+
+    return frame.sort_values(
+        "fused_normalized_score",
+        ascending=False,
+    ).reset_index(drop=True)

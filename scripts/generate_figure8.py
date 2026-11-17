@@ -1,4 +1,5 @@
-﻿from pathlib import Path
+﻿
+from pathlib import Path
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -60,7 +61,7 @@ def main():
     )
 
     ax.set_title(
-        f"Graph-SHAP Feature Attribution - {CASE_ID}"
+        f"Graph Anomaly Score Explanations - {CASE_ID}"
     )
 
     ax.set_xlabel(
@@ -68,7 +69,7 @@ def main():
     )
 
     ax.set_ylabel(
-        "Graph/Temporal Feature"
+        "Model Feature"
     )
 
     ax.grid(

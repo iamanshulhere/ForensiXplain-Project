@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
 
-from event_schema import ForensicEvent
+from .event_schema import ForensicEvent
 
 
 CASE_ID = "M57-Jean"

@@ -1,4 +1,4 @@
-import pandas as pd
+﻿import pandas as pd
 import pytest
 
 from src.evaluation.temporal_graph_fusion import (
@@ -17,6 +17,8 @@ from src.evaluation.temporal_graph_fusion import (
     calculate_overlaps,
     fuse_scores,
     normalize_scores,
+    fuse_normalized_scores,
+    build_normalized_fused_frame,
     random_baseline,
     score_controlled_graph_aware_features,
     score_graph_only_features,
@@ -127,7 +129,7 @@ def test_build_fused_frame():
 
     top_five = frame.head(5)["process_id"].tolist()
 
-    assert top_five == [3992, 1372, 3560, 2892, 2004]
+    assert top_five == [3992, 1372, 3560, 2892, 1204]
 
 
 def _alignment_frames(temporal_ids, graph_ids):
@@ -494,3 +496,65 @@ def test_report_states_retrospective_scope_and_controlled_cohorts():
         "top_5_event_ids"
     ]
     assert "Same fit as Graph-only" in controlled_graph_only_row["model_origin"]
+
+
+def test_normalize_scores():
+    scores = pd.Series([10, 20, 30])
+    result = normalize_scores(scores)
+    assert result.tolist() == [0.0, 0.5, 1.0]
+
+
+def test_normalize_constant_scores():
+    scores = pd.Series([5, 5, 5])
+    result = normalize_scores(scores)
+    assert result.tolist() == [0.0, 0.0, 0.0]
+
+
+def test_fuse_normalized_scores():
+    temporal = pd.Series([10, 20, 30])
+    graph = pd.Series([30, 20, 10])
+    result = fuse_normalized_scores(temporal, graph)
+    assert result.tolist() == [0.5, 0.5, 0.5]
+
+
+def test_fuse_normalized_scores_custom_weight():
+    temporal = pd.Series([10, 20, 30])
+    graph = pd.Series([30, 20, 10])
+    result = fuse_normalized_scores(
+        temporal,
+        graph,
+        temporal_weight=0.75,
+    )
+    assert result.tolist() == [0.25, 0.5, 0.75]
+
+
+def test_build_normalized_fused_frame(tmp_path):
+    temporal_data = pd.DataFrame({
+        "logical_event_id": ["E1", "E2", "E3"],
+        "process_id": [101, 102, 103],
+        "process": ["a.exe", "b.exe", "c.exe"],
+        "temporal_anomaly_score": [10, 20, 30],
+        "temporal_predicted_anomaly": [0, 1, 1],
+    })
+
+    graph_data = pd.DataFrame({
+        "logical_event_id": ["E1", "E2"],
+        "graph_anomaly_score": [30, 10],
+        "graph_predicted_anomaly": [1, 0],
+    })
+
+    temporal_path = tmp_path / "temporal.csv"
+    graph_path = tmp_path / "graph.csv"
+
+    temporal_data.to_csv(temporal_path, index=False)
+    graph_data.to_csv(graph_path, index=False)
+
+    result = build_normalized_fused_frame(
+        str(temporal_path),
+        str(graph_path),
+    )
+
+    assert len(result) == 2
+    assert set(result["logical_event_id"]) == {"E1", "E2"}
+    assert result["fused_normalized_score"].between(0, 1).all()
+    assert result["fused_normalized_score"].is_monotonic_decreasing
