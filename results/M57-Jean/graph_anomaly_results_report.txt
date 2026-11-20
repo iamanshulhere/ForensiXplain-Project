@@ -1,0 +1,22 @@
+ForensiXplain Graph Anomaly Detection Results
+=======================================================
+
+Dataset: M57-Jean
+Total events: 47
+Graph anomalies flagged: 5
+Graph anomaly rate: 10.64%
+Detection method: Graph Isolation Forest
+
+Comparison identifier: logical_event_id
+Temporal anomalies: 5
+Temporal/graph overlap: 1
+Graph-only anomalies: 4
+
+Top graph anomaly candidates
+-------------------------------------------------------
+ graph_anomaly_rank  process_id      process  graph_anomaly_score  graph_predicted_anomaly
+                  1        3560  soffice.bin             0.073871                     True
+                  2        2892  firefox.exe             0.061921                     True
+                  3        1372  svchost.exe             0.055663                     True
+                  4        3992 iexplore.exe             0.022357                     True
+                  5        1944 explorer.exe             0.008388                     True

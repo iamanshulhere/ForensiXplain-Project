@@ -451,3 +451,49 @@ To contribute:
 
 License information will be added as the project is finalized.
      
+---
+
+## Streamlit Investigator Dashboard
+
+ForensiXplain includes a Streamlit dashboard for reviewing existing forensic analysis outputs and exploring supervised malware classification results.
+
+### Features
+
+- **Case Overview:** Summary of loaded anomaly records, timeline events, and process graph nodes.
+- **Anomaly Candidates:** Browse graph-based and temporal anomaly records.
+- **Candidate Explanation:** Inspect saved investigator explanations, SHAP contributions, and evidence attribution when available.
+- **Timeline:** Explore the existing M57-Jean logical timeline with date filtering and text search.
+- **Process Graph:** Inspect saved GraphML nodes, attributes, and connected relationships.
+- **MalMem2022:** Review dataset information and optionally train and evaluate the existing Random Forest classifier.
+- **Evidence Details:** Browse normalized events and saved evidence attribution tables.
+
+### Requirements
+
+Use the project's existing Python environment and dependencies from `requirements.txt`.
+
+### Launch the dashboard
+
+From the repository root:
+
+```bash
+python -m pip install -r requirements.txt
+python -m streamlit run app/app.py
+```
+
+Open the local URL printed by Streamlit, usually `http://localhost:8501`.
+
+### Dashboard architecture
+
+- `app/app.py`: Streamlit user interface and investigation views.
+- `app/data_loader.py`: Safe loading of saved CSV outputs, the GraphML process graph, and the MalMem2022 workflow.
+- `results/M57-Jean/`: Existing anomaly detection, SHAP, investigator explanation, and evidence attribution outputs.
+- `data/normalized/M57-Jean/`: Normalized events, logical timeline, and saved temporal graph.
+- `datasets/MalMem2022/MalMem2022.csv`: Dataset used by the separate supervised classification workflow.
+
+The dashboard reuses existing M57-Jean results rather than automatically rerunning anomaly detection. MalMem2022 training and evaluation are triggered explicitly by the user.
+
+### Interpretation and limitations
+
+Anomaly scores, SHAP contributions, graph relationships, and evidence attribution are investigative aids. They do not independently prove malicious activity, intent, or causation. Investigators should validate findings against original forensic evidence.
+
+Some views may be empty if their corresponding result files are unavailable.

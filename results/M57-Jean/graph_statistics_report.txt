@@ -1,0 +1,31 @@
+FORENSIXPLAIN
+Knowledge Graph Statistics Report
+======================================================================
+
+Dataset: M57-Jean
+
+GRAPH SUMMARY
+----------------------------------------------------------------------
+Nodes                 : 1657
+Edges                 : 1653
+Average degree        : 1.995172
+Graph density         : 0.000602407
+Timestamped edges     : 47
+
+NODE TYPES
+----------------------------------------------------------------------
+command_line          : 32
+memory_region         : 49
+module                : 1524
+process               : 52
+
+EDGE TYPES
+----------------------------------------------------------------------
+has_command_line      : 32
+has_memory_region     : 49
+loaded_module         : 1524
+parent_of             : 48
+
+INTERPRETATION
+----------------------------------------------------------------------
+The graph represents process-centric forensic relationships extracted from the normalized M57-Jean event data. Node and edge counts describe the constructed knowledge graph and do not by themselves indicate malicious activity.
